@@ -17,6 +17,10 @@ public class INF2050E22EQUIPE2 {
         System.out.println("Ceci est un test de push");
         
         System.out.println("Ceci est un 2eme test");
+        
+        
+        System.out.println("3eme test");
+        
     }
     
 }
