@@ -21,6 +21,8 @@ public class INF2050E22EQUIPE2 {
         
         System.out.println("3eme test");
         
+        System.out.println("4eme test");
+        
     }
     
 }
