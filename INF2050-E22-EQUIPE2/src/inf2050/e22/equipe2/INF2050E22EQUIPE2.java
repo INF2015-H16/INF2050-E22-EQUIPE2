@@ -18,6 +18,11 @@ public class INF2050E22EQUIPE2 {
         
         System.out.println("Test push ");
         
+        
+        System.out.println("Test pull");
+        
+        
+        
     }
     
 }
