@@ -4,6 +4,12 @@
  */
 package inf2050.e22.equipe2;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 
 /**
  * Université du Québec à Montréal (UQAM)
@@ -24,7 +30,7 @@ package inf2050.e22.equipe2;
  */
 public class EvaluationTerrain {
 
-    //Déclaration des contstantes
+    //Déclaration des constantes
     public final static String FICHIER_ENTREE = "entree.json";
     public final static String FICHIER_SORTIE = "sortie.json";
     public final static String FILE_ENCODING = "UTF-8";
@@ -49,5 +55,83 @@ public class EvaluationTerrain {
     public final static String RAP_TAXE_SCOLAIRE = "taxe_scolaire";
     public final static String RAP_TAXE_MUNICIPALE = "taxe_municipale";
     public final static String RAP_VALEUR_PAR_LOT = "valeur_par_lot";
+    
+    public final static String DECIMAL_ONLY = "[^0-9\\.]";
+  
+    //Déclaration des variables
+    private static Terrain terrain;
+    private static ArrayList<Lotissement> lotissements;
+    
+    private static int taille;
+
+    /**
+     * Lire les données à partir du fichier entree.json et en extraire
+     * les détails des valeurs des différents lots et créer des objets Terrain.
+     *
+     */
+    public static void lireTerrainLoti() throws FileNotFoundException,
+            IOException {
+        String json;
+        String t;
+        int e;
+        int r;
+        int a;
+        String n;
+        Lotissement lot;
+
+        json = FileReaderException.loadFileIntoString(FICHIER_ENTREE,
+                FILE_ENCODING);
+
+        if (json.length() != 0) {
+            JSONObject terrJson = JSONObject.fromObject(json);
+
+            int tTerrain = terrJson.getInt(TYPE_TERRAIN);
+            String prixMn = terrJson.getString(PRIX_M2_MIN);
+            String priMx = terrJson.getString(PRIX_M2_MAX);
+
+            lotissements = new ArrayList<>();
+
+            Object item = terrJson.get(LOTISSEMENTS);
+
+            if (item instanceof JSONObject) {
+                JSONObject lotJson = terrJson.getJSONObject(LOTISSEMENTS);
+
+                t = lotJson.getString(DESCRIPTION);
+                e = lotJson.getInt(NBRE_DROIT_PASSAGE);
+                r = lotJson.getInt(NBRE_SERVICES);
+                a = lotJson.getInt(SUPERFICIE);
+                n = lotJson.getString(DATE_MESURE);
+
+                lot = new Lotissement(t, e, r, a, n);
+                lotissements.add(lot);
+
+            } else {
+                JSONArray list = terrJson.getJSONArray(LOTISSEMENTS);
+
+                if (list.size() != 0) {
+                    for(int i = 0; i<list.size(); i++) {
+                        JSONObject jsonObj = list.getJSONObject(i);
+
+                        t = jsonObj.getString(DESCRIPTION);
+                        e = jsonObj.getInt(NBRE_DROIT_PASSAGE);
+                        r = jsonObj.getInt(NBRE_SERVICES);
+                        a = jsonObj.getInt(SUPERFICIE);
+                        n = jsonObj.getString(DATE_MESURE);
+
+                        lot = new Lotissement(t, e, r, a, n);
+                        lotissements.add(lot);
+
+                    }
+                }
+
+            }
+
+            terrain = new Terrain(tTerrain, prixMn, priMx, lotissements);
+
+            taille = lotissements.size();
+
+        }
+
+    }  
     
 }
