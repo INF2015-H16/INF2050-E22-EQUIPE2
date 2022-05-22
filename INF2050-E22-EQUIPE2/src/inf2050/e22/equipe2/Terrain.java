@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class Terrain {
     
-    //Déclaration des contstantes
+    //Déclaration des constantes
     public final static int TERRAIN_AGRICOLE = 0;
     public final static int TERRAIN_RESIDENTIEL = 1;
     public final static int TERRAIN_COMMERCIAL = 2;
@@ -27,10 +27,49 @@ public class Terrain {
     public final static String DESC_TERRAIN_RESIDENTIEL = "Résidentiel";
     public final static String DESC_TERRAIN_COMMERCIAL = "Commercial";
 
-    //Déclaration des constantes
+    //Déclaration des variables
     private int typeTerrain;
     private String prixMin;
     private String prixMax;
     private ArrayList<Lotissement> lotissement;
+    
+    public Terrain(int typeTerrain, String prixMin, String prixMax,
+                   ArrayList<Lotissement> lotissement) {
+        this.typeTerrain = typeTerrain;
+        this.prixMin = prixMin;
+        this.prixMax = prixMax;
+        this.lotissement = lotissement;
+    }
 
+    public int getTypeTerrain() {
+        return typeTerrain;
+    }
+
+    public void setTypeTerrain(int typeTerrain) {
+        this.typeTerrain = typeTerrain;
+    }
+
+    public String getPrixMin() {
+        return prixMin;
+    }
+
+    public void setPrixMin(String prixMin) {
+        this.prixMin = prixMin;
+    }
+
+    public String getPrixMax() {
+        return prixMax;
+    }
+
+    public void setPrixMax(String prixMax) {
+        this.prixMax = prixMax;
+    }
+
+    public ArrayList<Lotissement> getLotissement() {
+        return lotissement;
+    }
+
+    public void setLotissement(ArrayList<Lotissement> lotissement) {
+        this.lotissement = lotissement;
+    }
 }
