@@ -35,6 +35,7 @@ public class montantService {
      */
     
     public static boolean infOuEgal500(int superficie) {
+      
         boolean estValide = false;
 
         if (superficie >= 0 && superficie <= 500) {
@@ -53,6 +54,7 @@ public class montantService {
      */
     
     public static boolean entre500Et10000(int superficie) {
+        
         boolean estValide = false;
 
         if (superficie > 500 && superficie <= 10000) {
@@ -71,6 +73,7 @@ public class montantService {
      */
     
     public static boolean supA10000(int superficie) {
+      
         boolean estValide = false;
 
         if (superficie > 10000) {
