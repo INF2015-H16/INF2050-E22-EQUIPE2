@@ -68,6 +68,7 @@ public class EvaluationTerrain {
      * Lire les données à partir du fichier entree.json et en extraire
      * les détails des valeurs des différents lots et créer des objets Terrain.
      *
+     * @throws java.io.FileNotFoundException
      */
     public static void lireTerrainLoti() throws FileNotFoundException,
             IOException {
