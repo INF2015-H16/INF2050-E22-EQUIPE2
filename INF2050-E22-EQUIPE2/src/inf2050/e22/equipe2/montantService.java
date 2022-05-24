@@ -93,15 +93,15 @@ public class montantService {
      * commercial
      */
     
-    public static double montantService(String typeTerrain,
+    public static double montantService(int typeTerrain,
             int superficie, int nombreService) {
 
         double montant = 0.00;
-        String typeTerrain1 = "agricole";
-        String typeTerrain2 = "residentiel";
-        String typeTerrain3 = "commercial";
+        //String typeTerrain1 = "agricole";
+        //String typeTerrain2 = "residentiel";
+        //String typeTerrain3 = "commercial";
 
-        if (typeTerrain.equalsIgnoreCase(typeTerrain2)) {
+        if (typeTerrain == 1) {
 
             if (entre500Et10000(superficie)) {
                 montant = (2 + nombreService) * PRIX_SER_RESIDENTIEL_MOYEN;
@@ -110,7 +110,7 @@ public class montantService {
             }
         }
 
-        if (typeTerrain.equalsIgnoreCase(typeTerrain3)) {
+        if (typeTerrain == 2) {
 
             if (infOuEgal500(superficie)) {
                 montant = (2 + nombreService) * PRIX_SER_COMMERCIAL_PETIT;
