@@ -17,7 +17,7 @@ public class FileWriterException {
                                           String contentToSave,
                                           String fileEncoding)
             throws FileNotFoundException, IOException {
-        File f = new File(filePath);
-        FileUtils.writeStringToFile(f, contentToSave, fileEncoding);
+        File file = new File(filePath);
+        FileUtils.writeStringToFile(file, contentToSave, fileEncoding);
     }
 }
