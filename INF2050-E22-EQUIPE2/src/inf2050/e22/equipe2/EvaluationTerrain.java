@@ -31,8 +31,6 @@ import net.sf.json.JSONObject;
 public class EvaluationTerrain {
 
     //Déclaration des constantes
-    public final static String FICHIER_ENTREE = "entree.json";
-    public final static String FICHIER_SORTIE = "sortie.json";
     public final static String FILE_ENCODING = "UTF-8";
     
     public final static double VALEUR_DE_BASE = 733.77;
@@ -51,7 +49,8 @@ public class EvaluationTerrain {
     public final static String PRIX_M2_MAX = "prix_m2_max";
     public final static String LOTISSEMENTS = "lotissements";
 
-    public final static String RAP_VALEUR_FONCIERE_TOTALE = "valeur_fonciere_totale";
+    public final static String RAP_VALEUR_FONCIERE_TOTALE =
+            "valeur_fonciere_totale";
     public final static String RAP_TAXE_SCOLAIRE = "taxe_scolaire";
     public final static String RAP_TAXE_MUNICIPALE = "taxe_municipale";
     public final static String RAP_VALEUR_PAR_LOT = "valeur_par_lot";
@@ -83,11 +82,14 @@ public class EvaluationTerrain {
 
     /**
      * Lire les données à partir du fichier entree.json et en extraire
-     * les détails des valeurs des différents lots et créer des objets Terrain.
+     * les détails des valeurs des différents lots et créer
+     * des objets Terrain.
      *
+     * @param argument qui est fichier .json en entrée
+     * @throws IOException 
      */
-    public static void lireTerrainLoti() throws FileNotFoundException,
-            IOException {
+    public static void lireTerrainLoti(String argument)
+            throws FileNotFoundException, IOException {
         String json;
         String t;
         int e;
@@ -96,7 +98,7 @@ public class EvaluationTerrain {
         String n;
         Lotissement lot;
 
-        json = FileReaderException.loadFileIntoString(FICHIER_ENTREE,
+        json = FileReaderException.loadFileIntoString(argument,
                 FILE_ENCODING);
 
         if (json.length() != 0) {
@@ -456,9 +458,11 @@ public class EvaluationTerrain {
 
     /**
      * Afficher le rapport de l'évaluation foncière du terrain.
-     *
+     * 
+     * @param argument qui est fichier .json en sortie
+     * @throws IOException 
      */
-    public void genererRapportEvaluation()
+    public void genererRapportEvaluation(String argument)
             throws IOException {
         JSONObject enteteJson = new JSONObject();
         enteteJson.accumulate(RAP_VALEUR_FONCIERE_TOTALE,
@@ -480,7 +484,7 @@ public class EvaluationTerrain {
 
         Utilitaire.afficherMsg(enteteJson.toString(4));
 
-        FileWriterException.saveStringIntoFile(FICHIER_SORTIE,
+        FileWriterException.saveStringIntoFile(argument,
                 enteteJson.toString(4), FILE_ENCODING);
     }
 
