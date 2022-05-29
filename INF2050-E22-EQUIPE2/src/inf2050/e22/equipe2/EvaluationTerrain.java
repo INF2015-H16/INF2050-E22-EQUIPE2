@@ -17,7 +17,7 @@ import net.sf.json.JSONObject;
  * Sprint 1
  *
  * EvaluationTerrain : Cette classe contient les données sur la description,
- *                le nombre de droits de passage, le nombre de service,
+ *                le nombre de droits de passage, le nombre de services,
  *                la superficie, la date de mesure des lots,
  *                ainsi que, le type de terrain, les prix min et max.
  *                Elle permet de calculer la valeur foncière du
@@ -26,13 +26,14 @@ import net.sf.json.JSONObject;
  *
  * @author Achou Henri Joël / Akaffou
  * @version 19 mai 2022
+ * @modify at 2022-05-29 by Aurélien Tcheuffa Kemayou / Sidopz
  *
  */
 public class EvaluationTerrain {
 
     //Déclaration des constantes
     public final static String FILE_ENCODING = "UTF-8";
-    
+
     public final static double VALEUR_DE_BASE = 733.77;
     public final static double TAXE_SCOLAIRE = 0.012;
     public final static double TAXE_MUNICIPALE = 0.025;
@@ -54,17 +55,17 @@ public class EvaluationTerrain {
     public final static String RAP_TAXE_SCOLAIRE = "taxe_scolaire";
     public final static String RAP_TAXE_MUNICIPALE = "taxe_municipale";
     public final static String RAP_VALEUR_PAR_LOT = "valeur_par_lot";
-    
-    public final static String DECIMAL_ONLY = "[^0-9\\.]";
-  
+
+    public final static String DECIMAL_ONLY = "[^\\d.]";
+
     //Déclaration des variables
     private static Terrain terrain;
     private static ArrayList<Lotissement> lotissements;
-    
+
     private static int taille;
 
     private int idTerrain;
-    private double prixMininimum;
+    private double prixMinimum;
     private double prixMaximum;
     private double montantTerrain;
     private double montantTaxeScolaire;
@@ -86,7 +87,8 @@ public class EvaluationTerrain {
      * des objets Terrain.
      *
      * @param argument qui est fichier .json en entrée
-     * @throws IOException 
+     * @throws java.io.FileNotFoundException
+     * @throws IOException
      */
     public static void lireTerrainLoti(String argument)
             throws FileNotFoundException, IOException {
@@ -127,7 +129,7 @@ public class EvaluationTerrain {
             } else {
                 JSONArray list = terrJson.getJSONArray(LOTISSEMENTS);
 
-                if (list.size() != 0) {
+                if (!list.isEmpty()) {
                     for(int i = 0; i<list.size(); i++) {
                         JSONObject jsonObj = list.getJSONObject(i);
 
@@ -151,11 +153,12 @@ public class EvaluationTerrain {
 
         }
 
-    }  
-   
+    }
+
     /**
      * Obtenir l'identifiant du terrain.
      *
+     * @throws java.io.IOException
      */
     public void obtenirTypeTerrain() throws IOException, NullPointerException {
         int terr;
@@ -168,6 +171,7 @@ public class EvaluationTerrain {
     /**
      * Obtenir le prix minimum du terrain.
      *
+     * @throws java.io.IOException
      */
     public void obtenirPrixMin() throws IOException, NullPointerException {
         String pMin;
@@ -177,13 +181,14 @@ public class EvaluationTerrain {
         String prixMn = pMin.replaceAll(DECIMAL_ONLY, "");
         prixMin = Double.parseDouble(prixMn);
 
-        prixMininimum = prixMin;
+        prixMinimum = prixMin;
 
     }
 
     /**
      * Obtenir le prix maximum du terrain.
      *
+     * @throws java.io.IOException
      */
     public void obtenirPrixMax() throws IOException, NullPointerException {
         String pMax;
@@ -200,6 +205,7 @@ public class EvaluationTerrain {
     /**
      * Obtenir la description des différents lots qui composent le terrain.
      *
+     * @throws java.io.IOException
      */
     public void obtenirDescription() throws IOException, NullPointerException {
         String desc;
@@ -217,6 +223,7 @@ public class EvaluationTerrain {
      * Obtenir le nombre de droits de passage de chaque lot
      * du terrain.
      *
+     * @throws java.io.IOException
      */
     public void obtenirNbreDroitPassage() throws IOException,
             NullPointerException {
@@ -235,7 +242,8 @@ public class EvaluationTerrain {
     /**
      * Obtenir le nombre de services de chaque lot
      * du terrain.
-     * 
+     *
+     * @throws java.io.IOException
      */
     public void obtenirNbreService() throws IOException, NullPointerException {
         int serv;
@@ -253,6 +261,7 @@ public class EvaluationTerrain {
     /**
      * Obtenir la superficie de chaque lot
      * du terrain.
+     * @throws java.io.IOException
      */
     public void obtenirSuperficie() throws IOException, NullPointerException {
         int sup;
@@ -270,6 +279,7 @@ public class EvaluationTerrain {
     /**
      * Obtenir la date de chaque lot
      * du terrain.
+     * @throws java.io.IOException
      */
     public void obtenirDateMesure() throws IOException, NullPointerException {
         String mes;
@@ -285,9 +295,10 @@ public class EvaluationTerrain {
     }
 
     /**
-     * Calculer le montant de chaque lot  de chaque lot
+     * Calculer le montant de chaque lot de chaque lot
      * du terrain.
-     * 
+     *
+     * @throws java.io.IOException
      */
     public void calculerMontantLot() throws IOException, NullPointerException {
         double mntLot = 0.0;
@@ -297,12 +308,12 @@ public class EvaluationTerrain {
         for (int i = 0; i < taille; i++) {
             switch (idTerrain) {
                 case Terrain.TERRAIN_AGRICOLE: {
-                    mntLot = superficies[i] * prixMininimum;
+                    mntLot = superficies[i] * prixMinimum;
                 }
                 break;
                 case Terrain.TERRAIN_RESIDENTIEL: {
                     mntLot = superficies[i] *
-                            ((prixMininimum + prixMaximum)/2);
+                            ((prixMinimum + prixMaximum)/2);
                 }
                 break;
                 case Terrain.TERRAIN_COMMERCIAL: {
@@ -321,6 +332,7 @@ public class EvaluationTerrain {
     /**
      * Calculer le montant des droits de passage.
      *
+     * @throws java.io.IOException
      */
     public void calculerDroitPassage() throws IOException,
             NullPointerException {
@@ -354,6 +366,7 @@ public class EvaluationTerrain {
     /**
      * Calculer le montant des services.
      *
+     * @throws java.io.IOException
      */
     public void calculerMontantService() throws IOException,
             NullPointerException {
@@ -406,6 +419,7 @@ public class EvaluationTerrain {
     /**
      * Calculer le montant par lot.
      *
+     * @throws java.io.IOException
      */
     public void calculerValeurParLot() throws IOException,
             NullPointerException {
@@ -426,6 +440,7 @@ public class EvaluationTerrain {
     /**
      * Calculer la valeur foncière du terrain.
      *
+     * @throws java.io.IOException
      */
     public void calculerValeurFonciere() throws IOException,
             NullPointerException {
@@ -442,6 +457,7 @@ public class EvaluationTerrain {
     /**
      * Calculer la taxe scolaire.
      *
+     * @throws java.io.IOException
      */
     public void calculerTaxeScolaire() throws IOException,
             NullPointerException {
@@ -451,6 +467,7 @@ public class EvaluationTerrain {
     /**
      * Calculer la taxe municipale.
      *
+     * @throws java.io.IOException
      */
     public void calculerTaxeMunicipale() throws IOException {
         montantTaxeMunicipale = montantTerrain * TAXE_MUNICIPALE;
@@ -458,9 +475,9 @@ public class EvaluationTerrain {
 
     /**
      * Afficher le rapport de l'évaluation foncière du terrain.
-     * 
+     *
      * @param argument qui est fichier .json en sortie
-     * @throws IOException 
+     * @throws IOException
      */
     public void genererRapportEvaluation(String argument)
             throws IOException {

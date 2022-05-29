@@ -11,21 +11,22 @@ import java.io.IOException;
 
 
 /**
-* Université du Québec à Montréal (UQAM)
-* Cours : INF2050 - 020 - Été 2022
-* Sprint 1
-*
-* La classe ProjetDeSessionSprint1 contient une methode main.
-* Elle permet de tester toutes les autres classes et les utilisent pour  
-* calculer l'evaluation d'un terrain selon son type pouvant contenir 
-* plusieurs lots. Ces lots sont caratérisés par leur superficie, le nombre de 
-* droits de passages et le nombres de services.
-* 
-* @author Elza Meguieng Tiemghen
-* @version Mai 2022
-* @modify at 2022-05-28 by Achou Henri Joël / Akaffou
-*/
- 
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 1
+ *
+ * La classe ProjetDeSessionSprint1 contient une methode main.
+ * Elle permet de tester toutes les autres classes et les utilisent pour
+ * calculer l'evaluation d'un terrain selon son type pouvant contenir
+ * plusieurs lots. Ces lots sont caratérisés par leur superficie, le nombre de
+ * droits de passages et le nombres de services.
+ *
+ * @author Elza Meguieng Tiemghen
+ * @version Mai 2022
+ * @modify at 2022-05-28 by Achou Henri Joël / Akaffou
+ * @modify at 2022-05-29 by Aurélien Tcheuffa Kemayou / Sidopz
+ */
+
 
 public class ProjetDeSessionSprint1 {
 
@@ -37,14 +38,14 @@ public class ProjetDeSessionSprint1 {
         String entree;
         String sortie;
         EvaluationTerrain evaluation;
-        
+
         if (args.length == 0) {
             Utilitaire.afficherMsg(
-                    "\nAucune entrée / sortie trouvée.\n");
+                    "\nAucune entrée et/ou sortie trouvée.\n");
         } else {
             entree = args[0];
             sortie = args[1];
-        
+
             try {
                 // Lire les informations sur le terrain(type de terrain,
                 //les prix max et min, les details du lotissement[description,
@@ -84,11 +85,11 @@ public class ProjetDeSessionSprint1 {
 
             } catch (IOException | NullPointerException e) {
                 Utilitaire.afficherMsg(
-                        "\nAucune entrée / sortie trouvée.\n");
+                        "\nAucune entrée et/ou sortie trouvée.\n");
             }
         }
     }
-    
+
 }
 
        
