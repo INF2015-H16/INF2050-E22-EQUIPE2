@@ -9,7 +9,7 @@ package inf2050.e22.equipe2;
  * Cours : INF2050 - 020 - Été 2022
  * Sprint 1
  *
- * Terrain : Cette classe permet de modéliser le lotissement.
+ * Lotissement : Cette classe permet de modéliser le lotissement.
  *
  * @author Achou Henri Joël / Akaffou
  * @version 19 mai 2022
