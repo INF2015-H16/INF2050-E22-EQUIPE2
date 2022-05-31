@@ -5,6 +5,7 @@
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
+import net.sf.json.JSONException;
 
 
 /**
@@ -83,7 +84,8 @@ public class ProjetDeSessionSprint1 {
                 Utilitaire.afficherMsg(
                         "\nAucune entrée et/ou sortie trouvée.\n");
             } catch (NumberFormatException
-                    | IntervallesValideException e) {
+                    | IntervallesValideException
+                    | JSONException e) {
                 Utilitaire.afficherMsg(
                         "\nVérifier les données entrée !\n");
             }
