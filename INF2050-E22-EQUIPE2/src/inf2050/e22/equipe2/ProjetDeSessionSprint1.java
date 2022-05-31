@@ -1,6 +1,3 @@
-
-
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
@@ -26,7 +23,6 @@ import java.io.IOException;
  * @modify at 2022-05-28 by Achou Henri Joël / Akaffou
  * @modify at 2022-05-29 by Aurélien Tcheuffa Kemayou / Sidopz
  */
-
 
 public class ProjetDeSessionSprint1 {
 
@@ -86,10 +82,13 @@ public class ProjetDeSessionSprint1 {
             } catch (IOException | NullPointerException e) {
                 Utilitaire.afficherMsg(
                         "\nAucune entrée et/ou sortie trouvée.\n");
+            } catch (NumberFormatException
+                    | IntervallesValideException e) {
+                Utilitaire.afficherMsg(
+                        "\nVérifier les données entrée !\n");
             }
+            
         }
     }
 
 }
-
-       
