@@ -78,7 +78,6 @@ public class VerificationDonnee {
         }
         return null;
 
-
         /** // Si cette méthode retourne un boolean:
         try {
             Instant.from(DateTimeFormatter.ISO_INSTANT.parse(date));
