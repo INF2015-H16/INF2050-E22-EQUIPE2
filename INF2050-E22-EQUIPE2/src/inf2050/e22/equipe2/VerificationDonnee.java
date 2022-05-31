@@ -22,8 +22,8 @@ package inf2050.e22.equipe2;
 
 public class VerificationDonnee {
 
-    private final static int BORNE_INF_TERRAIN = 1;
-    private final static int BORNE_SUP_TERRAIN = 3;
+    private final static int BORNE_INF_TERRAIN = 0;
+    private final static int BORNE_SUP_TERRAIN = 2;
     
     /**
      * Valider l'intervalle dans lequel
