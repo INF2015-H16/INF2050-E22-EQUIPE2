@@ -94,6 +94,7 @@ public class EvaluationTerrain {
     public static void lireTerrainLoti(String argument)
             throws FileNotFoundException, IOException,
             NumberFormatException, IntervallesValideException {
+        
         String json;
         String t;
         int e;
@@ -107,8 +108,9 @@ public class EvaluationTerrain {
 
         if (json.length() != 0) {
             JSONObject terrJson = JSONObject.fromObject(json);
-
-            int tTerrain = terrJson.getInt(TYPE_TERRAIN);
+            
+            int tTerrain = VerificationDonnee.
+                    validerInt(terrJson.getInt(TYPE_TERRAIN));
             String prixMn = terrJson.getString(PRIX_M2_MIN);
             String priMx = terrJson.getString(PRIX_M2_MAX);
 
@@ -120,9 +122,12 @@ public class EvaluationTerrain {
                 JSONObject lotJson = terrJson.getJSONObject(LOTISSEMENTS);
 
                 t = lotJson.getString(DESCRIPTION);
-                e = lotJson.getInt(NBRE_DROIT_PASSAGE);
-                r = lotJson.getInt(NBRE_SERVICES);
-                a = lotJson.getInt(SUPERFICIE);
+                e = VerificationDonnee.
+                    validerInt(lotJson.getInt(NBRE_DROIT_PASSAGE));
+                r = VerificationDonnee.
+                    validerInt(lotJson.getInt(NBRE_SERVICES));
+                a = VerificationDonnee.
+                    validerInt(lotJson.getInt(SUPERFICIE));
                 n = VerificationDonnee.validerDateMesure(
                         lotJson.getString(DATE_MESURE));
 
@@ -137,9 +142,12 @@ public class EvaluationTerrain {
                         JSONObject jsonObj = list.getJSONObject(i);
 
                         t = jsonObj.getString(DESCRIPTION);
-                        e = jsonObj.getInt(NBRE_DROIT_PASSAGE);
-                        r = jsonObj.getInt(NBRE_SERVICES);
-                        a = jsonObj.getInt(SUPERFICIE);
+                        e = VerificationDonnee.
+                            validerInt(jsonObj.getInt(NBRE_DROIT_PASSAGE));
+                        r = VerificationDonnee.
+                            validerInt(jsonObj.getInt(NBRE_SERVICES));
+                        a = VerificationDonnee.
+                            validerInt(jsonObj.getInt(SUPERFICIE));
                         n = VerificationDonnee.validerDateMesure(
                                 jsonObj.getString(DATE_MESURE));
 
