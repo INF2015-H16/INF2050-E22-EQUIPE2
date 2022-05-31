@@ -89,9 +89,11 @@ public class EvaluationTerrain {
      * @param argument qui est fichier .json en entrée
      * @throws java.io.FileNotFoundException
      * @throws IOException
+     * @throws inf2050.e22.equipe2.IntervallesValideException
      */
     public static void lireTerrainLoti(String argument)
-            throws FileNotFoundException, IOException {
+            throws FileNotFoundException, IOException,
+            NumberFormatException, IntervallesValideException {
         String json;
         String t;
         int e;
@@ -121,7 +123,8 @@ public class EvaluationTerrain {
                 e = lotJson.getInt(NBRE_DROIT_PASSAGE);
                 r = lotJson.getInt(NBRE_SERVICES);
                 a = lotJson.getInt(SUPERFICIE);
-                n = lotJson.getString(DATE_MESURE);
+                n = VerificationDonnee.validerDateMesure(
+                        lotJson.getString(DATE_MESURE));
 
                 lot = new Lotissement(t, e, r, a, n);
                 lotissements.add(lot);
@@ -137,20 +140,19 @@ public class EvaluationTerrain {
                         e = jsonObj.getInt(NBRE_DROIT_PASSAGE);
                         r = jsonObj.getInt(NBRE_SERVICES);
                         a = jsonObj.getInt(SUPERFICIE);
-                        n = jsonObj.getString(DATE_MESURE);
+                        n = VerificationDonnee.validerDateMesure(
+                                jsonObj.getString(DATE_MESURE));
 
                         lot = new Lotissement(t, e, r, a, n);
                         lotissements.add(lot);
-
                     }
                 }
-
             }
-
-            terrain = new Terrain(tTerrain, prixMn, priMx, lotissements);
-
-            taille = lotissements.size();
-
+            
+            if (VerificationDonnee.validerTerrain(tTerrain)) {
+                terrain = new Terrain(tTerrain, prixMn, priMx, lotissements);
+                taille = lotissements.size();
+            }
         }
 
     }
