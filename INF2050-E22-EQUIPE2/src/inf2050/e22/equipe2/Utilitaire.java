@@ -30,7 +30,7 @@ public class Utilitaire {
      * Arrondir au 5 sous supérieur et formater selon "XX.XX $"
      * 
      * @param mont qui est la valeur à formater
-     * @return 
+     * @return la valeur formatée
      */
     public static String convertirMontant(double mont) {
         return String.format("%.2f $", Math.round(Math.ceil(mont *20))/ 20.0);
