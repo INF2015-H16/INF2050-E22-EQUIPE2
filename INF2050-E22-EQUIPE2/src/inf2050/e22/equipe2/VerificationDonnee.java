@@ -46,7 +46,26 @@ public class VerificationDonnee {
         
         return estValid;
     }
-
+ 
+     /**
+      * Verifier si la donnée est un int
+      * @param valeur
+      * @return
+      * @throws NumberFormatException 
+      */
+    public static int validerInt(Object valeur)
+            throws NumberFormatException{
+        int nombre;
+        
+        if (valeur instanceof Integer) {
+            nombre = (Integer) valeur;
+        } else {
+            throw new NumberFormatException();
+        }
+        
+        return nombre;
+    }
+    
     /**Verifier si la chaîne de caractères est
      * une date au format "YYYY-MM-DD"
      *
