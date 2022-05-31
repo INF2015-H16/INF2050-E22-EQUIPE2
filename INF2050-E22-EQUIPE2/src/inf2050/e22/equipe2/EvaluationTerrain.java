@@ -37,6 +37,7 @@ public class EvaluationTerrain {
     public final static double VALEUR_DE_BASE = 733.77;
     public final static double TAXE_SCOLAIRE = 0.012;
     public final static double TAXE_MUNICIPALE = 0.025;
+    public final static double SERVICE_DE_BASE = 2;
 
     public final static String LOT = "lot ";
     public final static String DESCRIPTION = "description";
@@ -372,16 +373,15 @@ public class EvaluationTerrain {
 
         }
     }
-
-    /**
+    
+     /**
      * Calculer le montant des services.
      *
-     * @throws java.io.IOException
      */
     public void calculerMontantService() throws IOException,
             NullPointerException {
         double mntService = 0.0;
-        double tempService = 0.0;
+        //double tempService = 0.0;
 
         montantsServ = new double[taille];
 
@@ -396,28 +396,35 @@ public class EvaluationTerrain {
                         mntService = 0.0;
                     } else if (superficies[i] > 500
                             && superficies[i] <= 10000) {
-                        mntService = (2 + services[i]) * 500;
+                        mntService = (SERVICE_DE_BASE + services[i]) * 500;
                     } else {
-                        mntService = (2 + services[i]) * 1000;
+                        mntService = (SERVICE_DE_BASE + services[i]) * 1000;
                     }
                 }
                 break;
                 case Terrain.TERRAIN_COMMERCIAL: {
                     if (superficies[i] <= 500) {
-                        tempService = (2 + services[i]) * 500;
+                       // tempService = (SERVICE_DE_BASE + services[i]) * 500;
+                       mntService = (SERVICE_DE_BASE + services[i]) * 500;
                     } else if (superficies[i] > 500) {
-                        tempService = (2 + services[i]) * 1500;
+                       // tempService = (SERVICE_DE_BASE + services[i]) * 1500;
+                       mntService = (SERVICE_DE_BASE + services[i]) * 1500;
+                    }
+                    
+                    if (mntService > 5000){
+                        mntService = 5000;
                     }
 
-                    if (tempService > 5000) {
-                        mntService = 5000;
-                    } else {
-                        mntService = tempService;
-                    }
+                   /*if (tempService > 5000) {
+                   *     mntService = 5000;
+                   *} else {
+                   *    mntService = tempService;
+                   * }
+                   */
                 }
                 break;
-                default:
-                    break;
+               // default:
+               //     break;
             }
 
             montantsServ[i] = mntService;
@@ -425,6 +432,8 @@ public class EvaluationTerrain {
         }
 
     }
+
+    
 
     /**
      * Calculer le montant par lot.
