@@ -4,6 +4,8 @@
  */
 package inf2050.e22.equipe2;
 
+import java.util.regex.PatternSyntaxException;
+
 /**
  * Université du Québec à Montréal (UQAM)
  * Cours : INF2050 - 020 - Été 2022
@@ -121,14 +123,78 @@ public class VerificationDonnee {
      */
     public static String validerDateMesure(String date)
             throws NumberFormatException{
-        String dateValid;
+        String dateValide;
         
             if (!validerDate(date)) {
                 throw new NumberFormatException();
             } else {
-                dateValid = date;
+                dateValide = date;
             }
             
-        return dateValid;
+        return dateValide;
     }
+
+
+    /**
+     * Valider que le prix est au format 'X.XX $'
+     *
+     * @param prix
+     * @return
+     * @throws NumberFormatException
+     * @throws PatternSyntaxException
+     */
+    public static boolean verifierFormatPrix(String prix)
+            throws PatternSyntaxException {
+
+        //Déclaration des variables
+        //boolean prixValide;
+        //int taillePrix;
+        //String temp;
+        //int tailleTemp;
+        String regex = "[0-9]\\.[0-9][0-9] \\$";
+
+
+        return (prix.matches(regex));
+
+    }
+
+
+        /*
+        taillePrix = prix.length();
+
+        //Vérifier si la chaîne de caractères contient 10 caractères
+        if (taillePrix != 6) {
+            prixValide = false;
+        } else {
+            //Vérifier si le 2e caractère est un point, que le 5ème est un espace et que le 6e est un signe de dollar
+            if (prix.charAt(1) == '.' && prix.charAt(4) == ' ' && prix.charAt(5) == '$') {
+                //Supprimer tous les caractères non numérques dans la chaîne de caractères
+
+                temp = prix.replace(".","");
+                temp = prix.replace(" ", "");
+                temp = prix.replace("$", "");
+
+                tailleTemp = temp.length();
+
+                //Vérifier si la chaîne de caractères sans
+                //tiret contient 3 caractères
+                if (tailleTemp != 3) {
+                    prixValide = false;
+                } else {
+                    //Vérifier si chaque caractère de la chaîne est un entier
+                    // respectant l'expression réguliere
+
+                    prixValide = temp.matches(regex);
+                }
+            } else {
+                prixValide = false;
+            }
+        }
+
+        return prixValide;
+    }
+
+
+    }*/
+
 }
