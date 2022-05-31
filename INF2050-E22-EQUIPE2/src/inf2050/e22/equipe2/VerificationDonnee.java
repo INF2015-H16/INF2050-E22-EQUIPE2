@@ -50,7 +50,7 @@ public class VerificationDonnee {
      /**
       * Verifier si la donnée est un int
       * @param valeur
-      * @return
+      * @return nombre
       * @throws NumberFormatException 
       */
     public static int validerInt(Object valeur)
