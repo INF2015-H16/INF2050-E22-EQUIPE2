@@ -139,62 +139,55 @@ public class VerificationDonnee {
      * Valider que le prix est au format 'X.XX $'
      *
      * @param prix
-     * @return
-     * @throws NumberFormatException
+     * @return prixValide
      * @throws PatternSyntaxException
      */
     public static boolean verifierFormatPrix(String prix)
             throws PatternSyntaxException {
 
-        //Déclaration des variables
-        //boolean prixValide;
-        //int taillePrix;
-        //String temp;
-        //int tailleTemp;
+        boolean prixValide = false;
         String regex = "[0-9]\\.[0-9][0-9] \\$";
 
-
-        return (prix.matches(regex));
-
-    }
-
-
-        /*
-        taillePrix = prix.length();
-
-        //Vérifier si la chaîne de caractères contient 10 caractères
-        if (taillePrix != 6) {
-            prixValide = false;
-        } else {
-            //Vérifier si le 2e caractère est un point, que le 5ème est un espace et que le 6e est un signe de dollar
-            if (prix.charAt(1) == '.' && prix.charAt(4) == ' ' && prix.charAt(5) == '$') {
-                //Supprimer tous les caractères non numérques dans la chaîne de caractères
-
-                temp = prix.replace(".","");
-                temp = prix.replace(" ", "");
-                temp = prix.replace("$", "");
-
-                tailleTemp = temp.length();
-
-                //Vérifier si la chaîne de caractères sans
-                //tiret contient 3 caractères
-                if (tailleTemp != 3) {
-                    prixValide = false;
-                } else {
-                    //Vérifier si chaque caractère de la chaîne est un entier
-                    // respectant l'expression réguliere
-
-                    prixValide = temp.matches(regex);
-                }
-            } else {
-                prixValide = false;
-            }
+        try {
+            prixValide = prix.matches(regex);
+        }catch (PatternSyntaxException e){
+            Utilitaire.afficherMsg("L'expression régulière n'est pas valide");
         }
 
         return prixValide;
     }
 
+    /**
+     * Valider que le la description du lot est au format "lot X" ou bien "lot XX"
+     *
+     * @return
+     * @throws PatternSyntaxException
+     */
+    public static boolean verifierFormatDescription(String lot)
+            throws PatternSyntaxException {
 
-    }*/
+        boolean formatLotValide = false;
+        String regex1 = "lot [0-9]";
+        String regex2 = "lot [0-9][0-9]";
+
+        try {
+            formatLotValide = (lot.trim().matches(regex1) || lot.trim().matches(regex2));
+        }catch (PatternSyntaxException e) {
+            Utilitaire.afficherMsg("L'expression régulière n'est pas valide");
+        }
+        return formatLotValide;
+    }
+
+    /**
+     * Valider qu'il n'y a pas de doublons dans les lots du fichier JSON en entrée
+     *
+     * @param lot
+     */
+    public static boolean verifierLotsDoublons(String lot) {
+
+        //TODO
+
+        return false;
+    }
 
 }
