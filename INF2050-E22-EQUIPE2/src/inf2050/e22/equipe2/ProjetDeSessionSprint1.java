@@ -21,8 +21,6 @@ import net.sf.json.JSONException;
  *
  * @author Elza Meguieng Tiemghen
  * @version Mai 2022
- * @modify at 2022-05-28 by Achou Henri Joël / Akaffou
- * @modify at 2022-05-29 by Aurélien Tcheuffa Kemayou / Sidopz
  */
 
 public class ProjetDeSessionSprint1 {
@@ -37,7 +35,7 @@ public class ProjetDeSessionSprint1 {
         EvaluationTerrain evaluation;
 
         if (args.length == 0) {
-            Utilitaire.afficherMsg(
+            Utilitaire.afficherMessage(
                     "\nAucune entrée et/ou sortie trouvée.\n");
         } else {
             entree = args[0];
@@ -48,17 +46,17 @@ public class ProjetDeSessionSprint1 {
                 //les prix max et min, les details du lotissement[description,
                 //les droits de passage, les services, les superficies
                 //et la date de mesure des differents lot])
-                EvaluationTerrain.lireTerrainLoti(entree);
+                EvaluationTerrain.lireFichierEntree(entree);
 
                 evaluation = new EvaluationTerrain();
 
                 evaluation.obtenirTypeTerrain();
-                evaluation.obtenirPrixMin();
+                evaluation.obtenirPrixMinimum();
                 evaluation.obtenirPrixMax();
 
                 evaluation.obtenirDescription();
-                evaluation.obtenirNbreDroitPassage();
-                evaluation.obtenirNbreService();
+                evaluation.obtenirNombreDroitPassage();
+                evaluation.obtenirNombreService();
                 evaluation.obtenirSuperficie();
                 evaluation.obtenirDateMesure();
 
@@ -81,13 +79,15 @@ public class ProjetDeSessionSprint1 {
                 evaluation.genererRapportEvaluation(sortie);
 
             } catch (IOException | NullPointerException e) {
-                Utilitaire.afficherMsg(
+                Utilitaire.afficherMessage(
                         "\nAucune entrée et/ou sortie trouvée.\n");
             } catch (NumberFormatException
                     | IntervallesValideException
+                    | PrixValideException
+                    | LotValideException
                     | JSONException e) {
-                Utilitaire.afficherMsg(
-                        "\nVérifier les données entrée !\n");
+                Utilitaire.afficherMessage(
+                        "\nVérifier les données entrées !\n");
             }
             
         }
