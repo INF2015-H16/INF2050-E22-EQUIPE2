@@ -19,15 +19,13 @@ import java.util.ArrayList;
  */
 public class Terrain {
     
-    //Déclaration des constantes
     public final static int TERRAIN_AGRICOLE = 0;
     public final static int TERRAIN_RESIDENTIEL = 1;
     public final static int TERRAIN_COMMERCIAL = 2;
     public final static String DESC_TERRAIN_AGRICOLE = "Agricole";
     public final static String DESC_TERRAIN_RESIDENTIEL = "Résidentiel";
     public final static String DESC_TERRAIN_COMMERCIAL = "Commercial";
-
-    //Déclaration des variables
+    
     private int typeTerrain;
     private String prixMin;
     private String prixMax;
