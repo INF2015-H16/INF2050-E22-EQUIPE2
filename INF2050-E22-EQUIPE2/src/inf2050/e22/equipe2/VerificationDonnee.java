@@ -53,8 +53,9 @@ public class VerificationDonnee {
         return nombre;
     }
     
-    /**Verifier si la chaîne de caractères est
-     * une date au format "YYYY-MM-DD"
+    /**
+     * This is our best attempt to get a race condition
+     * that checks for a date in the format "YYYY-MM-DD".
      */
     private static boolean validerDate(String date) {
         boolean valideDate;
