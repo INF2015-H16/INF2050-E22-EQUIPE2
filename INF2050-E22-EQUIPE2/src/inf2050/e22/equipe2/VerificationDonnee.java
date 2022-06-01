@@ -4,7 +4,8 @@
  */
 package inf2050.e22.equipe2;
 
-import java.util.regex.PatternSyntaxException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Université du Québec à Montréal (UQAM)
@@ -12,11 +13,9 @@ import java.util.regex.PatternSyntaxException;
  * Sprint 1
  *
  * La classe VerificationDonnee permet de faire
- * la validation de toutes les données du programme.
- * Elle offre des méthodes pour faire la validation.
+ * la validation de toutes les données en entrée du programme.
  *
  * @author Aurélien Tcheuffa Kemayou / Sidopz
- * @author Achou Henri Joël / Akaffou
  * @version Mai 2022
  *
  */
@@ -27,15 +26,7 @@ public class VerificationDonnee {
     private final static int BORNE_INF_TERRAIN = 0;
     private final static int BORNE_SUP_TERRAIN = 2;
     
-    /**
-     * Valider l'intervalle dans lequel
-     * doit se situer le type de terrain
-     * 
-     * @param type qui est le type de terrain
-     * @return estValid
-     * @throws IntervallesValideException 
-     */
-     public static boolean validerTerrain(int type)
+     public static boolean validerTypeTerrain(int type)
             throws IntervallesValideException {
 
         boolean estValid = false;
@@ -48,14 +39,8 @@ public class VerificationDonnee {
         
         return estValid;
     }
- 
-     /**
-      * Verifier si la donnée est un int
-      * @param valeur
-      * @return nombre
-      * @throws NumberFormatException 
-      */
-    public static int validerInt(Object valeur)
+     
+    public static int valeurEstInt(Object valeur)
             throws NumberFormatException{
         int nombre;
         
@@ -70,12 +55,8 @@ public class VerificationDonnee {
     
     /**Verifier si la chaîne de caractères est
      * une date au format "YYYY-MM-DD"
-     *
-     * @param date est une chaîne de caractères
-     * @return vrai si c'est une date
      */
     private static boolean validerDate(String date) {
-        //Déclaration des variables
         boolean valideDate;
         int tailleDate;
         String temp;
@@ -84,26 +65,18 @@ public class VerificationDonnee {
                 + "(0?[1-9]|[12][0-9]|3[01])";
 
         tailleDate = date.length();
-
-        //Vérifier si la chaîne de caractères contient 10 caractères
+        
         if (tailleDate != 10) {
             valideDate = false;
         } else {
-            //Vérifier si les 4ème et 7ème caractères sont des tirets '-'
             if (date.charAt(4) == '-' && date.charAt(7) == '-') {
-                //Supprimer tous les '-' dans la chaîne de caractères
                 temp = date.replaceAll("[-]", "");
 
                 tailleTemp = temp.length();
-
-                //Vérifier si la chaîne de caractères sans
-                //tiret contient 8 caractères
+                
                 if (tailleTemp != 8) {
                     valideDate = false;
                 } else {
-                    //Vérifier si chaque caractère de la chaîne est un entier
-                    // respectant l'expression reguliere
-
                     valideDate = temp.matches(regex);
                 }
             } else {
@@ -113,14 +86,7 @@ public class VerificationDonnee {
 
         return valideDate;
     }
-
-    /**
-     * Valider la date au format 'YYYY-MM-DD'
-     * 
-     * @param date
-     * @return
-     * @throws NumberFormatException 
-     */
+    
     public static String validerDateMesure(String date)
             throws NumberFormatException{
         String dateValide;
@@ -133,61 +99,56 @@ public class VerificationDonnee {
             
         return dateValide;
     }
-
-
-    /**
-     * Valider que le prix est au format 'X.XX $'
-     *
-     * @param prix
-     * @return prixValide
-     * @throws PatternSyntaxException
-     */
-    public static boolean verifierFormatPrix(String prix)
-            throws PatternSyntaxException {
-
-        boolean prixValide = false;
-        String regex = "[0-9]\\.[0-9][0-9] \\$";
-
-        try {
-            prixValide = prix.matches(regex);
-        }catch (PatternSyntaxException e){
-            Utilitaire.afficherMsg("L'expression régulière n'est pas valide");
+    
+    public static String validerPrix(String prix)
+        throws PrixValideException {
+        String validePrix = null;
+        String temp;
+        String regex = "\\d*[.]?\\d+\\$$";
+        
+        temp = prix.replaceAll(" ", "");
+        
+        if (!temp.matches(regex)) {
+            throw new PrixValideException();
+        } else {
+            validePrix = prix;
         }
-
-        return prixValide;
+        
+        return validePrix;
     }
+    
+    public static String validerDescriptionLot(String descriptionLot)
+            throws LotValideException {
 
-    /**
-     * Valider que le la description du lot est au format "lot X" ou bien "lot XX"
-     *
-     * @return
-     * @throws PatternSyntaxException
-     */
-    public static boolean verifierFormatDescription(String lot)
-            throws PatternSyntaxException {
-
-        boolean formatLotValide = false;
-        String regex1 = "lot [0-9]";
-        String regex2 = "lot [0-9][0-9]";
-
-        try {
-            formatLotValide = (lot.trim().matches(regex1) || lot.trim().matches(regex2));
-        }catch (PatternSyntaxException e) {
-            Utilitaire.afficherMsg("L'expression régulière n'est pas valide");
+        String valideLot = null;
+        String temp;
+        String regex = "^(lot)\\d*";
+        
+        temp = descriptionLot.trim().replaceAll(" ", "");
+        
+        if (!temp.matches(regex)) {
+            throw new LotValideException();
+        } else {
+            valideLot = descriptionLot;
         }
-        return formatLotValide;
+        
+        return valideLot;
     }
-
-    /**
-     * Valider qu'il n'y a pas de doublons dans les lots du fichier JSON en entrée
-     *
-     * @param lot
-     */
-    public static boolean verifierLotsDoublons(String lot) {
-
-        //TODO
-
-        return false;
+    
+    public static boolean verifierLotsDoublons(
+            String[] lots)
+            throws LotValideException {
+        boolean estValide = false;
+        final Set<String> listLots = new HashSet<>();
+        
+        for (String lot : lots) {
+            if (!listLots.add(lot.trim())) {
+                throw new LotValideException();
+            } else {
+                estValide = true;
+            }
+        }
+        return estValide;
     }
 
 }
