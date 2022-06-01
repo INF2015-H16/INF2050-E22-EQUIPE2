@@ -17,7 +17,6 @@ package inf2050.e22.equipe2;
  */
 public class Lotissement {
     
-    //Déclaration des variables
     private String description;
     private int nombreDroitPassage;
     private int nombreService;
