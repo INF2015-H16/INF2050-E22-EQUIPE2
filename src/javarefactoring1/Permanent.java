@@ -22,6 +22,7 @@ public class Permanent extends Employee {
                 + firstName.toUpperCase().trim().substring(1, 3);
 
         System.out.println("New Permanent Employee" + employeeID);
+        setPhotoUrl("zied.jpg");
     }
 
     public void setPhotoUrl(String photoName) {
