@@ -285,8 +285,7 @@ public class EvaluationTerrain {
                     montantLot = superficies[i] * prixMaximum;
                 }
                 break;
-                default:
-                    break;
+              
             }
             
             montantsLot[i] = montantLot;
@@ -320,8 +319,7 @@ public class EvaluationTerrain {
                             - (passages[i] * (TAUX_15 * montantsLot[i]));
                 }
                 break;
-                default:
-                    break;
+               
             }
 
             montantsPassage[i] = montantDroit;
@@ -335,7 +333,7 @@ public class EvaluationTerrain {
         montantsService = new double[taille];
 
         double montantService = 0.0;
-        double tempService = 0.0;
+        
         
         for (int i = 0; i < taille; i++) {
             
@@ -359,24 +357,21 @@ public class EvaluationTerrain {
                 break;
                 case Terrain.TERRAIN_COMMERCIAL: {
                     if (superficies[i] <= SUPERFICIE_500) {
-                        tempService = (SERVICE_DE_BASE
+                        montantService = (SERVICE_DE_BASE
                                 + services[i]) * MONTANT_SERVICE_500;
                     } else if (superficies[i] > SUPERFICIE_500) {
-                        tempService = (SERVICE_DE_BASE
+                        montantService = (SERVICE_DE_BASE
                                 + services[i]) * MONTANT_SERVICE_1500;
                     }
 
-                    if (tempService > MONTANT_MAX_SERVICE) {
+                    if (montantService > MONTANT_MAX_SERVICE) {
                         montantService = MONTANT_MAX_SERVICE;
-                    } else {
-                        montantService = tempService;
-                    }
+                    } 
                 }
                 break;
-                default:
-                    break;
+                
             }
-
+            
             montantsService[i] = montantService;
 
         }
