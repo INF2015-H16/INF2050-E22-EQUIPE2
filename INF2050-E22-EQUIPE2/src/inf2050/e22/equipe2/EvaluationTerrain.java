@@ -436,7 +436,7 @@ public class EvaluationTerrain {
 
                 detailsLot.accumulate(ETIQUETTE_DESCRIPTION, descriptions[i]);
                 detailsLot.accumulate(ETIQUETTE_VALEUR_PAR_LOT,
-                        Utilitaire.convertirMontant(montantsLot[i]));
+                        Utilitaire.convertirMontant(montantsParLot[i]));
 
                 enteteRapport.accumulate(ETIQUETTE_LOTISSEMENTS,detailsLot);
             }
