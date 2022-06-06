@@ -70,4 +70,9 @@ public class Terrain {
     public void setLotissement(ArrayList<Lotissement> lotissement) {
         this.lotissement = lotissement;
     }
+    
+    public int obtenirTailleLotissement() {
+        return lotissement.size();
+    }
+    
 }
