@@ -5,7 +5,9 @@
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 
 /**
@@ -24,7 +26,9 @@ import net.sf.json.JSONException;
  */
 
 public class ProjetDeSessionSprint1 {
-
+    
+    public final static String FILE_ENCODING = "UTF-8";
+    
     /**
      * @param args the command line arguments
      */
@@ -32,8 +36,7 @@ public class ProjetDeSessionSprint1 {
         //Déclaration des variables
         String entree;
         String sortie;
-        EvaluationTerrain evaluation;
-
+        
         if (args.length == 0) {
             Utilitaire.afficherMessage(
                     "\nAucune entrée et/ou sortie trouvée.\n");
@@ -46,39 +49,67 @@ public class ProjetDeSessionSprint1 {
                 //les prix max et min, les details du lotissement[description,
                 //les droits de passage, les services, les superficies
                 //et la date de mesure des differents lot])
-                EvaluationTerrain.lireFichierEntree(entree);
-
-                evaluation = new EvaluationTerrain();
-
-                evaluation.obtenirTypeTerrain();
-                evaluation.obtenirPrixMinimum();
-                evaluation.obtenirPrixMax();
-
-                evaluation.obtenirDescription();
-                evaluation.obtenirNombreDroitPassage();
-                evaluation.obtenirNombreService();
-                evaluation.obtenirSuperficie();
-                evaluation.obtenirDateMesure();
-
+                String json = FileReaderException.loadFileIntoString(entree,
+                FILE_ENCODING);
+                
+                EvaluationTerrain evaluation = new EvaluationTerrain();
+                
+                ArrayList<Lotissement> lotissements = evaluation
+                        .obtenirDonneesLot(json);
+                Terrain terrain = evaluation
+                        .obtenirDonneesTerrain(json, lotissements);
+                int idTerrain = evaluation.obtenirTypeTerrain(terrain);
+                double prixMinimum = evaluation.obtenirPrixMinimum(terrain);
+                double prixMaximum = evaluation.obtenirPrixMaximum(terrain);
+                String [] descriptions = evaluation
+                        .obtenirDescription(lotissements);
+                int [] passages = evaluation
+                        .obtenirNombreDroitPassage(lotissements);
+                int [] services = evaluation
+                        .obtenirNombreService(lotissements);
+                int [] superficies = evaluation
+                        .obtenirSuperficie(lotissements);
+                String [] dates = evaluation.obtenirDateMesure(lotissements);
+                
                 //Calculer les différents montants de lots
                 //de droit de passage et montant de service
-                evaluation.calculerMontantLot();
-                evaluation.calculerDroitPassage();
-                evaluation.calculerMontantService();
-
+                double [] montantsLot = evaluation
+                        .calculerMontantLot(lotissements, idTerrain,
+                                superficies, prixMinimum, prixMaximum);
+                double [] montantsPassage = evaluation
+                        .calculerDroitPassage(lotissements, idTerrain,
+                                passages, montantsLot);
+                double [] montantsService = evaluation
+                        .calculerMontantService(lotissements, idTerrain,
+                                superficies, services);
+                
                 //Calculer les différents montants par lots
-                evaluation.calculerValeurParLot();
-
+                double [] montantsParLot = evaluation
+                        .calculerValeurParLot(lotissements, idTerrain,
+                                montantsLot, montantsPassage, montantsService);
+                
+                
                 //Calculer la valeur fonciere et la taxe scolaire
                 //et la taxe municiple qui vont avec
-                evaluation.calculerValeurFonciere();
-                evaluation.calculerTaxeScolaire();
-                evaluation.calculerTaxeMunicipale();
-
+                double montantTerrain = evaluation
+                        .calculerValeurFonciere(lotissements, montantsParLot);
+                double montantTaxeScolaire = evaluation
+                        .calculerTaxeScolaire(montantTerrain);
+                double montantTaxeMunicipale = evaluation
+                        .calculerTaxeMunicipale(montantTerrain);
+                
                 //Afficher le rapport de l'évaluation
-                evaluation.genererRapportEvaluation(sortie);
+                JSONObject enteteRapport = evaluation
+                        .genererRapportEvaluation(montantTerrain,
+                                montantTaxeScolaire, montantTaxeMunicipale,
+                                montantsParLot, descriptions);
+                
+                Utilitaire.afficherMessage(enteteRapport.toString(4));
 
-            } catch (IOException | NullPointerException e) {
+                FileWriterException.saveStringIntoFile(sortie,
+                        enteteRapport.toString(4), FILE_ENCODING);
+
+            } catch (IOException |NullPointerException e) {
                 Utilitaire.afficherMessage(
                         "\nAucune entrée et/ou sortie trouvée.\n");
             } catch (NumberFormatException

@@ -30,8 +30,6 @@ import net.sf.json.JSONObject;
  */
 public class EvaluationTerrain {
     
-    public final static String FILE_ENCODING = "UTF-8";
-
     public final static double VALEUR_DE_BASE = 733.77;
     public final static double TAXE_SCOLAIRE = 0.012;
     public final static double TAXE_MUNICIPALE = 0.025;
@@ -69,55 +67,54 @@ public class EvaluationTerrain {
 
     public final static String DECIMAL_ONLY = "[^\\d.]";
     
-    private static Terrain terrain;
-    private static ArrayList<Lotissement> lotissements;
-
-    private static int taille;
-
-    private int idTerrain;
-    private double prixMinimum;
-    private double prixMaximum;
-    private double montantTerrain;
-    private double montantTaxeScolaire;
-    private double montantTaxeMunicipale;
-
-    private double [] montantsLot;
-    private double [] montantsPassage;
-    private double [] montantsService;
-    private double [] montantsParLot;
-    private String [] descriptions;
-    private int [] passages;
-    private int [] services;
-    private int [] superficies;
-    private String [] dates;
-    
-    public static void lireFichierEntree(String argument)
+    public Terrain obtenirDonneesTerrain(String json,
+            ArrayList<Lotissement> lotissements)
             throws FileNotFoundException, IOException,
             NumberFormatException, IntervallesValideException,
             PrixValideException, LotValideException {
         
+        Terrain terrain = null;
+        
+        if (json.length() != 0) {
+            JSONObject enteteTerrain = JSONObject.fromObject(json);
+            
+            int typeTerrain = VerificationDonnee
+                    .valeurEstInt(enteteTerrain
+                            .getInt(ETIQUETTE_TYPE_TERRAIN));
+            String prixMin = VerificationDonnee.
+                    validerPrix(enteteTerrain
+                            .getString(ETIQUETTE_PRIX_M2_MIN));
+            String priMax = VerificationDonnee.
+                    validerPrix(enteteTerrain
+                            .getString(ETIQUETTE_PRIX_M2_MAX));
+            
+            if (VerificationDonnee.validerTypeTerrain(typeTerrain)) {
+                terrain = new Terrain(typeTerrain, prixMin,
+                        priMax, lotissements);
+            }
+        }
+        
+        return terrain;
+
+    }
+    
+    public ArrayList<Lotissement> obtenirDonneesLot(String json)
+            throws FileNotFoundException, IOException,
+            NumberFormatException, IntervallesValideException,
+            PrixValideException, LotValideException {
+        
+        
+        ArrayList <Lotissement> lotissements = new ArrayList<>();
         String description;
         int nombreDroitPassage;
         int nombreService;
         int superfice;
         String dateMesure;
         Lotissement lot;
-
-        String json = FileReaderException.loadFileIntoString(argument,
-                FILE_ENCODING);
-
+        
         if (json.length() != 0) {
             JSONObject enteteTerrain = JSONObject.fromObject(json);
             
-            int typeTerrain = VerificationDonnee
-                    .valeurEstInt(enteteTerrain.getInt(ETIQUETTE_TYPE_TERRAIN));
-            String prixMin = VerificationDonnee.
-                    validerPrix(enteteTerrain.getString(ETIQUETTE_PRIX_M2_MIN));
-            String priMax = VerificationDonnee.
-                    validerPrix(enteteTerrain.getString(ETIQUETTE_PRIX_M2_MAX));
-
-            lotissements = new ArrayList<>();
-
             Object item = enteteTerrain.get(ETIQUETTE_LOTISSEMENTS);
 
             if (item instanceof JSONObject) {
@@ -125,96 +122,107 @@ public class EvaluationTerrain {
                         .getJSONObject(ETIQUETTE_LOTISSEMENTS);
 
                 description = VerificationDonnee
-                        .validerDescriptionLot(uniqueLot.getString(ETIQUETTE_DESCRIPTION));
+                        .validerDescriptionLot(uniqueLot
+                                .getString(ETIQUETTE_DESCRIPTION));
                 nombreDroitPassage = VerificationDonnee
-                        .valeurEstInt(uniqueLot.getInt(ETIQUETTE_DROIT_PASSAGE));
+                        .valeurEstInt(uniqueLot
+                                .getInt(ETIQUETTE_DROIT_PASSAGE));
                 nombreService = VerificationDonnee
                         .valeurEstInt(uniqueLot.getInt(ETIQUETTE_SERVICES));
                 superfice = VerificationDonnee
                         .valeurEstInt(uniqueLot.getInt(ETIQUETTE_SUPERFICIE));
                 dateMesure = VerificationDonnee
-                        .validerDateMesure(uniqueLot.getString(ETIQUETTE_DATE_MESURE));
+                        .validerDateMesure(uniqueLot
+                                .getString(ETIQUETTE_DATE_MESURE));
 
                 lot = new Lotissement(description, nombreDroitPassage,
                         nombreService, superfice, dateMesure);
                 lotissements.add(lot);
 
             } else {
-                JSONArray list = enteteTerrain.getJSONArray(ETIQUETTE_LOTISSEMENTS);
+                JSONArray list = enteteTerrain
+                        .getJSONArray(ETIQUETTE_LOTISSEMENTS);
 
                 if (!list.isEmpty()) {
                     for(int i = 0; i<list.size(); i++) {
                         JSONObject plusieursLot = list.getJSONObject(i);
 
                         description = VerificationDonnee
-                                .validerDescriptionLot(plusieursLot.getString(ETIQUETTE_DESCRIPTION));
+                                .validerDescriptionLot(plusieursLot
+                                        .getString(ETIQUETTE_DESCRIPTION));
                         nombreDroitPassage = VerificationDonnee
-                                .valeurEstInt(plusieursLot.getInt(ETIQUETTE_DROIT_PASSAGE));
+                                .valeurEstInt(plusieursLot
+                                        .getInt(ETIQUETTE_DROIT_PASSAGE));
                         nombreService = VerificationDonnee
-                                .valeurEstInt(plusieursLot.getInt(ETIQUETTE_SERVICES));
+                                .valeurEstInt(plusieursLot
+                                        .getInt(ETIQUETTE_SERVICES));
                         superfice = VerificationDonnee
-                                .valeurEstInt(plusieursLot.getInt(ETIQUETTE_SUPERFICIE));
+                                .valeurEstInt(plusieursLot
+                                        .getInt(ETIQUETTE_SUPERFICIE));
                         dateMesure = VerificationDonnee
-                                .validerDateMesure(plusieursLot.getString(ETIQUETTE_DATE_MESURE));
+                                .validerDateMesure(plusieursLot
+                                        .getString(ETIQUETTE_DATE_MESURE));
                         
                         lot = new Lotissement(description, nombreDroitPassage,
                                 nombreService, superfice, dateMesure);
+                        
                         lotissements.add(lot);
                         
                     }
                 }
             }
-            
-            if (VerificationDonnee.validerTypeTerrain(typeTerrain)) {
-                terrain = new Terrain(typeTerrain, prixMin,
-                        priMax, lotissements);
-                taille = lotissements.size();
-            }
         }
 
+        return lotissements;
     }
     
-    public void obtenirTypeTerrain() throws IOException, NullPointerException {
-        int typeTerrain = terrain.getTypeTerrain();
-
-        idTerrain = typeTerrain;
+    public int obtenirTypeTerrain(Terrain terrain)
+            throws IOException, NullPointerException {
+        return terrain.getTypeTerrain();
     }
     
-    public void obtenirPrixMinimum()
+    public double obtenirPrixMinimum(Terrain terrain)
             throws IOException, NullPointerException {
 
         String prix = terrain.getPrixMin();
         String prixMinim = prix.replaceAll(DECIMAL_ONLY, "");
-        double prixMin = Double.parseDouble(prixMinim);
-
-        prixMinimum = prixMin;
+        double prixMinimum = Double.parseDouble(prixMinim);
+        
+        return prixMinimum;
 
     }
     
-    public void obtenirPrixMax() throws IOException, NullPointerException {
+    public double obtenirPrixMaximum(Terrain terrain)
+            throws IOException, NullPointerException {
         
         String prix = terrain.getPrixMax();
         String priMaxi = prix.replaceAll(DECIMAL_ONLY, "");
-        double prixMax = Double.parseDouble(priMaxi);
+        double prixMaximum = Double.parseDouble(priMaxi);
 
-        prixMaximum = prixMax;
-
+        return prixMaximum;
     }
     
-    public void obtenirDescription() throws IOException, NullPointerException {
+    public String[] obtenirDescription(ArrayList<Lotissement> lotissements)
+            throws IOException, NullPointerException {
         
-        descriptions = new String[taille];
+        int taille = lotissements.size();
+        String [] descriptions = new String[taille];
 
         for (int i = 0; i < taille; i++) {
             String descriptionLot = lotissements.get(i).getDescription();
             
             descriptions[i] = descriptionLot;
         }
+        
+        return descriptions;
     }
     
-    public void obtenirNombreDroitPassage() throws IOException,
-            NullPointerException {
-        passages = new int[taille];
+    public int [] obtenirNombreDroitPassage(
+            ArrayList<Lotissement> lotissements)
+            throws IOException, NullPointerException {
+        
+        int taille = lotissements.size();
+        int[] passages = new int[taille];
 
         for (int i = 0; i < taille; i++) {
             int droitPassage = lotissements.get(i).getNombreDroitPassage();
@@ -222,12 +230,14 @@ public class EvaluationTerrain {
             passages[i] = droitPassage;
 
         }
+        return passages;
     }
     
-    public void obtenirNombreService()
+    public int [] obtenirNombreService(ArrayList<Lotissement> lotissements)
             throws IOException, NullPointerException {
 
-        services = new int[taille];
+        int taille = lotissements.size();
+        int[] services = new int[taille];
 
         for (int i = 0; i < taille; i++) {
             int servive = lotissements.get(i).getNombreService();
@@ -235,12 +245,15 @@ public class EvaluationTerrain {
             services[i] = servive;
 
         }
+        
+        return services;
     }
     
-    public void obtenirSuperficie()
+    public int [] obtenirSuperficie(ArrayList<Lotissement> lotissements)
             throws IOException, NullPointerException {
 
-        superficies = new int[taille];
+        int taille = lotissements.size();
+        int[] superficies = new int[taille];
 
         for (int i = 0; i < taille; i++) {
             
@@ -249,12 +262,15 @@ public class EvaluationTerrain {
             superficies[i] = superficie;
 
         }
+        
+        return superficies;
     }
     
-    public void obtenirDateMesure()
+    public String [] obtenirDateMesure(ArrayList<Lotissement> lotissements)
             throws IOException, NullPointerException {
 
-        dates = new String[taille];
+        int taille = lotissements.size();
+        String [] dates = new String[taille];
 
         for (int i = 0; i < taille; i++) {
             String date = lotissements.get(i).getDateMesure();
@@ -262,12 +278,17 @@ public class EvaluationTerrain {
             dates[i] = date;
 
         }
+        
+        return dates;
     }
     
-    public void calculerMontantLot() throws IOException, NullPointerException {
+    public double [] calculerMontantLot(ArrayList<Lotissement> lotissements,
+            int idTerrain, int [] superficies, double prixMinimum,
+            double prixMaximum)
+            throws IOException, NullPointerException {
 
-        montantsLot = new double[taille];
-
+        int taille = lotissements.size();
+        double [] montantsLot = new double[taille];
         double montantLot = 0.0;
         
         for (int i = 0; i < taille; i++) {
@@ -285,19 +306,23 @@ public class EvaluationTerrain {
                     montantLot = superficies[i] * prixMaximum;
                 }
                 break;
-              
+                default:
+                    break;
             }
             
             montantsLot[i] = montantLot;
 
         }
+        
+        return montantsLot;
     }
     
-    public void calculerDroitPassage() throws IOException,
-            NullPointerException {
+    public double [] calculerDroitPassage(ArrayList<Lotissement> lotissements,
+            int idTerrain, int [] passages, double [] montantsLot)
+            throws IOException, NullPointerException {
 
-        montantsPassage = new double[taille];
-
+        int taille = lotissements.size();
+        double [] montantsPassage = new double[taille];
         double montantDroit = 0.0;
         
         for (int i = 0; i < taille; i++) {
@@ -305,35 +330,44 @@ public class EvaluationTerrain {
                 case Terrain.TERRAIN_AGRICOLE:  {
                 
                     montantDroit = MONTANT_BASE_DROIT_PASSAGE
-                            - (passages[i] * (TAUX_05 * montantsLot[i]));
+                            - (passages[i]
+                            * (TAUX_05 * montantsLot[i]));
                 }
                 break;
 
                 case Terrain.TERRAIN_RESIDENTIEL: {
                     montantDroit = MONTANT_BASE_DROIT_PASSAGE
-                            - (passages[i] * (TAUX_10 * montantsLot[i]));
+                            - (passages[i]
+                            * (TAUX_10 * montantsLot[i]));
                 }
                 break;
                 case Terrain.TERRAIN_COMMERCIAL: {
                     montantDroit = MONTANT_BASE_DROIT_PASSAGE
-                            - (passages[i] * (TAUX_15 * montantsLot[i]));
+                            - (passages[i]
+                            * (TAUX_15 * montantsLot[i]));
                 }
                 break;
-               
+                default:
+                    break;
             }
 
             montantsPassage[i] = montantDroit;
 
         }
+        
+        return montantsPassage;
     }
     
-    public void calculerMontantService() throws IOException,
+    public double [] calculerMontantService(
+            ArrayList<Lotissement> lotissements, int idTerrain,
+            int [] superficies, int [] services) throws IOException,
             NullPointerException {
-
-        montantsService = new double[taille];
+        
+        int taille = lotissements.size();
+        double [] montantsService = new double[taille];
 
         double montantService = 0.0;
-        
+        double tempService = 0.0;
         
         for (int i = 0; i < taille; i++) {
             
@@ -357,31 +391,50 @@ public class EvaluationTerrain {
                 break;
                 case Terrain.TERRAIN_COMMERCIAL: {
                     if (superficies[i] <= SUPERFICIE_500) {
-                        montantService = (SERVICE_DE_BASE
+                        tempService = (SERVICE_DE_BASE
                                 + services[i]) * MONTANT_SERVICE_500;
                     } else if (superficies[i] > SUPERFICIE_500) {
-                        montantService = (SERVICE_DE_BASE
+                        tempService = (SERVICE_DE_BASE
                                 + services[i]) * MONTANT_SERVICE_1500;
                     }
-
-                    if (montantService > MONTANT_MAX_SERVICE) {
-                        montantService = MONTANT_MAX_SERVICE;
-                    } 
+                    
+                    montantService = determinerMontantCommercial(tempService);
+                    
                 }
                 break;
-                
+                default:
+                    break;
             }
-            
+
             montantsService[i] = montantService;
 
         }
-
+        
+        return montantsService;
     }
     
-    public void calculerValeurParLot() throws IOException,
+    private double determinerMontantCommercial(double montantService) {
+        
+        double montant;
+        
+        if (montantService > MONTANT_MAX_SERVICE) {
+            montant = MONTANT_MAX_SERVICE;
+            
+        } else {
+            montant = montantService;
+            
+        }
+        
+        return montant;
+    }
+    
+    public double [] calculerValeurParLot(ArrayList<Lotissement> lotissements,
+            int idTerrain, double [] montantsLot, double [] montantsPassage,
+            double [] montantsService) throws IOException,
             NullPointerException {
 
-        montantsParLot = new double[taille];
+        int taille = lotissements.size();
+        double [] montantsParLot = new double[taille];
 
         for (int i = 0; i < taille; i++) {
             double valeurParLot = montantsLot[i] + montantsPassage[i] +
@@ -390,35 +443,50 @@ public class EvaluationTerrain {
             montantsParLot[i] = valeurParLot;
 
         }
+        
+        return montantsParLot;
 
     }
     
-    public void calculerValeurFonciere() throws IOException,
+    public double calculerValeurFonciere(ArrayList<Lotissement> lotissements,
+            double [] montantsParLot) throws IOException,
             NullPointerException {
+        
+        int taille = lotissements.size();
         double tempTerrain = 0.0;
+        double montantTerrain;
 
         for (int i = 0; i < taille; i++) {
             tempTerrain = tempTerrain + montantsParLot[i]++;
         }
 
         montantTerrain = (tempTerrain + VALEUR_DE_BASE);
+        
+        return montantTerrain;
 
     }
     
-    public void calculerTaxeScolaire() throws IOException,
-            NullPointerException {
-        montantTaxeScolaire = montantTerrain * TAXE_SCOLAIRE;
+    public double calculerTaxeScolaire(double montantTerrain)
+            throws IOException, NullPointerException {
+        
+        return montantTerrain * TAXE_SCOLAIRE;
     }
     
-    public void calculerTaxeMunicipale() throws IOException {
-        montantTaxeMunicipale = montantTerrain * TAXE_MUNICIPALE;
+    public double calculerTaxeMunicipale(double montantTerrain)
+            throws IOException {
+        
+        return montantTerrain * TAXE_MUNICIPALE;
     }
     
-    public void genererRapportEvaluation(String argument)
+    public JSONObject genererRapportEvaluation(double montantTerrain,
+            double montantTaxeScolaire, double montantTaxeMunicipale,
+            double [] montantsParLot, String [] descriptions)
             throws IOException, LotValideException {
         
+            JSONObject enteteRapport = null;
         if (VerificationDonnee.verifierLotsDoublons(descriptions)) {
-            JSONObject enteteRapport = new JSONObject();
+            
+            enteteRapport = new JSONObject();
             enteteRapport.accumulate(ETIQUETTE_VALEUR_FONCIERE_TOTALE,
                     Utilitaire.convertirMontant(montantTerrain));
             enteteRapport.accumulate(ETIQUETTE_TAXE_SCOLAIRE,
@@ -427,21 +495,20 @@ public class EvaluationTerrain {
                     Utilitaire.convertirMontant(montantTaxeMunicipale));
 
             for (int i = 0; i < montantsParLot.length; i++) {
+                
                 JSONObject detailsLot = new JSONObject();
 
-                detailsLot.accumulate(ETIQUETTE_DESCRIPTION, descriptions[i]);
+                detailsLot.accumulate(ETIQUETTE_DESCRIPTION,
+                        descriptions[i]);
                 detailsLot.accumulate(ETIQUETTE_VALEUR_PAR_LOT,
-                        Utilitaire.convertirMontant(montantsLot[i]));
+                        Utilitaire.convertirMontant(montantsParLot[i]));
 
-                enteteRapport.accumulate(ETIQUETTE_LOTISSEMENTS,detailsLot);
+                enteteRapport.accumulate(
+                        ETIQUETTE_LOTISSEMENTS,detailsLot);
             }
-
-            Utilitaire.afficherMessage(enteteRapport.toString(4));
-
-            FileWriterException.saveStringIntoFile(argument,
-                    enteteRapport.toString(4), FILE_ENCODING);
         }
         
+        return enteteRapport;
     }
 
 }

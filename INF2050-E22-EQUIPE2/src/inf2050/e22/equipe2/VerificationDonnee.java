@@ -19,8 +19,6 @@ import java.util.Set;
  * @version Mai 2022
  *
  */
-
-
 public class VerificationDonnee {
 
     private final static int BORNE_INF_TERRAIN = 0;
@@ -149,6 +147,7 @@ public class VerificationDonnee {
                 estValide = true;
             }
         }
+        
         return estValide;
     }
 
