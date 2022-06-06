@@ -30,42 +30,9 @@ import net.sf.json.JSONObject;
  */
 public class EvaluationTerrain {
     
-    public final static double VALEUR_DE_BASE = 733.77;
-    public final static double TAXE_SCOLAIRE = 0.012;
-    public final static double TAXE_MUNICIPALE = 0.025;
-    public static final double SERVICE_DE_BASE = 2;
-    public final static int MONTANT_BASE_DROIT_PASSAGE = 500;
-    public final static double TAUX_05 = 0.05;
-    public final static double TAUX_10 = 0.10;
-    public final static double TAUX_15 = 0.15;
-    public static final int SUPERFICIE_500 = 500;
-    public static final int SUPERFICIE_10000 = 10000;
-    public static final double MONTANT_SERVICE_0 = 0.0;
-    public static final double MONTANT_SERVICE_500 = 500;
-    public static final double MONTANT_SERVICE_1000 = 1000;
-    public static final double MONTANT_SERVICE_1500 = 1500;
-    public static final double MONTANT_MAX_SERVICE = 5000;
-    
-    public final static String ETIQUETTE_LOT = "lot ";
-    public final static String ETIQUETTE_DESCRIPTION = "description";
-    public final static String ETIQUETTE_DROIT_PASSAGE =
-            "nombre_droits_passage";
-    public final static String ETIQUETTE_SERVICES = "nombre_services";
-    public final static String ETIQUETTE_SUPERFICIE = "superficie";
-    public final static String ETIQUETTE_DATE_MESURE = "date_mesure";
-
     public final static String ETIQUETTE_TYPE_TERRAIN = "type_terrain";
     public final static String ETIQUETTE_PRIX_M2_MIN = "prix_m2_min";
     public final static String ETIQUETTE_PRIX_M2_MAX = "prix_m2_max";
-    public final static String ETIQUETTE_LOTISSEMENTS = "lotissements";
-
-    public final static String ETIQUETTE_VALEUR_FONCIERE_TOTALE =
-            "valeur_fonciere_totale";
-    public final static String ETIQUETTE_TAXE_SCOLAIRE = "taxe_scolaire";
-    public final static String ETIQUETTE_TAXE_MUNICIPALE = "taxe_municipale";
-    public final static String ETIQUETTE_VALEUR_PAR_LOT = "valeur_par_lot";
-
-    public final static String DECIMAL_ONLY = "[^\\d.]";
     
     public Terrain obtenirDonneesTerrain(String json,
             ArrayList<Lotissement> lotissements)
@@ -97,6 +64,20 @@ public class EvaluationTerrain {
         return terrain;
 
     }
+    
+    public final static String ETIQUETTE_LOT = "lot ";
+    public final static String ETIQUETTE_DESCRIPTION = "description";
+    public final static String ETIQUETTE_DROIT_PASSAGE =
+            "nombre_droits_passage";
+    public final static String ETIQUETTE_SERVICES = "nombre_services";
+    public final static String ETIQUETTE_SUPERFICIE = "superficie";
+    public final static String ETIQUETTE_DATE_MESURE = "date_mesure"; 
+    public final static String ETIQUETTE_LOTISSEMENTS = "lotissements";
+    public final static String ETIQUETTE_VALEUR_FONCIERE_TOTALE =
+            "valeur_fonciere_totale";
+    public final static String ETIQUETTE_TAXE_SCOLAIRE = "taxe_scolaire";
+    public final static String ETIQUETTE_TAXE_MUNICIPALE = "taxe_municipale";
+    public final static String ETIQUETTE_VALEUR_PAR_LOT = "valeur_par_lot";
     
     public ArrayList<Lotissement> obtenirDonneesLot(String json)
             throws FileNotFoundException, IOException,
@@ -180,6 +161,8 @@ public class EvaluationTerrain {
             throws IOException, NullPointerException {
         return terrain.getTypeTerrain();
     }
+    
+    public final static String DECIMAL_ONLY = "[^\\d.]";
     
     public double obtenirPrixMinimum(Terrain terrain)
             throws IOException, NullPointerException {
@@ -317,6 +300,11 @@ public class EvaluationTerrain {
         return montantsLot;
     }
     
+    public final static int MONTANT_BASE_DROIT_PASSAGE = 500;
+    public final static double TAUX_05 = 0.05;
+    public final static double TAUX_10 = 0.10;
+    public final static double TAUX_15 = 0.15;
+    
     public double [] calculerDroitPassage(ArrayList<Lotissement> lotissements,
             int idTerrain, int [] passages, double [] montantsLot)
             throws IOException, NullPointerException {
@@ -357,6 +345,14 @@ public class EvaluationTerrain {
         
         return montantsPassage;
     }
+    
+    public static final double SERVICE_DE_BASE = 2;
+    public static final int SUPERFICIE_500 = 500;
+    public static final int SUPERFICIE_10000 = 10000;
+    public static final double MONTANT_SERVICE_0 = 0.0;
+    public static final double MONTANT_SERVICE_500 = 500;
+    public static final double MONTANT_SERVICE_1000 = 1000;
+    public static final double MONTANT_SERVICE_1500 = 1500;
     
     public double [] calculerMontantService(
             ArrayList<Lotissement> lotissements, int idTerrain,
@@ -413,6 +409,8 @@ public class EvaluationTerrain {
         return montantsService;
     }
     
+    public static final double MONTANT_MAX_SERVICE = 5000;
+    
     private double determinerMontantCommercial(double montantService) {
         
         double montant;
@@ -448,6 +446,7 @@ public class EvaluationTerrain {
 
     }
     
+    public final static double VALEUR_DE_BASE = 733.77;
     public double calculerValeurFonciere(ArrayList<Lotissement> lotissements,
             double [] montantsParLot) throws IOException,
             NullPointerException {
@@ -466,12 +465,14 @@ public class EvaluationTerrain {
 
     }
     
+    public final static double TAXE_SCOLAIRE = 0.012;
     public double calculerTaxeScolaire(double montantTerrain)
             throws IOException, NullPointerException {
         
         return montantTerrain * TAXE_SCOLAIRE;
     }
     
+    public final static double TAXE_MUNICIPALE = 0.025;
     public double calculerTaxeMunicipale(double montantTerrain)
             throws IOException {
         
