@@ -38,7 +38,7 @@ public class EvaluationTerrain {
             ArrayList<Lotissement> lotissements)
             throws FileNotFoundException, IOException,
             NumberFormatException, IntervallesValideException,
-            PrixValideException, LotValideException {
+            PrixValideException {
         
         Terrain terrain = null;
         
@@ -81,9 +81,7 @@ public class EvaluationTerrain {
     
     public ArrayList<Lotissement> obtenirDonneesLot(String json)
             throws FileNotFoundException, IOException,
-            NumberFormatException, IntervallesValideException,
-            PrixValideException, LotValideException {
-        
+            NumberFormatException, LotValideException {
         
         ArrayList <Lotissement> lotissements = new ArrayList<>();
         String description;
@@ -427,7 +425,7 @@ public class EvaluationTerrain {
     }
     
     public double [] calculerValeurParLot(ArrayList<Lotissement> lotissements,
-            int idTerrain, double [] montantsLot, double [] montantsPassage,
+            double [] montantsLot, double [] montantsPassage,
             double [] montantsService) throws IOException,
             NullPointerException {
 
