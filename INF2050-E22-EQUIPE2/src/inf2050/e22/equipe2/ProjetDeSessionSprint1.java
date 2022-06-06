@@ -85,8 +85,8 @@ public class ProjetDeSessionSprint1 {
                 
                 //Calculer les différents montants par lots
                 double [] montantsParLot = evaluation
-                        .calculerValeurParLot(lotissements, idTerrain,
-                                montantsLot, montantsPassage, montantsService);
+                        .calculerValeurParLot(lotissements, montantsLot,
+                                montantsPassage, montantsService);
                 
                 
                 //Calculer la valeur fonciere et la taxe scolaire
