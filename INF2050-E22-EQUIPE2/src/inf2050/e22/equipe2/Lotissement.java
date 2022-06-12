@@ -36,40 +36,18 @@ public class Lotissement {
     public String getDescription() {
         return description;
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public int getNombreDroitPassage() {
         return nombreDroitPassage;
-    }
-
-    public void setNombreDroitPassage(int nombreDroitPassage) {
-        this.nombreDroitPassage = nombreDroitPassage;
     }
 
     public int getNombreService() {
         return nombreService;
     }
-
-    public void setNombreService(int nombreService) {
-        this.nombreService = nombreService;
-    }
-
     public int getSuperficie() {
         return superficie;
     }
 
-    public void setSuperficie(int superficie) {
-        this.superficie = superficie;
-    }
-
     public String getDateMesure() {
         return dateMesure;
-    }
-
-    public void setDateMesure(String dateMesure) {
-        this.dateMesure = dateMesure;
     }
 }
