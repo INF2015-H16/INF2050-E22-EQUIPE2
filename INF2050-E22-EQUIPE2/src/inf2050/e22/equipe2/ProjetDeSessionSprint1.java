@@ -5,7 +5,6 @@
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
@@ -36,7 +35,7 @@ public class ProjetDeSessionSprint1 {
         //Déclaration des variables
         String entree;
         String sortie;
-        
+
         if (args.length == 0) {
             Utilitaire.afficherMessage(
                     "\nAucune entrée et/ou sortie trouvée.\n");
@@ -51,56 +50,52 @@ public class ProjetDeSessionSprint1 {
                 //et la date de mesure des differents lot])
                 String json = FileReaderException.loadFileIntoString(entree,
                 FILE_ENCODING);
-                
+
                 EvaluationTerrain evaluation = new EvaluationTerrain();
-                
-                ArrayList<Lotissement> lotissements = evaluation
-                        .obtenirDonneesLot(json);
-                Terrain terrain = evaluation
-                        .obtenirDonneesTerrain(json, lotissements);
+                EvaluationLot evaluationLot = new EvaluationLot(json);
+                evaluationLot.setLotissements(evaluationLot.getLotissements());
+
+                Terrain terrain = evaluation.obtenirDonneesTerrain(json,
+                        evaluationLot);
                 int idTerrain = evaluation.obtenirTypeTerrain(terrain);
                 double prixMinimum = evaluation.obtenirPrixMinimum(terrain);
                 double prixMaximum = evaluation.obtenirPrixMaximum(terrain);
-                String [] descriptions = evaluation
-                        .obtenirDescription(lotissements);
-                int [] passages = evaluation
-                        .obtenirNombreDroitPassage(lotissements);
-                int [] services = evaluation
-                        .obtenirNombreService(lotissements);
-                int [] superficies = evaluation
-                        .obtenirSuperficie(lotissements);
-                String [] dates = evaluation.obtenirDateMesure(lotissements);
-                
+
+                String [] descriptions = evaluationLot.getDescriptions();
+                int [] passages = evaluationLot.getPassages();
+                int [] services = evaluationLot.getServices();
+                int [] superficies = evaluationLot.getSuperficies();
+                String [] dates = evaluationLot.getDates();
+
                 //Calculer les différents montants de lots
                 //de droit de passage et montant de service
-                double [] montantsLot = evaluation
-                        .calculerMontantLot(lotissements, idTerrain,
-                                superficies, prixMinimum, prixMaximum);
-                double [] montantsPassage = evaluation
-                        .calculerDroitPassage(lotissements, idTerrain,
+                double [] montantsLot = evaluationLot
+                        .calculerMontantLot(idTerrain, superficies,
+                                prixMinimum, prixMaximum);
+                double [] montantsPassage = evaluationLot
+                        .calculerDroitPassage(idTerrain,
                                 passages, montantsLot);
-                double [] montantsService = evaluation
-                        .calculerMontantService(lotissements, idTerrain,
+                double [] montantsService = evaluationLot
+                        .calculerMontantService(idTerrain,
                                 superficies, services);
-                
+
                 //Calculer les différents montants par lots
-                double [] montantsParLot = evaluation
-                        .calculerValeurParLot(lotissements, montantsLot,
+                double [] montantsParLot = evaluationLot
+                        .calculerValeurParLot(montantsLot,
                                 montantsPassage, montantsService);
-                
-                
+
                 //Calculer la valeur fonciere et la taxe scolaire
                 //et la taxe municiple qui vont avec
-                double montantTerrain = evaluation
-                        .calculerValeurFonciere(lotissements, montantsParLot);
+                double montantTerrain = evaluationLot
+                        .calculerValeurFonciere(montantsParLot);
                 double montantTaxeScolaire = evaluation
                         .calculerTaxeScolaire(montantTerrain);
                 double montantTaxeMunicipale = evaluation
                         .calculerTaxeMunicipale(montantTerrain);
-                
+
                 //Afficher le rapport de l'évaluation
                 JSONObject enteteRapport = evaluation
-                        .genererRapportEvaluation(montantTerrain,
+                        .fournirRapportValide(montantTerrain,
                                 montantTaxeScolaire, montantTaxeMunicipale,
                                 montantsParLot, descriptions);
                 
@@ -112,15 +107,23 @@ public class ProjetDeSessionSprint1 {
             } catch (IOException |NullPointerException e) {
                 Utilitaire.afficherMessage(
                         "\nAucune entrée et/ou sortie trouvée.\n");
-            } catch (NumberFormatException
-                    | IntervallesValideException
-                    | PrixValideException
-                    | LotValideException
-                    | JSONException e) {
+            } catch (NumberFormatException e) {
                 Utilitaire.afficherMessage(
-                        "\nVérifier les données entrées !\n");
+                        "\nMessage à trouveré...\n");
+            } catch (IntervallesValideException e) {
+                Utilitaire.afficherMessage(
+                        "\nMessage à trouveré...\n");
+            } catch (PrixValideException e) {
+                Utilitaire.afficherMessage(
+                        "\nMessage à trouveré...\n");
+            } catch (LotValideException e) {
+                Utilitaire.afficherMessage(
+                        "\nMessage à trouveré...\n");
+            } catch (JSONException e) {
+                Utilitaire.afficherMessage(
+                        "\nVérifier les données entrées !.\n");
             }
-            
+
         }
     }
 
