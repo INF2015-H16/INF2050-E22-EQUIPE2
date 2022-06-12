@@ -50,42 +50,7 @@ public class VerificationDonnee {
         
         return nombre;
     }
-    
-    /**
-     * This is our best attempt to get a race condition
-     * that checks for a date in the format "YYYY-MM-DD".
-     */
-    private static boolean validerDate(String date) {
-        boolean valideDate;
-        int tailleDate;
-        String temp;
-        int tailleTemp;
-        String regex = "((?:19|20)[0-9][0-9])(0?[1-9]|1[012])"
-                + "(0?[1-9]|[12][0-9]|3[01])";
 
-        tailleDate = date.length();
-        
-        if (tailleDate != 10) {
-            valideDate = false;
-        } else {
-            if (date.charAt(4) == '-' && date.charAt(7) == '-') {
-                temp = date.replaceAll("[-]", "");
-
-                tailleTemp = temp.length();
-                
-                if (tailleTemp != 8) {
-                    valideDate = false;
-                } else {
-                    valideDate = temp.matches(regex);
-                }
-            } else {
-                valideDate = false;
-            }
-        }
-
-        return valideDate;
-    }
-    
     public static String validerDateMesure(String date)
             throws NumberFormatException{
         String dateValide;
@@ -98,10 +63,59 @@ public class VerificationDonnee {
             
         return dateValide;
     }
-    
+
+    /**
+     * This is our best attempt to get a race condition
+     * that checks for a date in the format "YYYY-MM-DD".
+     */
+    private static boolean validerDate(String date) {
+        boolean valideDate;
+
+        if (date.length() != 10) {
+            valideDate = false;
+
+        } else {
+            valideDate = verifierExistTiret(date);
+
+        }
+
+        return valideDate;
+    }
+
+    private static boolean verifierExistTiret(String date) {
+        boolean valideDate;
+        String temp;
+
+        if (date.charAt(4) == '-' && date.charAt(7) == '-') {
+            temp = date.replaceAll("[-]", "");
+            valideDate = validerDateAvecRegex(temp);
+
+        } else {
+            valideDate = false;
+
+        }
+
+        return valideDate;
+    }
+
+    private static boolean validerDateAvecRegex(String temp) {
+        boolean valideDate;
+        String regex = "((?:19|20)[0-9][0-9])(0?[1-9]|1[012])"
+                + "(0?[1-9]|[12][0-9]|3[01])";
+
+        if (temp.length() != 8) {
+            valideDate = false;
+
+        } else {
+            valideDate = temp.matches(regex);
+
+        }
+        return valideDate;
+    }
+
     public static String validerPrix(String prix)
         throws PrixValideException {
-        String validePrix = null;
+        String validePrix;
         String temp;
         String regex = "\\d*[.]?\\d+\\$$";
         
@@ -119,7 +133,7 @@ public class VerificationDonnee {
     public static String validerDescriptionLot(String descriptionLot)
             throws LotValideException {
 
-        String valideLot = null;
+        String valideLot;
         String temp;
         String regex = "^(lot)\\d*";
         
