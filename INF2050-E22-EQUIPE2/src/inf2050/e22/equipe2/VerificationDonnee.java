@@ -117,7 +117,7 @@ public class VerificationDonnee {
         throws PrixValideException {
         String validePrix;
         String temp;
-        String regex = "\\d*[.]?\\d+\\$$";
+        String regex = "\\d*[.,]?\\d+\\$$";
         
         temp = prix.replaceAll(" ", "");
         

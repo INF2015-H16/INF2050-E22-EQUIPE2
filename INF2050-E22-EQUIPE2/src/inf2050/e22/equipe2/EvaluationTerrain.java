@@ -85,6 +85,7 @@ public class EvaluationTerrain implements IEvaluationTerrain {
     public double obtenirPrixMinimum(Terrain terrain)
             throws IOException, NullPointerException {
         return Double.parseDouble(terrain.getPrixMin()
+                .replaceAll(",",".")
                 .replaceAll(DECIMAL_ONLY, ""));
     }
 
@@ -92,6 +93,7 @@ public class EvaluationTerrain implements IEvaluationTerrain {
     public double obtenirPrixMaximum(Terrain terrain)
             throws IOException, NullPointerException {
         return Double.parseDouble(terrain.getPrixMax()
+                .replaceAll(",",".")
                 .replaceAll(DECIMAL_ONLY, ""));
     }
 
