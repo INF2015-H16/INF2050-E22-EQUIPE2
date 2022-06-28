@@ -48,7 +48,7 @@ public class ProjetDeSessionSprint1 {
                 //les prix max et min, les details du lotissement[description,
                 //les droits de passage, les services, les superficies
                 //et la date de mesure des differents lot])
-                String json = FileReaderException.loadFileIntoString(entree,
+                String json = LectureFichierException.loadFileIntoString(entree,
                 FILE_ENCODING);
 
                 EvaluationTerrain evaluation = new EvaluationTerrain();
@@ -101,7 +101,7 @@ public class ProjetDeSessionSprint1 {
                 
                 Utilitaire.afficherMessage(enteteRapport.toString(4));
 
-                FileWriterException.saveStringIntoFile(sortie,
+                EcritureFichierException.saveStringIntoFile(sortie,
                         enteteRapport.toString(4), FILE_ENCODING);
 
             } catch (IOException |NullPointerException e) {
