@@ -9,60 +9,120 @@ package inf2050.e22.equipe2;
  * @author akaff
  */
 public class GestionnaireMessage {
-    
-    public static final String PAS_DE_FICHIER_D_ENTREE
-            = "Le fichier d'entrée n'a pas été trouvé" ;
-    public static final String PAS_DE_FICHIER_DE_SORTIE 
-            = "Le fichier de sortie n'a pas été généré";
-    public static final String DROIT_PASSAGE_ABSENT
-            = "Le nombre de droit de passage a été omis";
-    public static final String DROIT_DE_PASSAGE_MIN
-            = "Le nombre de droit de passage est inférerieur à 0."
-            + "\n Il doit etre compris entre 0 et 10 inclusivement.";
-    public static final String DROIT_DE_PASSAGE_MAX
-            = "Le nombre de droit de passage est supérieur à 10."
-            +"\n Il doit etre compris entre 0 et 10 inclusivement.";
-    public static final String SERVICE_ABSENT 
-             = "Le nombre de service a été omis.";
-    public static final String SERVICE_MIN
-             = "Le nombre de service est inférieur à 0."
-             + "\n Il doit etre compris entre 0 et 5 inclusivement.";
-    public static final String SERVICE_MAX
-             = "Le nombre de service est supérieur à 5."
-             + "\n Il doit etre compris entre 0 et 5 inclusivement.";
-    public static final String TYPE_TERRAIN_ABSENT
-            = "Le type de terrain a été omis.";
-    public static final String TYPE_TERRAIN_INCORRECT
-            = "Le type de terrain ne peut prendre que les valeurs 0,1 ou 2";
-    public static final String LOT_MIN
-            = "Le terrain doit avoir au moins un lot";
-    public static final String LOT_MAX
-            = "Le nombre de lots est supérieur à 10."
-            + "\nIl doit etre d'au plus 10";
-    public static final String PRIX_MIN_ABSENT
-            =  "Le prix minimal a été omis.";
-    public static final String ERREUR_PRIX_MIX
-            = "Le prix minimum est négatif.\nVeuillez le corriger.";
-    public static final String PRIX_MAX_ABSENT
-            =  "Le prix maximal a été omis.";
-    public static final String ERREUR_PRIX_MAX
-            = "Le prix maximum est négatif.\nVeuillez le corriger.";
-    public static final String CONFLIT_PRIX 
-            = "Le prix maximum est inférieur au prix minimum."
-            + "\nVeuillez le corriger.";
-    public static final String SUPERFICIE_ABSENTE
-            = "La superficie est absente";
-    public static final String SUPERFICIE_MIN
-            = "La superficie est inférieure à 0.\nVeuillez la corriger";
-    public static final String SUPERFICIE_MAX
-            = "La superficie est supérieure à 50000m2."
-            + "\nElle doit etre d'au plus 50000m2";
-    public static final String DATE_ABSENTE
-            = "La date est absente";
-    public static final String DATE_INCORRECTE
-            = "La date doit etre sous le format YYYY-MM-DD.";
-    public static final String CONFLIT_LOTS
-            = "Attention doublons! Deux lots ont la meme description.";
-        
-       
+  
+    public static final String ERREUR_DONNEE_PAS_NOMBRE
+            = "Il existe une valeur qui n'est pas un entier dans le fichier." +
+            " Corriger le SVP !";
+    public static final String ERREUR_TYPE_TERRAIN_INFERIEURE
+            = "Le type du terrain est négatif." +
+            " Corriger le SVP !";
+    public static final String ERREUR_TYPE_TERRAIN_SUPERIEURE
+            = "Le type du terrain est supérieure à 2." +
+            " Corriger le SVP !";
+    public static final String ERREUR_DROIT_PASSAGE_INFERIEURE
+            = "Le nombre de droit de passage est négatif." +
+            " Corriger le SVP !";
+    public static final String ERREUR_DROIT_PASSAGE_SUPERIEURE
+            = "Le nombre de droit de passage est supérieure à 10." +
+            " Corriger le SVP !";
+    public static final String ERREUR_SERVICES_INFERIEURE
+            = "Le nombre de services est négatif." +
+            " Corriger le SVP !";
+    public static final String ERREUR_SERVICES_SUPERIEURE
+            = "Le nombre de services est supérieure à 5." +
+            " Corriger le SVP !";
+    public static final String ERREUR_NOMBRE_LOTS_INFERIEURE
+            = "Le nombre de lots est inférieur à 1." +
+            " Corriger le SVP !";
+    public static final String ERREUR_NOMBRE_LOTS_SUPERIEURE
+            = "Le nombre de lots est supérieure à 10." +
+            " Corriger le SVP !";
+    public static final String ERREUR_MONTANT_ARGENT_NEGATIF
+            = "Le montant d'argent est négatif." +
+            " Corriger le SVP !";
+    public static final String ERREUR_FORMAT_MONTANT_ARGENT
+            = "Le montant d'argent n'est pas au format NN.NN $." +
+            " Corriger le SVP !";
+    public static final String ERREUR_SUPERFICIE_INFERIEURE
+            = "La superficie est négative. Corriger le SVP !";
+    public static final String ERREUR_SUPERFICIE_SUPERIEURE
+            = "La superficie est supérieure à 50000." +
+            " Corriger le SVP !";
+    public static final String ERREUR_FORMAT_DATE
+            = "Le format de date n'est pas YYYY-MM-DD." +
+            " Corriger le SVP !";
+    public static final String ERREUR_FICHER_ENTREE
+            = "Aucun fichier 'entree.json' trouvé." +
+            " Vérifier le SVP !";
+    public static final String ERREUR_FICHIER_SORTIE
+            = "Le fichier de sortie ne peut être créer." +
+            " Corriger le SVP !";
+    public static final String ERREUR_DOCUMENT_JSON
+            = "Votre document JSON contient un libelle incorrect." +
+            " Corriger le SVP !";
+    public static final String ERREUR_DOCUMENT_JSON_VIDE
+            = "Votre document JSON vide. Ajouter des données SVP !";
+    public static final String ERREUR_DOCUMENT_JSON_DECHET
+            = "Votre document JSON contient des déchets." +
+            " Nettoyer le SVP !";
+    public static final String ERREUR_LOT_MULTIPLE
+            = "Il y a plusieurs descriptons de lot qui sont identiques." +
+            " Corriger le SVP !";
+    public static final String ERREUR_DESCRIPTION_LOT
+            = "La description n'est pas au format 'lot X' ou est vide." +
+            " Corriger le SVP !";
+
+    public static String choisirMessageTypeTerrain(int laDonnee,
+                                                   int borneInf,
+                                                   int borneSup) {
+        return choisirMessage(laDonnee, borneInf, borneSup,
+                ERREUR_TYPE_TERRAIN_INFERIEURE,
+                ERREUR_TYPE_TERRAIN_SUPERIEURE);
+    }
+
+    public static String choisirMessageDroitPassage(int laDonnee,
+                                                   int borneInf,
+                                                   int borneSup) {
+        return choisirMessage(laDonnee, borneInf, borneSup,
+                ERREUR_DROIT_PASSAGE_INFERIEURE,
+                ERREUR_DROIT_PASSAGE_SUPERIEURE);
+    }
+
+    public static String choisirMessageServies(int laDonnee,
+                                                    int borneInf,
+                                                    int borneSup) {
+        return choisirMessage(laDonnee, borneInf, borneSup,
+                ERREUR_SERVICES_INFERIEURE,
+                ERREUR_SERVICES_SUPERIEURE);
+    }
+
+    public static String choisirMessageNombreLots(int laDonnee,
+                                                    int borneInf,
+                                                    int borneSup) {
+        return choisirMessage(laDonnee, borneInf, borneSup,
+                ERREUR_NOMBRE_LOTS_INFERIEURE,
+                ERREUR_NOMBRE_LOTS_SUPERIEURE);
+    }
+
+    public static String choisirMessageSuperficie(int laDonnee,
+                                                    int borneInf,
+                                                    int borneSup) {
+        return choisirMessage(laDonnee, borneInf, borneSup,
+                ERREUR_SUPERFICIE_INFERIEURE,
+                ERREUR_SUPERFICIE_SUPERIEURE);
+    }
+
+    private static String choisirMessage(int laDonnee, int borneInf,
+                                        int borneSup, String messagePourInf,
+                                        String messagePourSup) {
+        String message = null;
+
+        if (laDonnee < borneInf) {
+            message = messagePourInf;
+        } else if (laDonnee > borneSup) {
+            message = messagePourSup;
+        }
+
+        return message;
+    }
 }
