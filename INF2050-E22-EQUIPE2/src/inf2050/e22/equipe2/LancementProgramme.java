@@ -31,12 +31,12 @@ public class LancementProgramme implements ILancementProgramme {
     private double leMontantTerrain;
     private double leMontantTaxeScolaire;
     private double leMontantTaxeMunicipale;
-    EvaluationTerrain evaluationTerrain;
-    EvaluationLot evaluationLot;
-    JSONObject rapport;
-    Terrain terrain;
-    ArrayList<Lotissement> lesLotissements;
-    LancementProgrammePresenter presenter;
+    private EvaluationTerrain evaluationTerrain;
+    private EvaluationLot evaluationLot;
+    private JSONObject rapport;
+    private Terrain terrain;
+    private ArrayList<Lotissement> lesLotissements;
+    private LancementProgrammePresenter presenter;
     private String donneeEntree;
 
     public LancementProgramme(String donneeEntree)
@@ -85,9 +85,19 @@ public class LancementProgramme implements ILancementProgramme {
 
     @Override
     public void getPrixMaximum()
-            throws PrixValideException, IntervallesValideException,
-            LotValideException, LectureFichierException, IOException {
+            throws PrixValideException, LotValideException,
+            IOException, IntervallesValideException,
+            LectureFichierException {
         lePrixMaximum = evaluationTerrain.obtenirPrixMaximum(terrain);
+        presenter.obtenirPrixMinPrixMaxVerifie();
+    }
+
+    @Override
+    public void getPrixMinPrixMaxVerifier()
+            throws PrixValideException, LotValideException,
+            IOException, IntervallesValideException, LectureFichierException {
+        VerificationDonnee.comparerPrixMinimumMaximum(lePrixMinimum,
+                lePrixMaximum);
         presenter.obtenirDonneeQuantiteLots();
     }
 
