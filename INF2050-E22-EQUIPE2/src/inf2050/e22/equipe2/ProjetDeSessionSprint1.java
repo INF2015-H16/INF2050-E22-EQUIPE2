@@ -92,8 +92,8 @@ public class ProjetDeSessionSprint1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String sortie = args[1];
         String entree = args[0];
+        String sortie = args[1];
 
         lancerLeProgramme(args, entree, sortie);
     }
