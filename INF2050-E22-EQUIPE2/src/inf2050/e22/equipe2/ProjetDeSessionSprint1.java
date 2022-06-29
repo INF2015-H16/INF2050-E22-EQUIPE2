@@ -24,7 +24,7 @@ import net.sf.json.JSONException;
  */
 
 public class ProjetDeSessionSprint1 {
-   
+
     private static boolean verifierParametreProgramme(String [] parametres)
             throws IOException {
         boolean estEnEntree;
@@ -56,15 +56,10 @@ public class ProjetDeSessionSprint1 {
         return donneFichier;
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        String sortie = args[1];
+    private static void lancerLeProgramme(String [] parametres,
+                                          String entree, String sortie) {
         try {
-            if (verifierParametreProgramme(args)) {
-                String entree = args[0];
-
+            if (verifierParametreProgramme(parametres)) {
                 String donneeEntree = gererDocumentJson(entree);
                 LancementProgramme lancementProgramme =
                         new LancementProgramme(donneeEntree);
@@ -91,6 +86,16 @@ public class ProjetDeSessionSprint1 {
             }
         }
 
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        String sortie = args[1];
+        String entree = args[0];
+
+        lancerLeProgramme(args, entree, sortie);
     }
 
 }
