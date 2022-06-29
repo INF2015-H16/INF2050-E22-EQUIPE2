@@ -61,6 +61,8 @@ public class GestionnaireMessage {
             = "La date est absente";
     public static final String DATE_INCORRECTE
             = "La date doit etre sous le format YYYY-MM-DD.";
+    public static final String CONFLIT_LOTS
+            = "Attention doublons! Deux lots ont la meme description.";
         
        
 }
