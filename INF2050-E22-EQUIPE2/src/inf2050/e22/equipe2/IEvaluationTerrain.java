@@ -4,8 +4,8 @@
  */
 package inf2050.e22.equipe2;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import net.sf.json.JSONObject;
 
 /**
  * Université du Québec à Montréal (UQAM)
@@ -27,18 +27,16 @@ import java.io.IOException;
 public interface IEvaluationTerrain {
 
     Terrain obtenirDonneesTerrain(String json, EvaluationLot lotissements)
-            throws FileNotFoundException, IOException,
-            NumberFormatException, IntervallesValideException,
-            PrixValideException;
+            throws IntervallesValideException, PrixValideException;
 
     int obtenirTypeTerrain(Terrain terrain)
             throws IOException, NullPointerException;
 
     double obtenirPrixMinimum(Terrain terrain)
-            throws IOException, NullPointerException;
+            throws IOException, NullPointerException, PrixValideException;
 
     double obtenirPrixMaximum(Terrain terrain)
-            throws IOException, NullPointerException;
+            throws IOException, NullPointerException, PrixValideException;
 
     double calculerTaxeScolaire(double montantTerrain)
             throws IOException, NullPointerException;
@@ -46,11 +44,13 @@ public interface IEvaluationTerrain {
     double calculerTaxeMunicipale(double montantTerrain)
             throws IOException;
 
-    void genererRapportEvaluation(String sortie, double montantTerrain,
-                                  double montantTaxeScolaire,
-                                  double montantTaxeMunicipale,
-                                  double [] montantsParLot,
-                                  String [] descriptions)
-            throws IOException, LotValideException;
+    JSONObject fournirRapportValide(double montantTerrain,
+                                    double montantTaxeScolaire,
+                                    double montantTaxeMunicipale,
+                                    double [] montantsParLot,
+                                    String [] descriptions)
+            throws IOException, LotValideException, LectureFichierException;
+
+    JSONObject fournirRapportErreur(String message);
 
 }
