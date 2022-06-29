@@ -24,25 +24,25 @@ public class VerificationDonnee {
 
     private final static int BORNE_INF_TERRAIN = 0;
     private final static int BORNE_SUP_TERRAIN = 2;
-
     private final static int BORNE_INF_DROIT_DE_PASSAGE = 0;
-
     private final static int BORNE_SUP_DROIT_DE_PASSAGE = 10;
     private static final int BORNE_INF_NOMBRE_DE_SERVICES = 0;
     private static final int BORNE_SUP_NOMBRE_DE_SERVICES = 5;
 
+    private static final int NOMBRE_LOTS_MAX = 10;
+
     public static boolean validerTypeTerrain(int type)
             throws IntervallesValideException {
 
-        boolean estValid = false;
+        boolean estValide;
         
         if (type < BORNE_INF_TERRAIN || type > BORNE_SUP_TERRAIN) {
             throw new IntervallesValideException();
         } else {
-            estValid = true;
+            estValide = true;
         }
         
-        return estValid;
+        return estValide;
     }
      
     public static int valeurEstInt(Object valeur)
@@ -206,5 +206,10 @@ public class VerificationDonnee {
         return nombreDeServicesValide;
     }
 
+
+    public static boolean verifierNombreDeLots(EvaluationLot lot){
+
+        return lot.obtenirNombreLot() < NOMBRE_LOTS_MAX;
+    }
 
 }
