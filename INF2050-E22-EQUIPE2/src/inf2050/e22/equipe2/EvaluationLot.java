@@ -148,7 +148,7 @@ public class EvaluationLot implements IEvaluationLot{
         for(int i = 0; i<list.size(); i++) {
             JSONObject plusieursLot = list.getJSONObject(i);
 
-            Lotissement lot = obtenirPourPlusieur(plusieursLot);
+            Lotissement lot = obtenirPourPlusieurs(plusieursLot);
 
             mesLotissements.add(lot);
         }
@@ -157,7 +157,7 @@ public class EvaluationLot implements IEvaluationLot{
 
     }
 
-    private Lotissement obtenirPourPlusieur(JSONObject plusieursLot)
+    private Lotissement obtenirPourPlusieurs(JSONObject plusieursLot)
             throws LotValideException {
 
         String description = VerificationDonnee
@@ -169,7 +169,7 @@ public class EvaluationLot implements IEvaluationLot{
         int nombreService = VerificationDonnee
                 .valeurEstInt(plusieursLot
                         .getInt(ETIQUETTE_SERVICES));
-        int superfice = VerificationDonnee
+        int superficie = VerificationDonnee
                 .valeurEstInt(plusieursLot
                         .getInt(ETIQUETTE_SUPERFICIE));
         String dateMesure = VerificationDonnee
@@ -177,7 +177,7 @@ public class EvaluationLot implements IEvaluationLot{
                         .getString(ETIQUETTE_DATE_MESURE));
 
         return new Lotissement(description, nombreDroitPassage,
-                nombreService, superfice, dateMesure);
+                nombreService, superficie, dateMesure);
 
     }
 

@@ -87,8 +87,8 @@ public class ProjetDeSessionSprint1 {
                         .calculerValeurParLot(montantsLot,
                                 montantsPassage, montantsService);
 
-                //Calculer la valeur fonciere et la taxe scolaire
-                //et la taxe municiple qui vont avec
+                //Calculer la valeur foncière et la taxe scolaire
+                //et la taxe municipale qui vont avec
                 double montantTerrain = evaluationLot
                         .calculerValeurFonciere(montantsParLot);
                 double montantTaxeScolaire = evaluation

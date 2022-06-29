@@ -4,6 +4,7 @@
  */
 package inf2050.e22.equipe2;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,13 +17,17 @@ import java.util.Set;
  * la validation de toutes les données en entrée du programme.
  *
  * @author Aurélien Tcheuffa Kemayou / Sidopz
- * @version Mai 2022
+ * @version Juin 2022
  *
  */
 public class VerificationDonnee {
 
     private final static int BORNE_INF_TERRAIN = 0;
     private final static int BORNE_SUP_TERRAIN = 2;
+
+    private final static int BORNE_INF_DROIT_DE_PASSAGE = 0;
+
+    private final static int BORNE_SUP_DROIT_DE_PASSAGE = 10;
     
      public static boolean validerTypeTerrain(int type)
             throws IntervallesValideException {
@@ -65,8 +70,8 @@ public class VerificationDonnee {
     }
 
     /**
-     * This is our best attempt to get a race condition
-     * that checks for a date in the format "YYYY-MM-DD".
+     * Ceci est notre meilleure tentative d'obtention
+     * d'une condition qui vérifie une date au format "YYYY-MM-DD".
      */
     private static boolean validerDate(String date) {
         boolean valideDate;
@@ -165,4 +170,16 @@ public class VerificationDonnee {
         return estValide;
     }
 
+    public static boolean verifierDroitDePassage(EvaluationLot lot) throws IOException {
+
+        boolean droitDePassageValide = true;
+
+        for (int i = 0; i < lot.obtenirNombreDroitPassage().length ; i++)
+        if (lot.obtenirNombreDroitPassage()[i] < BORNE_INF_DROIT_DE_PASSAGE &&
+                lot.obtenirNombreDroitPassage()[i] > BORNE_SUP_DROIT_DE_PASSAGE){
+            droitDePassageValide = false;
+        }
+
+        return droitDePassageValide;
+    }
 }
