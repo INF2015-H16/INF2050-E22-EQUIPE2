@@ -128,14 +128,14 @@ public class EvaluationLot implements IEvaluationLot{
                         .getInt(ETIQUETTE_DROIT_PASSAGE));
         int nombreService = VerificationDonnee
                 .valeurEstInt(uniqueLot.getInt(ETIQUETTE_SERVICES));
-        int superfice = VerificationDonnee
+        int superficie = VerificationDonnee
                 .valeurEstInt(uniqueLot.getInt(ETIQUETTE_SUPERFICIE));
         String dateMesure = VerificationDonnee
                 .validerDateMesure(uniqueLot
                         .getString(ETIQUETTE_DATE_MESURE));
 
         Lotissement lot = new Lotissement(description, nombreDroitPassage,
-                nombreService, superfice, dateMesure);
+                nombreService, superficie, dateMesure);
                 mesLotissements.add(lot);
 
         return mesLotissements;
