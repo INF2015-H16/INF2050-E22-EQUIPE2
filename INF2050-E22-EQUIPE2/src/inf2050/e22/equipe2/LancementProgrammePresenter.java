@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class LancementProgrammePresenter {
 
-    ILancementProgramme iLancementProgramme;
+    private ILancementProgramme iLancementProgramme;
 
     public LancementProgrammePresenter(ILancementProgramme iLancementProgramme) {
         this.iLancementProgramme = iLancementProgramme;
@@ -46,6 +46,12 @@ public class LancementProgrammePresenter {
             IntervallesValideException, LotValideException,
             LectureFichierException, IOException {
         iLancementProgramme.getPrixMaximum();
+    }
+
+    public void  obtenirPrixMinPrixMaxVerifie() throws PrixValideException,
+            LotValideException, IOException, IntervallesValideException,
+            LectureFichierException {
+        iLancementProgramme.getPrixMinPrixMaxVerifier();
     }
 
     public void obtenirDonneeQuantiteLots()
