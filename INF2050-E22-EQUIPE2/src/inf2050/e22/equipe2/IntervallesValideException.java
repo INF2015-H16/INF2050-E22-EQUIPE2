@@ -5,12 +5,12 @@
 package inf2050.e22.equipe2;
 
 public class IntervallesValideException extends Exception {
-    
+
     public IntervallesValideException () {
-        
+
     }
-    
+
     public IntervallesValideException (String message) {
-        super(message);  
+        super(message);
     }
 }
