@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author akaff
  */
 public interface ILancementProgramme {
-  
+
     void getLesLotissements(String json) throws LotValideException,
             IntervallesValideException, PrixValideException,
             LectureFichierException, IOException;
@@ -30,7 +30,9 @@ public interface ILancementProgramme {
     void getPrixMaximum() throws PrixValideException,
             IntervallesValideException, LotValideException,
             LectureFichierException, IOException;
-
+    void getPrixMinPrixMaxVerifier() throws PrixValideException,
+            LotValideException, IOException, IntervallesValideException,
+            LectureFichierException;
     void getQuantiteLots() throws IntervallesValideException,
             LotValideException, LectureFichierException,
             IOException;
