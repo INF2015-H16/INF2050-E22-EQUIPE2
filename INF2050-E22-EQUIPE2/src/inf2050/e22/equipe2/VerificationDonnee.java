@@ -85,7 +85,7 @@ public class VerificationDonnee {
         }
         return document;
     }
-
+    
     public static String verifierContenuFichierTerrain(String fichier) {
         String document;
         JSONObject structureContenu = JSONObject.fromObject(fichier);
@@ -385,6 +385,19 @@ public class VerificationDonnee {
         return validePrix;
     }
 
+    public static boolean comparerPrixMinimumMaximum(double prixMin,
+                                                      double prixMax)
+            throws PrixValideException {
+        boolean estValide;
+        if (prixMin > prixMax) {
+            throw new PrixValideException(GestionnaireMessage
+                    .ERREUR_CONFLIT_PRIX);
+        } else {
+            estValide = true;
+        }
+        return estValide;
+    }
+
     public static String validerDescriptionLot(String descriptionLot)
             throws LotValideException {
 
@@ -410,7 +423,7 @@ public class VerificationDonnee {
             final Set<String> listLots = new HashSet<>();
             if (!listLots.add(lot.trim())) {
                 throw new LotValideException(GestionnaireMessage
-                        .ERREUR_LOT_MULTIPLE);
+                        .ERREUR_CONFLIT_LOTS);
             } else {
                 estValide = true;
             }
