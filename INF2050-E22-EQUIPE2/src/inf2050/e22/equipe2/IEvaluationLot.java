@@ -4,55 +4,71 @@
  */
 package inf2050.e22.equipe2;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public interface IEvaluationLot {
 
-    int obtenirNombreLot();
+    int obtenirNombreLot(ArrayList<Lotissement> lotissements)
+            throws IntervallesValideException;
 
     ArrayList<Lotissement> obtenirDonneesLot()
-            throws FileNotFoundException, IOException,
-            NumberFormatException, LotValideException;
+            throws IOException,
+            NumberFormatException, LotValideException,
+            IntervallesValideException;
 
-    String[] obtenirDescription()
-            throws IOException, NullPointerException;
+    String[] obtenirDescription(ArrayList<Lotissement> lotissements)
+            throws IOException, NullPointerException,
+            IntervallesValideException;
 
-    int [] obtenirNombreDroitPassage()
-            throws IOException, NullPointerException;
+    int [] obtenirNombreDroitPassage(ArrayList<Lotissement> lotissements)
+            throws IOException, NullPointerException,
+            IntervallesValideException;
 
-    int [] obtenirNombreService()
-            throws IOException, NullPointerException;
+    int [] obtenirNombreService(ArrayList<Lotissement> lotissements)
+            throws IOException, NullPointerException,
+            IntervallesValideException;
 
 
-    int [] obtenirSuperficie()
-            throws IOException, NullPointerException;
+    int [] obtenirSuperficie(ArrayList<Lotissement> lotissements)
+            throws IOException, NullPointerException,
+            IntervallesValideException;
 
-    String [] obtenirDateMesure()
-            throws IOException, NullPointerException;
+    String [] obtenirDateMesure(ArrayList<Lotissement> lotissements)
+            throws IOException, NullPointerException,
+            IntervallesValideException;
 
-    double [] calculerMontantLot(int idTerrain, int [] superficies,
-            double prixMinimum,
-                                        double prixMaximum)
-            throws IOException, NullPointerException;
+    double [] calculerMontantLot(int idTerrain,
+                                 int [] superficies,
+                                 double prixMinimum,
+                                 double prixMaximum,
+                                 ArrayList<Lotissement> lotissements)
+            throws IOException, NullPointerException,
+            IntervallesValideException;
 
     double [] calculerDroitPassage(int idTerrain, int [] passages,
-            double [] montantsLot)
-            throws IOException, NullPointerException;
+                                   double [] montantsLot,
+                                   ArrayList<Lotissement> lotissements)
+            throws IOException, NullPointerException,
+            IntervallesValideException;
 
     double [] calculerMontantService(int idTerrain,
-            int [] superficies, int [] services) throws IOException,
-            NullPointerException;
+                                     int [] superficies,
+                                     int [] services,
+                                     ArrayList<Lotissement> lotissements)
+            throws IOException, NullPointerException,
+            IntervallesValideException;
 
     double [] calculerValeurParLot(double [] montantsLot,
-            double [] montantsPassage,
-                                   double [] montantsService)
+                                   double [] montantsPassage,
+                                   double [] montantsService,
+                                   ArrayList<Lotissement> lotissements)
             throws IOException,
-            NullPointerException;
+            NullPointerException, IntervallesValideException;
 
-    double calculerValeurFonciere(double [] montantsParLot)
+    double calculerValeurFonciere(double [] montantsParLot,
+                                  ArrayList<Lotissement> lotissements)
             throws IOException,
-            NullPointerException;
+            NullPointerException, IntervallesValideException;
 
 }
