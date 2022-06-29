@@ -172,31 +172,39 @@ public class VerificationDonnee {
         return estValide;
     }
 
-    public static boolean verifierDroitDePassage(EvaluationLot lot) throws IOException {
+    public static boolean verifierDroitDePassage(EvaluationLot lot)
+            throws IntervallesValideException, IOException {
 
-        boolean droitDePassageValide = true;
+        boolean droitDePassageValide = false;
 
         for (int i = 0; i < lot.obtenirNombreDroitPassage().length ; i++){
-            if (lot.obtenirNombreDroitPassage()[i] < BORNE_INF_DROIT_DE_PASSAGE &&
+            if (lot.obtenirNombreDroitPassage()[i] < BORNE_INF_DROIT_DE_PASSAGE ||
                     lot.obtenirNombreDroitPassage()[i] > BORNE_SUP_DROIT_DE_PASSAGE){
-                droitDePassageValide = false;
+                throw new IntervallesValideException();
+            } else {
+                droitDePassageValide = true;
             }
         }
 
         return droitDePassageValide;
     }
 
-    public static boolean verifierNombreDeServices(EvaluationLot lot) throws IOException{
+    public static boolean verifierNombreDeServices(EvaluationLot lot)
+            throws IntervallesValideException, IOException{
 
-        boolean nombreDeServicesValide = true;
+        boolean nombreDeServicesValide = false;
 
         for (int i = 0; i < lot.obtenirNombreService().length ; i++){
-            if (lot.obtenirNombreService()[i] < BORNE_INF_NOMBRE_DE_SERVICES &&
+            if (lot.obtenirNombreService()[i] < BORNE_INF_NOMBRE_DE_SERVICES ||
                     lot.obtenirNombreService()[i] > BORNE_SUP_NOMBRE_DE_SERVICES){
-                nombreDeServicesValide = false;
+                throw new IntervallesValideException();
+            } else {
+                nombreDeServicesValide = true;
             }
         }
 
         return nombreDeServicesValide;
     }
+
+
 }
