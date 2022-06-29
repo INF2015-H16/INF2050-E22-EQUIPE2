@@ -36,9 +36,12 @@ public class ProjetDeSessionSprint1 {
         String entree;
         String sortie;
 
-        if (args.length == 0) {
+        if (args.length < 2) {
             Utilitaire.afficherMessage(
                     "\nAucune entrée et/ou sortie trouvée.\n");
+        } else if (args.length > 2){
+            Utilitaire.afficherMessage(
+                    "\nIl y a trop d'arguments inscrits au lancement du programme\n");
         } else {
             entree = args[0];
             sortie = args[1];
