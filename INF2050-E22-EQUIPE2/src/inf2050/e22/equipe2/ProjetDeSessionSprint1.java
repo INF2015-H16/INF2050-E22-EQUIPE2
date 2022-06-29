@@ -6,7 +6,6 @@ package inf2050.e22.equipe2;
 
 import java.io.IOException;
 import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
 
 
 /**
@@ -25,109 +24,73 @@ import net.sf.json.JSONObject;
  */
 
 public class ProjetDeSessionSprint1 {
-    
-    public final static String FILE_ENCODING = "UTF-8";
-    
+   
+    private static boolean verifierParametreProgramme(String [] parametres)
+            throws IOException {
+        boolean estEnEntree;
+        if (parametres.length == 0) {
+            throw new IOException(GestionnaireMessage.
+                    ERREUR_FICHER_ENTREE);
+
+        } else {
+            estEnEntree = true;
+        }
+        return estEnEntree;
+    }
+
+    private static String gererDocumentJson(String entree) {
+        String donneFichier = null;
+
+        try {
+            String fichier = VerificationDonnee.chargerDonneeDeFichier(entree,
+                    LancementProgramme.ENCODAGE_DE_FICHIER);
+            String donnee = VerificationDonnee.
+                    verifierPresenceDonnees(fichier);
+            donneFichier = VerificationDonnee.
+                    verifierContenuFichierTerrain(donnee);
+        } catch (IOException
+                 | NumberFormatException
+                 | NullPointerException e) {
+                Utilitaire.afficherMessage(e.getMessage());
+        }
+        return donneFichier;
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //Déclaration des variables
-        String entree;
-        String sortie;
+        String sortie = args[1];
+        try {
+            if (verifierParametreProgramme(args)) {
+                String entree = args[0];
 
-        if (args.length < 2) {
-            Utilitaire.afficherMessage(
-                    "\nAucune entrée et/ou sortie trouvée.\n");
-        } else if (args.length > 2){
-            Utilitaire.afficherMessage(
-                    "\nIl y a trop d'arguments inscrits au lancement du programme\n");
-        } else {
-            entree = args[0];
-            sortie = args[1];
-
-            try {
-                // Lire les informations sur le terrain(type de terrain,
-                //les prix max et min, les details du lotissement[description,
-                //les droits de passage, les services, les superficies
-                //et la date de mesure des differents lot])
-                String json = LectureFichierException.loadFileIntoString(entree,
-                FILE_ENCODING);
-
-                EvaluationTerrain evaluation = new EvaluationTerrain();
-                EvaluationLot evaluationLot = new EvaluationLot(json);
-                evaluationLot.setLotissements(evaluationLot.getLotissements());
-
-                Terrain terrain = evaluation.obtenirDonneesTerrain(json,
-                        evaluationLot);
-                int idTerrain = evaluation.obtenirTypeTerrain(terrain);
-                double prixMinimum = evaluation.obtenirPrixMinimum(terrain);
-                double prixMaximum = evaluation.obtenirPrixMaximum(terrain);
-
-                String [] descriptions = evaluationLot.getDescriptions();
-                int [] passages = evaluationLot.getPassages();
-                int [] services = evaluationLot.getServices();
-                int [] superficies = evaluationLot.getSuperficies();
-                String [] dates = evaluationLot.getDates();
-
-                //Calculer les différents montants de lots
-                //de droit de passage et montant de service
-                double [] montantsLot = evaluationLot
-                        .calculerMontantLot(idTerrain, superficies,
-                                prixMinimum, prixMaximum);
-                double [] montantsPassage = evaluationLot
-                        .calculerDroitPassage(idTerrain,
-                                passages, montantsLot);
-                double [] montantsService = evaluationLot
-                        .calculerMontantService(idTerrain,
-                                superficies, services);
-
-                //Calculer les différents montants par lots
-                double [] montantsParLot = evaluationLot
-                        .calculerValeurParLot(montantsLot,
-                                montantsPassage, montantsService);
-
-                //Calculer la valeur foncière et la taxe scolaire
-                //et la taxe municipale qui vont avec
-                double montantTerrain = evaluationLot
-                        .calculerValeurFonciere(montantsParLot);
-                double montantTaxeScolaire = evaluation
-                        .calculerTaxeScolaire(montantTerrain);
-                double montantTaxeMunicipale = evaluation
-                        .calculerTaxeMunicipale(montantTerrain);
-
-                //Afficher le rapport de l'évaluation
-                JSONObject enteteRapport = evaluation
-                        .fournirRapportValide(montantTerrain,
-                                montantTaxeScolaire, montantTaxeMunicipale,
-                                montantsParLot, descriptions);
-                
-                Utilitaire.afficherMessage(enteteRapport.toString(4));
-
-                EcritureFichierException.saveStringIntoFile(sortie,
-                        enteteRapport.toString(4), FILE_ENCODING);
-
-            } catch (IOException |NullPointerException e) {
-                Utilitaire.afficherMessage(
-                        "\nAucune entrée et/ou sortie trouvée.\n");
-            } catch (NumberFormatException e) {
-                Utilitaire.afficherMessage(
-                        "\nMessage à trouveré...\n");
-            } catch (IntervallesValideException e) {
-                Utilitaire.afficherMessage(
-                        "\nMessage à trouveré...\n");
-            } catch (PrixValideException e) {
-                Utilitaire.afficherMessage(
-                        "\nMessage à trouveré...\n");
-            } catch (LotValideException e) {
-                Utilitaire.afficherMessage(
-                        "\nMessage à trouveré...\n");
-            } catch (JSONException e) {
-                Utilitaire.afficherMessage(
-                        "\nVérifier les données entrées !.\n");
+                String donneeEntree = gererDocumentJson(entree);
+                LancementProgramme lancementProgramme =
+                        new LancementProgramme(donneeEntree);
+                lancementProgramme.enregisterRapportDansFichier(sortie);
             }
 
+        } catch (IOException
+                 | NullPointerException
+                 | NumberFormatException
+                 | LotValideException
+                 | JSONException
+                 | PrixValideException
+                 | IntervallesValideException
+                 | LectureFichierException e) {
+            Utilitaire.afficherMessage(e.getMessage());
+            try {
+                VerificationDonnee.enregistrerDonneeDansFichier(sortie,
+                        e.getMessage(), LancementProgramme.
+                                ENCODAGE_DE_FICHIER);
+            } catch (NumberFormatException
+                     | LectureFichierException
+                     | IOException ex) {
+                Utilitaire.afficherMessage(ex.getMessage());
+            }
         }
+
     }
 
 }
