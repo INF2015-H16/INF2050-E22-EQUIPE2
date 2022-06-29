@@ -4,16 +4,13 @@
  */
 package inf2050.e22.equipe2;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import org.apache.commons.io.IOUtils;
+public class LectureFichierException extends Exception {
 
-public class LectureFichierException {
-
-    public static String loadFileIntoString(String filePath,
-            String fileEncoding)
-            throws FileNotFoundException, IOException {
-        return IOUtils.toString(new FileInputStream(filePath), fileEncoding);
+    public LectureFichierException() {
     }
+
+    public LectureFichierException(String message) {
+        super(message);
+    }
+
 }
