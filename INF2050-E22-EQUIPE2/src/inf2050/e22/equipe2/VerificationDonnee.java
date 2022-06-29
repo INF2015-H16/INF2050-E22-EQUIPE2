@@ -4,9 +4,16 @@
  */
 package inf2050.e22.equipe2;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Université du Québec à Montréal (UQAM)
@@ -22,58 +29,289 @@ import java.util.Set;
  */
 public class VerificationDonnee {
 
-    private final static int BORNE_INF_TERRAIN = 0;
-    private final static int BORNE_SUP_TERRAIN = 2;
-    private final static int BORNE_INF_DROIT_DE_PASSAGE = 0;
-    private final static int BORNE_SUP_DROIT_DE_PASSAGE = 10;
-    private static final int BORNE_INF_NOMBRE_DE_SERVICES = 0;
-    private static final int BORNE_SUP_NOMBRE_DE_SERVICES = 5;
+    public static final int SUPERFICIE_MAXIMALE = 50000;
+    public static final int SUPERFICIE_MINIMALE = 0;
+    public static final int NOMBRE_MAXIMAL_LOT = 10;
+    public static final int NOMBRE_MINIMAL_LOT = 1;
+    private final static int BORNE_INFERIEURE_TERRAIN = 0;
+    private final static int BORNE_SUPERIEURE_TERRAIN = 2;
+    private final static int BORNE_INFERIEURE_DROIT_PASSAGE = 0;
+    private final static int BORNE_SUPERIEURE_DROIT_PASSAGE = 10;
+    private final static int BORNE_INFERIEURE_SERVICE = 0;
+    private final static int BORNE_SUPERIEURE_SERVICE = 5;
 
-    private static final int NOMBRE_LOTS_MAX = 10;
+    private final static Object [] LIBELLE_FICHIER_ENTREE_TERRAIN
+            = {EvaluationTerrain.ETIQUETTE_TYPE_TERRAIN,
+            EvaluationTerrain.ETIQUETTE_PRIX_M2_MIN,
+            EvaluationTerrain.ETIQUETTE_PRIX_M2_MAX,
+            EvaluationTerrain.ETIQUETTE_LOTISSEMENTS};
 
-    public static boolean validerTypeTerrain(int type)
-            throws IntervallesValideException {
+    private final static Object [] LIBELLE_FICHIER_ENTREE_LOT
+            = {EvaluationTerrain.ETIQUETTE_DESCRIPTION,
+            EvaluationLot.ETIQUETTE_DROIT_PASSAGE,
+            EvaluationLot.ETIQUETTE_SERVICES,
+            EvaluationLot.ETIQUETTE_SUPERFICIE,
+            EvaluationLot.ETIQUETTE_DATE_MESURE};
+    public static final String REGEX_POUR_LOT = "^("
+            + EvaluationLot.ETIQUETTE_LOT + ")\\d*";
+    public static final String REGEX_POUR_PRIX = "\\d*[,.]?\\d+\\$$";
+    public static final String REGEX_POUR_DATE = "((?:19|20)[0-9][0-9])"
+            +  "(0?[1-9]|1[012])(0?[1-9]|[12][0-9]|3[01])";
 
+    public static String chargerDonneeDeFichier(String filePath,
+                                                String fileEncoding)
+            throws IOException {
+        File file = new File(filePath);
+        String fichier;
+        if (!file.exists()) {
+            throw new IOException(GestionnaireMessage
+                    .ERREUR_FICHER_ENTREE);
+        } else {
+            fichier = IOUtils.toString(new FileInputStream(filePath),
+                    fileEncoding);
+        }
+
+        return fichier;
+    }
+
+    public static String verifierPresenceDonnees(String fichier)
+            throws NullPointerException {
+        String document;
+        if (fichier.equals("")) {
+            throw new NullPointerException(GestionnaireMessage
+                    .ERREUR_DOCUMENT_JSON_VIDE);
+        } else {
+            document = fichier;
+        }
+        return document;
+    }
+
+    public static String verifierContenuFichierTerrain(String fichier) {
+        String document;
+        JSONObject structureContenu = JSONObject.fromObject(fichier);
+        if (!creerListLibelleTerrain(structureContenu)
+                .equals(creerListLibelleTerrainOrigin())) {
+            throw new JSONException(GestionnaireMessage
+                    .ERREUR_DOCUMENT_JSON);
+
+        } else {
+            document = fichier;
+        }
+
+        return document;
+    }
+
+    private static ArrayList<String> creerListLibelleTerrain(
+            JSONObject enteteTerrain) {
+        ArrayList<String> lesLibelles = new ArrayList<>();
+        for (Object libelle : enteteTerrain.keySet()) {
+            String racine = (String) libelle;
+            lesLibelles.add(racine);
+        }
+
+        return lesLibelles;
+    }
+
+    private static ArrayList<String> creerListLibelleTerrainOrigin() {
+        ArrayList<String> lesLibelles = new ArrayList<>();
+
+        for (Object libelle : LIBELLE_FICHIER_ENTREE_TERRAIN) {
+            String racine = (String) libelle;
+            lesLibelles.add(racine);
+        }
+
+        return lesLibelles;
+    }
+
+    public static boolean verifierContenuFichierLot(JSONObject fichier)
+            throws JSONException {
         boolean estValide;
-        
-        if (type < BORNE_INF_TERRAIN || type > BORNE_SUP_TERRAIN) {
-            throw new IntervallesValideException();
+
+        if (!creerListLibelleLot(fichier).equals(creerListLibelleLotOrigine())) {
+            throw new JSONException(GestionnaireMessage
+                    .ERREUR_DOCUMENT_JSON);
         } else {
             estValide = true;
         }
-        
+
         return estValide;
     }
-     
-    public static int valeurEstInt(Object valeur)
-            throws NumberFormatException{
+
+    private static ArrayList<Object> creerListLibelleLot(
+            JSONObject typeLibelle) {
+        ArrayList<Object> lesLibelles = new ArrayList<>();
+
+        for (Object libelle : typeLibelle.keySet()) {
+            String racine = (String) libelle;
+            lesLibelles.add(racine);
+
+        }
+
+        return lesLibelles;
+    }
+
+    private static ArrayList<String> creerListLibelleLotOrigine() {
+        ArrayList<String> lesLibelles = new ArrayList<>();
+
+        for (Object libelle : LIBELLE_FICHIER_ENTREE_LOT) {
+            String racine = (String) libelle;
+            lesLibelles.add(racine);
+        }
+
+        return lesLibelles;
+    }
+
+    public static void enregistrerDonneeDansFichier(String filePath,
+                                                    String contentToSave,
+                                                    String fileEncoding)
+            throws LectureFichierException, IOException {
+        File file = new File(filePath);
+
+        if (estPasCheminValide(filePath, fileEncoding)) {
+            throw new LectureFichierException(GestionnaireMessage
+                    .ERREUR_FICHIER_SORTIE);
+        } else {
+            FileUtils.writeStringToFile(file, contentToSave, fileEncoding);
+        }
+    }
+
+    private static boolean estPasCheminValide(String filePath,
+                                              String fileEncoding) {
+        return filePath == null || fileEncoding == null;
+    }
+
+    public static int validerTypeTerrain(int type)
+            throws IntervallesValideException {
+        int typeTerrain;
+
+        if (estPasTypeTerrainValide(type)) {
+            throw new IntervallesValideException(GestionnaireMessage
+                    .choisirMessageTypeTerrain(type, BORNE_INFERIEURE_TERRAIN,
+                            BORNE_SUPERIEURE_TERRAIN));
+        } else {
+            typeTerrain = type;
+        }
+
+        return typeTerrain;
+    }
+
+    private static int valeurEstInt(Object valeur)
+            throws JSONException {
         int nombre;
-        
+
         if (valeur instanceof Integer) {
             nombre = (Integer) valeur;
         } else {
-            throw new NumberFormatException();
+            throw new JSONException(
+                    GestionnaireMessage.ERREUR_DONNEE_PAS_NOMBRE);
         }
-        
+
         return nombre;
+    }
+
+    private static boolean estPasTypeTerrainValide(int type) {
+        return type < BORNE_INFERIEURE_TERRAIN
+                || type > BORNE_SUPERIEURE_TERRAIN;
+    }
+
+    public static boolean validerNombreLot(int lot)
+            throws IntervallesValideException {
+        boolean estQuantiteLotValide;
+
+        if (estPasNombreLotValide(lot)) {
+            throw new IntervallesValideException(GestionnaireMessage
+                    .choisirMessageNombreLots(lot, NOMBRE_MINIMAL_LOT,
+                            NOMBRE_MAXIMAL_LOT));
+        } else {
+            estQuantiteLotValide = true;
+        }
+
+        return estQuantiteLotValide;
+    }
+
+    private static boolean estPasNombreLotValide(int lot) {
+        return lot < NOMBRE_MINIMAL_LOT || lot > NOMBRE_MAXIMAL_LOT;
+    }
+
+    public static int validerNombreDroitPassage(int droit)
+            throws IntervallesValideException {
+        int droitPassage;
+
+        if (estPasNombreDroitValide(droit)) {
+            throw new IntervallesValideException(GestionnaireMessage
+                    .choisirMessageDroitPassage(droit,
+                            BORNE_INFERIEURE_DROIT_PASSAGE,
+                            BORNE_SUPERIEURE_DROIT_PASSAGE));
+        } else {
+            droitPassage = droit;
+        }
+
+        return droitPassage;
+    }
+
+    private static boolean estPasNombreDroitValide(int droit) {
+        return droit < BORNE_INFERIEURE_DROIT_PASSAGE
+                || droit > BORNE_SUPERIEURE_DROIT_PASSAGE;
+    }
+
+    public static int validerNombreService(int service)
+            throws IntervallesValideException {
+        int nombreService;
+
+        if (estPasNombreServiceValide(service)) {
+            throw new IntervallesValideException(GestionnaireMessage
+                    .choisirMessageServies(service, BORNE_INFERIEURE_SERVICE,
+                            BORNE_SUPERIEURE_SERVICE));
+        } else {
+            nombreService = service;
+        }
+
+        return nombreService;
+    }
+
+    private static boolean estPasNombreServiceValide(int service) {
+        return service < BORNE_INFERIEURE_SERVICE
+                || service > BORNE_SUPERIEURE_SERVICE;
+    }
+
+    public static int validerSuperficie(int superficie)
+            throws IntervallesValideException {
+        int laSuperficie;
+
+        if (estPasSuperficieValide(superficie)) {
+            throw new IntervallesValideException(GestionnaireMessage
+                    .choisirMessageSuperficie(superficie,
+                    SUPERFICIE_MINIMALE, SUPERFICIE_MAXIMALE));
+        } else {
+            laSuperficie = superficie;
+        }
+
+        return laSuperficie;
+    }
+
+    private static boolean estPasSuperficieValide(int superficie) {
+        return superficie < SUPERFICIE_MINIMALE
+                || superficie > SUPERFICIE_MAXIMALE;
     }
 
     public static String validerDateMesure(String date)
             throws NumberFormatException{
         String dateValide;
-        
-            if (!validerDate(date)) {
-                throw new NumberFormatException();
-            } else {
-                dateValide = date;
-            }
-            
+
+        if (!validerDate(date)) {
+            throw new NumberFormatException(GestionnaireMessage
+                    .ERREUR_FORMAT_DATE);
+        } else {
+            dateValide = date;
+        }
+
         return dateValide;
     }
 
     /**
-     * Ceci est notre meilleure tentative d'obtention
-     * d'une condition qui vérifie une date au format "YYYY-MM-DD".
+     * Il s'agit de notre meilleure tentative pour obtenir
+     * une condition de concurrence qui recherche une date
+     * au format "AAAA-MM-JJ".
      */
     private static boolean validerDate(String date) {
         boolean valideDate;
@@ -91,10 +329,9 @@ public class VerificationDonnee {
 
     private static boolean verifierExistTiret(String date) {
         boolean valideDate;
-        String temp;
 
         if (date.charAt(4) == '-' && date.charAt(7) == '-') {
-            temp = date.replaceAll("[-]", "");
+            String temp = date.replaceAll("[-]", "");
             valideDate = validerDateAvecRegex(temp);
 
         } else {
@@ -107,109 +344,79 @@ public class VerificationDonnee {
 
     private static boolean validerDateAvecRegex(String temp) {
         boolean valideDate;
-        String regex = "((?:19|20)[0-9][0-9])(0?[1-9]|1[012])"
-                + "(0?[1-9]|[12][0-9]|3[01])";
 
         if (temp.length() != 8) {
             valideDate = false;
 
         } else {
-            valideDate = temp.matches(regex);
+            valideDate = temp.matches(REGEX_POUR_DATE);
 
         }
         return valideDate;
     }
 
-    public static String validerPrix(String prix)
-        throws PrixValideException {
+    public static String verifierPrixNegatif(String prix)
+            throws PrixValideException {
         String validePrix;
-        String temp;
-        String regex = "\\d*[.,]?\\d+\\$$";
-        
-        temp = prix.replaceAll(" ", "");
-        
-        if (!temp.matches(regex)) {
-            throw new PrixValideException();
+        char premierCaractere = prix.charAt(0);
+
+        if (premierCaractere == '-') {
+            throw new PrixValideException(GestionnaireMessage
+                    .ERREUR_MONTANT_ARGENT_NEGATIF);
         } else {
             validePrix = prix;
         }
-        
+
         return validePrix;
     }
-    
+
+    public static String validerPrix(String prix)
+            throws PrixValideException {
+        String validePrix;
+        String temp = prix.replaceAll(" ", "");
+
+        if (!temp.matches(REGEX_POUR_PRIX)) {
+            throw new PrixValideException(GestionnaireMessage
+                    .ERREUR_FORMAT_MONTANT_ARGENT);
+        } else {
+            validePrix = prix;
+        }
+
+        return validePrix;
+    }
+
     public static String validerDescriptionLot(String descriptionLot)
             throws LotValideException {
 
         String valideLot;
-        String temp;
-        String regex = "^(lot)\\d*";
-        
-        temp = descriptionLot.trim().replaceAll(" ", "");
-        
-        if (!temp.matches(regex)) {
-            throw new LotValideException();
+        String temp = descriptionLot.trim().replaceAll(" ", "");
+
+        if (!temp.matches(REGEX_POUR_LOT)) {
+            throw new LotValideException(GestionnaireMessage
+                    .ERREUR_DESCRIPTION_LOT);
         } else {
             valideLot = descriptionLot;
         }
-        
+
         return valideLot;
     }
-    
+
     public static boolean verifierLotsDoublons(
             String[] lots)
             throws LotValideException {
         boolean estValide = false;
-        final Set<String> listLots = new HashSet<>();
-        
+
         for (String lot : lots) {
+            final Set<String> listLots = new HashSet<>();
             if (!listLots.add(lot.trim())) {
-                throw new LotValideException();
+                throw new LotValideException(GestionnaireMessage
+                        .ERREUR_LOT_MULTIPLE);
             } else {
                 estValide = true;
             }
         }
-        
+
         return estValide;
-    }
-
-    public static boolean verifierDroitDePassage(EvaluationLot lot)
-            throws IntervallesValideException, IOException {
-
-        boolean droitDePassageValide = false;
-
-        for (int i = 0; i < lot.obtenirNombreDroitPassage().length ; i++){
-            if (lot.obtenirNombreDroitPassage()[i] < BORNE_INF_DROIT_DE_PASSAGE ||
-                    lot.obtenirNombreDroitPassage()[i] > BORNE_SUP_DROIT_DE_PASSAGE){
-                throw new IntervallesValideException();
-            } else {
-                droitDePassageValide = true;
-            }
-        }
-
-        return droitDePassageValide;
-    }
-
-    public static boolean verifierNombreDeServices(EvaluationLot lot)
-            throws IntervallesValideException, IOException{
-
-        boolean nombreDeServicesValide = false;
-
-        for (int i = 0; i < lot.obtenirNombreService().length ; i++){
-            if (lot.obtenirNombreService()[i] < BORNE_INF_NOMBRE_DE_SERVICES ||
-                    lot.obtenirNombreService()[i] > BORNE_SUP_NOMBRE_DE_SERVICES){
-                throw new IntervallesValideException();
-            } else {
-                nombreDeServicesValide = true;
-            }
-        }
-
-        return nombreDeServicesValide;
-    }
-
-
-    public static boolean verifierNombreDeLots(EvaluationLot lot){
-
-        return lot.obtenirNombreLot() < NOMBRE_LOTS_MAX;
     }
 
 }
