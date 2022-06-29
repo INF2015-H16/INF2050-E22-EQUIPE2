@@ -17,5 +17,29 @@ package inf2050.e22.equipe2;
  *
  */
 public class MontantLotAgricole extends MontantLot {
-    // A completer pour enfant de MontantLot
+
+    public MontantLotAgricole() {
+        super(MontantLot.TERRAIN_AGRICOLE);
+    }
+
+    @Override
+    public double obtenirMontantLot(int index,
+                                    int[] superficies,
+                                    double prixMinimum, double prixMaximum) {
+        return superficies[index] * prixMinimum;
+    }
+
+    @Override
+    public double obtenirMontantPassage(int index,
+                                        int[] passages, double[] montantsLot) {
+        return MONTANT_BASE_DROIT_PASSAGE
+                - (passages[index]
+                * (TAUX_05 * montantsLot[index]));
+    }
+
+    @Override
+    public double obtenirMontantService(int index,
+                                        int[] superficies, int[] services) {
+        return MONTANT_SERVICE_0;
+    }
 }
