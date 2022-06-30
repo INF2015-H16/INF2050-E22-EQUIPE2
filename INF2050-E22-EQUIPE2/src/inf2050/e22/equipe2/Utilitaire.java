@@ -25,7 +25,7 @@ public class Utilitaire {
      */
     public static String convertirMontant(double montant) {
         return String.format(
-                "%.2f $", Math.round(Math.ceil(montant *20))/ 20.0);
+                "%.2f $", Math.round(Math.ceil(montant*20))/20.0) ;
     }
     
 }

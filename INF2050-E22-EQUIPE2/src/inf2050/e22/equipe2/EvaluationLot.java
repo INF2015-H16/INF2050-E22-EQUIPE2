@@ -313,7 +313,7 @@ public class EvaluationLot implements IEvaluationLot{
         double tempTerrain = 0.0;
 
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
-            tempTerrain = tempTerrain + montantsParLot[i]++;
+            tempTerrain = tempTerrain + montantsParLot[i];
         }
 
         return (tempTerrain + VALEUR_DE_BASE);
