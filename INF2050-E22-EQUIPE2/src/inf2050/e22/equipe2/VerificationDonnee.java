@@ -196,16 +196,16 @@ public class VerificationDonnee {
     }
 
     private static int valeurEstInt(Object valeur)
-            throws JSONException {
+            throws JSONException, NumberFormatException {
+
         int nombre;
 
-        if (valeur instanceof Integer) {
-            nombre = (Integer) valeur;
-        } else {
+        try {
+            nombre = Integer.parseInt(valeur.toString());
+        } catch (NumberFormatException exception){
             throw new JSONException(
                     GestionnaireMessage.ERREUR_DONNEE_PAS_NOMBRE);
         }
-
         return nombre;
     }
 
