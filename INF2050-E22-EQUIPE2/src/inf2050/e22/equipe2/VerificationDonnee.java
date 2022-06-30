@@ -417,9 +417,11 @@ public class VerificationDonnee {
             String[] lots)
             throws LotValideException {
         boolean estValide = false;
+        
+        final Set<String> listLots = new HashSet<>();
 
         for (String lot : lots) {
-            final Set<String> listLots = new HashSet<>();
+            
             if (!listLots.add(lot.trim())) {
                 throw new LotValideException(GestionnaireMessage
                         .ERREUR_CONFLIT_LOTS);
