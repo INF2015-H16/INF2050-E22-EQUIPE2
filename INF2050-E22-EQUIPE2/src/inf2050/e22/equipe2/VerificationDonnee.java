@@ -52,8 +52,7 @@ public class VerificationDonnee {
             EvaluationLot.ETIQUETTE_SERVICES,
             EvaluationLot.ETIQUETTE_SUPERFICIE,
             EvaluationLot.ETIQUETTE_DATE_MESURE};
-    public static final String REGEX_POUR_LOT = "^("
-            + EvaluationLot.ETIQUETTE_LOT + ")\\d*";
+    public static final String REGEX_POUR_LOT = "^(lot)([0-9])([0-9])?$";
     public static final String REGEX_POUR_PRIX = "\\d*[,.]?\\d+\\$$";
     public static final String REGEX_POUR_DATE = "((?:19|20)[0-9][0-9])"
             +  "(0?[1-9]|1[012])(0?[1-9]|[12][0-9]|3[01])";
