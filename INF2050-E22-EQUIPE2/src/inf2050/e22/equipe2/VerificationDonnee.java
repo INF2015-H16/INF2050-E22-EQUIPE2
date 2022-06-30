@@ -52,8 +52,7 @@ public class VerificationDonnee {
             EvaluationLot.ETIQUETTE_SERVICES,
             EvaluationLot.ETIQUETTE_SUPERFICIE,
             EvaluationLot.ETIQUETTE_DATE_MESURE};
-    public static final String REGEX_POUR_LOT = "^("
-            + EvaluationLot.ETIQUETTE_LOT + ")\\d*";
+    public static final String REGEX_POUR_LOT = "^(lot)([0-9])([0-9])?$";
     public static final String REGEX_POUR_PRIX = "\\d*[,.]?\\d+\\$$";
     public static final String REGEX_POUR_DATE = "((?:19|20)[0-9][0-9])"
             +  "(0?[1-9]|1[012])(0?[1-9]|[12][0-9]|3[01])";
@@ -196,16 +195,16 @@ public class VerificationDonnee {
     }
 
     private static int valeurEstInt(Object valeur)
-            throws JSONException {
+            throws JSONException, NumberFormatException {
+
         int nombre;
 
-        if (valeur instanceof Integer) {
-            nombre = (Integer) valeur;
-        } else {
+        try {
+            nombre = Integer.parseInt(valeur.toString());
+        } catch (NumberFormatException exception){
             throw new JSONException(
                     GestionnaireMessage.ERREUR_DONNEE_PAS_NOMBRE);
         }
-
         return nombre;
     }
 
@@ -418,9 +417,11 @@ public class VerificationDonnee {
             String[] lots)
             throws LotValideException {
         boolean estValide = false;
+        
+        final Set<String> listLots = new HashSet<>();
 
         for (String lot : lots) {
-            final Set<String> listLots = new HashSet<>();
+            
             if (!listLots.add(lot.trim())) {
                 throw new LotValideException(GestionnaireMessage
                         .ERREUR_CONFLIT_LOTS);
