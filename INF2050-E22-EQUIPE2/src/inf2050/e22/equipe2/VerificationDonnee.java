@@ -319,14 +319,14 @@ public class VerificationDonnee {
             valideDate = false;
 
         } else {
-            valideDate = verifierExistTiret(date);
+            valideDate = verifierExisteTiret(date);
 
         }
 
         return valideDate;
     }
 
-    private static boolean verifierExistTiret(String date) {
+    private static boolean verifierExisteTiret(String date) {
         boolean valideDate;
 
         if (date.charAt(4) == '-' && date.charAt(7) == '-') {
