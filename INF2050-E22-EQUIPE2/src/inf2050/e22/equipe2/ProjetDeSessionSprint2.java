@@ -13,17 +13,17 @@ import net.sf.json.JSONException;
  * Cours : INF2050 - 020 - Été 2022
  * Sprint 1
  *
- * La classe ProjetDeSessionSprint1 contient une methode main.
+ * La classe ProjetDeSessionSprint2 contient une methode main.
  * Elle permet de tester toutes les autres classes et les utilisent pour
- * calculer l'evaluation d'un terrain selon son type pouvant contenir
- * plusieurs lots. Ces lots sont caratérisés par leur superficie, le nombre de
+ * calculer l'évaluation d'un terrain selon son type pouvant contenir
+ * plusieurs lots. Ces lots sont caractérisés par leur superficie, le nombre de
  * droits de passages et le nombres de services.
  *
  * @author Elza Meguieng Tiemghen
  * @version Mai 2022
  */
 
-public class ProjetDeSessionSprint1 {
+public class ProjetDeSessionSprint2 {
 
     private static boolean verifierParametreProgramme(String [] parametres)
             throws IOException {
