@@ -28,13 +28,17 @@ public class Terrain {
     private String prixMin;
     private String prixMax;
     private EvaluationLot lotissement;
+    private EvaluationObservation observation;
+    
     
     public Terrain(int typeTerrain, String prixMin, String prixMax,
-                   EvaluationLot lotissement) {
+                   EvaluationLot lotissement,
+                   EvaluationObservation observation) {
         this.typeTerrain = typeTerrain;
         this.prixMin = prixMin;
         this.prixMax = prixMax;
         this.lotissement = lotissement;
+        this.observation = observation;
     }
 
     public int getTypeTerrain() {
