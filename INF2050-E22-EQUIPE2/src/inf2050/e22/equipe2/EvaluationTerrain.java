@@ -45,15 +45,17 @@ public class EvaluationTerrain implements IEvaluationTerrain {
 
     @Override
     public Terrain obtenirDonneesTerrain(String json,
-                                         EvaluationLot lotissements)
-            throws IntervallesValideException, PrixValideException, JSONException {
+                                         EvaluationLot lotissements,
+                                         EvaluationObservation observations)
+            throws IntervallesValideException, PrixValideException,
+            JSONException {
         Terrain terrain = null;
         if (json.length() != 0) {
             JSONObject enteteTerrain = JSONObject.fromObject(json);
 
             int typeTerrain = VerificationDonnee
-                    .validerTypeTerrain(enteteTerrain
-                            .getInt(ETIQUETTE_TYPE_TERRAIN));
+                    .validerTypeTerrain(
+                            enteteTerrain.getInt(ETIQUETTE_TYPE_TERRAIN));
             String prixMin = VerificationDonnee.validerPrix
                                     (VerificationDonnee
                                             .verifierPrixNegatif(enteteTerrain
@@ -63,7 +65,7 @@ public class EvaluationTerrain implements IEvaluationTerrain {
                             .getString(ETIQUETTE_PRIX_M2_MAX)));
 
             terrain = new Terrain(typeTerrain, prixMin,
-                    priMax, lotissements);
+                    priMax, lotissements, observations);
 
         }
 
