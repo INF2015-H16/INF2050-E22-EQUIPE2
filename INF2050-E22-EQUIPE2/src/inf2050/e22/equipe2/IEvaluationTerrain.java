@@ -26,7 +26,8 @@ import net.sf.json.JSONObject;
  */
 public interface IEvaluationTerrain {
 
-    Terrain obtenirDonneesTerrain(String json, EvaluationLot lotissements)
+    Terrain obtenirDonneesTerrain(String json, EvaluationLot lotissements,
+                                  EvaluationObservation observations)
             throws IntervallesValideException, PrixValideException;
 
     int obtenirTypeTerrain(Terrain terrain)
