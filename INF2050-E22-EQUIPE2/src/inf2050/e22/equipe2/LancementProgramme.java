@@ -33,6 +33,7 @@ public class LancementProgramme implements ILancementProgramme {
     private double leMontantTaxeMunicipale;
     private EvaluationTerrain evaluationTerrain;
     private EvaluationLot evaluationLot;
+    private EvaluationObservation observations;
     private JSONObject rapport;
     private Terrain terrain;
     private ArrayList<Lotissement> lesLotissements;
@@ -45,6 +46,7 @@ public class LancementProgramme implements ILancementProgramme {
         this.donneeEntree = donneeEntree;
         this.evaluationTerrain = new EvaluationTerrain();
         this.evaluationLot = new EvaluationLot(lesLotissements, donneeEntree);
+        this.observations = new EvaluationObservation();
         presenter = new LancementProgrammePresenter(this);
 
         presenter.obtenirDonneeLotissement(donneeEntree);
@@ -63,7 +65,7 @@ public class LancementProgramme implements ILancementProgramme {
             throws IntervallesValideException, PrixValideException,
             LotValideException, LectureFichierException, IOException {
         terrain = evaluationTerrain.obtenirDonneesTerrain(json,
-                evaluationLot);
+                evaluationLot, observations);
         presenter.obtenirDonneIdTerrain();
     }
 
