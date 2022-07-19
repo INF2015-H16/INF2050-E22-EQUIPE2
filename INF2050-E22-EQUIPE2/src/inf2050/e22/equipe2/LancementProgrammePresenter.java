@@ -5,6 +5,7 @@
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  *
@@ -14,77 +15,78 @@ public class LancementProgrammePresenter {
 
     private ILancementProgramme iLancementProgramme;
 
-    public LancementProgrammePresenter(ILancementProgramme iLancementProgramme) {
+    public LancementProgrammePresenter(
+            ILancementProgramme iLancementProgramme) {
         this.iLancementProgramme = iLancementProgramme;
     }
 
     public void obtenirDonneeLotissement(String json)
             throws LotValideException, IntervallesValideException,
-            PrixValideException, LectureFichierException, IOException {
+            PrixValideException, LectureFichierException, IOException, ParseException {
         iLancementProgramme.getLesLotissements(json);
     }
 
     public void obtenirDonneeTerrain(String json)
             throws IntervallesValideException, PrixValideException,
-            LotValideException, LectureFichierException, IOException {
+            LotValideException, LectureFichierException, IOException, ParseException {
         iLancementProgramme.getTerrain(json);
     }
 
     public void obtenirDonneIdTerrain() throws PrixValideException,
             IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
+            LectureFichierException, IOException, ParseException {
         iLancementProgramme.getIdTerrain();
     }
 
     public void obtenirDonneePrixMinimum() throws PrixValideException,
             IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
+            LectureFichierException, IOException, ParseException {
         iLancementProgramme.getPrixMinimum();
     }
 
     public void obtenirDonneePrixMaximum() throws PrixValideException,
             IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
+            LectureFichierException, IOException, ParseException {
         iLancementProgramme.getPrixMaximum();
     }
 
     public void  obtenirPrixMinPrixMaxVerifie() throws PrixValideException,
             LotValideException, IOException, IntervallesValideException,
-            LectureFichierException {
+            LectureFichierException, ParseException {
         iLancementProgramme.getPrixMinPrixMaxVerifier();
     }
 
     public void obtenirDonneeQuantiteLots()
             throws IntervallesValideException,
             LotValideException, LectureFichierException,
-            IOException {
+            IOException, ParseException {
         iLancementProgramme.getQuantiteLots();
     }
 
     public void obtenirDonneeDescription() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException {
+            LotValideException, LectureFichierException, IOException, ParseException {
         iLancementProgramme.getDescriptions();
     }
 
     public void obtenirDonneePassages() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException {
+            LotValideException, LectureFichierException, IOException, ParseException {
         iLancementProgramme.getPassages();
     }
 
     public void obtenirDonneeServices() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException {
+            LotValideException, LectureFichierException, IOException, ParseException {
         iLancementProgramme.getNombreService();
     }
 
     public void obtenirDonneeSuperficie()
             throws IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
+            LectureFichierException, IOException, ParseException {
         iLancementProgramme.getSuperficies();
     }
 
     public void obtenirDonneeDates()
             throws IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
+            LectureFichierException, IOException, ParseException {
         iLancementProgramme.getDates();
     }
 
