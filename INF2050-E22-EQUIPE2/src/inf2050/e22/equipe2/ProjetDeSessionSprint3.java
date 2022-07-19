@@ -12,9 +12,9 @@ import net.sf.json.JSONException;
 /**
  * Université du Québec à Montréal (UQAM)
  * Cours : INF2050 - 020 - Été 2022
- * Sprint 1
+ * Sprint 3
  *
- * La classe ProjetDeSessionSprint2 contient une methode main.
+ * La classe ProjetDeSessionSprint3 contient une methode main.
  * Elle permet de tester toutes les autres classes et les utilisent pour
  * calculer l'évaluation d'un terrain selon son type pouvant contenir
  * plusieurs lots. Ces lots sont caractérisés par leur superficie, le nombre de
@@ -24,7 +24,7 @@ import net.sf.json.JSONException;
  * @version Mai 2022
  */
 
-public class ProjetDeSessionSprint2 {
+public class ProjetDeSessionSprint3 {
 
     private static boolean verifierParametreProgramme(String [] parametres)
             throws IOException {
