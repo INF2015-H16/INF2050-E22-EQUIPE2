@@ -5,6 +5,7 @@
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public interface IEvaluationLot {
@@ -36,7 +37,7 @@ public interface IEvaluationLot {
 
     String [] obtenirDateMesure(ArrayList<Lotissement> lotissements)
             throws IOException, NullPointerException,
-            IntervallesValideException;
+            IntervallesValideException, ParseException;
 
     double [] calculerMontantLot(int idTerrain,
                                  int [] superficies,
