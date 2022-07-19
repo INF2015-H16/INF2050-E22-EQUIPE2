@@ -41,8 +41,14 @@ public class EvaluationTerrain implements IEvaluationTerrain {
     public final static String ETIQUETTE_TAXE_SCOLAIRE = "taxe_scolaire";
     public final static String ETIQUETTE_TAXE_MUNICIPALE = "taxe_municipale";
     public final static String ETIQUETTE_VALEUR_PAR_LOT = "valeur_par_lot";
+    public final static String ETIQUETTE_OBSERVATIONS = "observations";
     public final static String DECIMAL_SEULEMENT_POINT = "[^\\d.]";
     public static final String MESSAGE = "message";
+    private IObservationTerrain iObservationTerrain;
+
+    public EvaluationTerrain(IObservationTerrain iObservationTerrain) {
+        this.iObservationTerrain = iObservationTerrain;
+    }
 
     @Override
     public Terrain obtenirDonneesTerrain(String json,
@@ -100,15 +106,40 @@ public class EvaluationTerrain implements IEvaluationTerrain {
     }
 
 
+    public boolean comparerPrixMinimumMaximum(double prixMin,
+                                                     double prixMax)
+            throws PrixValideException {
+        boolean estValide;
+        if (prixMin > prixMax) {
+            throw new PrixValideException(GestionnaireMessage
+                    .ERREUR_CONFLIT_PRIX);
+        } else {
+            estValide = true;
+
+            if (prixMax > (2 * prixMin)) {
+                iObservationTerrain.observerPrixMaxVsMin();
+            }
+        }
+        return estValide;
+    }
+
     @Override
     public double calculerTaxeScolaire(double montantTerrain)
             throws NullPointerException {
-        return montantTerrain * TAXE_SCOLAIRE;
+        double taxeScolaire = montantTerrain * TAXE_SCOLAIRE;
+        if (taxeScolaire > 500) {
+            iObservationTerrain.observerDoubleVersementTaxeScolaire(montantTerrain);
+        }
+        return taxeScolaire;
     }
 
     @Override
     public double calculerTaxeMunicipale(double montantTerrain) {
-        return montantTerrain * TAXE_MUNICIPALE;
+        double taxeMunicipale = montantTerrain * TAXE_MUNICIPALE;
+        if (taxeMunicipale > 1000) {
+            iObservationTerrain.observerDoubleVersementTaxeMunicipale(montantTerrain);
+        }
+        return taxeMunicipale;
     }
 
     @Override
@@ -132,6 +163,9 @@ public class EvaluationTerrain implements IEvaluationTerrain {
 
                 donneRapport.accumulate(ETIQUETTE_LOTISSEMENTS,detailsLot);
             }
+
+            donneRapport.accumulate(ETIQUETTE_OBSERVATIONS,
+                    "ajouter observation ici");
         }
 
         return donneRapport;
