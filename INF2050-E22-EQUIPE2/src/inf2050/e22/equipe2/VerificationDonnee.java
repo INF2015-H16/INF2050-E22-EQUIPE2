@@ -23,7 +23,7 @@ import org.apache.commons.io.IOUtils;
  * La classe VerificationDonnee permet de faire
  * la validation de toutes les données en entrée du programme.
  *
- * @author Aurélien Tcheuffa Kemayou / Sidopz
+ * @author @kemayou
  * @version Juin 2022
  *
  */

@@ -9,6 +9,7 @@ package inf2050.e22.equipe2;
  * Cours : INF2050 - 020 - Été 2022
  * Sprint 3
  *
+ * @author @kemayou
  * @version Juillet 2022
  */
 
