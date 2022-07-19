@@ -5,6 +5,7 @@
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import net.sf.json.JSONObject;
 
@@ -12,7 +13,8 @@ import net.sf.json.JSONObject;
  *
  * @author akaff
  */
-public class LancementProgramme implements ILancementProgramme {
+public class LancementProgramme implements ILancementProgramme,
+        IObservationLot, IObservationTerrain {
 
     public final static String ENCODAGE_DE_FICHIER = "UTF-8";
     private int idTerrain;
@@ -33,20 +35,20 @@ public class LancementProgramme implements ILancementProgramme {
     private double leMontantTaxeMunicipale;
     private EvaluationTerrain evaluationTerrain;
     private EvaluationLot evaluationLot;
-    private EvaluationObservation observations;
     private JSONObject rapport;
     private Terrain terrain;
     private ArrayList<Lotissement> lesLotissements;
     private LancementProgrammePresenter presenter;
     private String donneeEntree;
+    private ArrayList<String> observations = new ArrayList<>();
 
     public LancementProgramme(String donneeEntree)
             throws LotValideException, IntervallesValideException,
             PrixValideException, LectureFichierException, IOException {
         this.donneeEntree = donneeEntree;
         this.evaluationTerrain = new EvaluationTerrain();
-        this.evaluationLot = new EvaluationLot(lesLotissements, donneeEntree);
-        this.observations = new EvaluationObservation();
+        this.evaluationLot = new EvaluationLot(lesLotissements,
+                donneeEntree, this);
         presenter = new LancementProgrammePresenter(this);
 
         presenter.obtenirDonneeLotissement(donneeEntree);
@@ -232,6 +234,35 @@ public class LancementProgramme implements ILancementProgramme {
             throws LectureFichierException, IOException {
         VerificationDonnee.enregistrerDonneeDansFichier(json,
                 rapport.toString(4), ENCODAGE_DE_FICHIER);
+    }
+
+    @Override
+    public void observerLotDispendieux(double montantsParLot, int i) {
+    }
+
+    @Override
+    public void obtenirDifferenceDate(String[] dateLot)
+            throws IntervallesValideException, ParseException {
+    }
+
+    @Override
+    public void observerSuperficeParLot(int superficies, int i) {
+    }
+
+    @Override
+    public void observerValeurFonciere(double fonciere) {
+    }
+
+    @Override
+    public void observerDoubleVersementTaxeMunicipale(double taxe) {
+    }
+
+    @Override
+    public void observerDoubleVersementTaxeScolaire(double taxe) {
+    }
+
+    @Override
+    public void observerPrixMaxVsMin() {
     }
 
 }
