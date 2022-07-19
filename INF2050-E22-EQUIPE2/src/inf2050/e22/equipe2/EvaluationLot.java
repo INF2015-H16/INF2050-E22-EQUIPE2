@@ -4,6 +4,7 @@
  */
 package inf2050.e22.equipe2;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
@@ -214,6 +215,10 @@ public class EvaluationLot implements IEvaluationLot {
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
             superficies[i] = getLotissement(i, lotissements).getSuperficie();
 
+            if (superficies[i] > 45000) {
+                iObservationLot.observerSuperficeParLot(superficies[i], i);
+            }
+
         }
 
         return superficies;
@@ -221,7 +226,7 @@ public class EvaluationLot implements IEvaluationLot {
 
     @Override
     public String [] obtenirDateMesure(ArrayList<Lotissement> lotissements)
-            throws NullPointerException, IntervallesValideException {
+            throws NullPointerException, IntervallesValideException, ParseException {
 
         String [] dates = new String[obtenirNombreLot(lotissements)];
 
@@ -229,6 +234,8 @@ public class EvaluationLot implements IEvaluationLot {
             dates[i] = getLotissement(i, lotissements).getDateMesure();
 
         }
+        
+        iObservationLot.obtenirDifferenceDate(dates);
 
         return dates;
     }
@@ -302,6 +309,10 @@ public class EvaluationLot implements IEvaluationLot {
             montantsParLot[i] = montantsLot[i] + montantsPassage[i] +
                     montantsService[i];
 
+            if (montantsParLot[i] > 45000) {
+                iObservationLot.observerLotDispendieux(montantsParLot[i], i);
+            }
+
         }
 
         return montantsParLot;
@@ -319,7 +330,13 @@ public class EvaluationLot implements IEvaluationLot {
             tempTerrain = tempTerrain + montantsParLot[i];
         }
 
-        return (tempTerrain + VALEUR_DE_BASE);
+        double valeurFonciere = tempTerrain + VALEUR_DE_BASE;
+
+        if (valeurFonciere > 300000) {
+            iObservationLot.observerValeurFonciere(valeurFonciere);
+        }
+
+        return valeurFonciere;
 
     }
 
