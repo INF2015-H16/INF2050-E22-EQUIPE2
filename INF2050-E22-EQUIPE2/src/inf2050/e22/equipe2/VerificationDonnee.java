@@ -384,19 +384,6 @@ public class VerificationDonnee {
         return validePrix;
     }
 
-    public static boolean comparerPrixMinimumMaximum(double prixMin,
-                                                      double prixMax)
-            throws PrixValideException {
-        boolean estValide;
-        if (prixMin > prixMax) {
-            throw new PrixValideException(GestionnaireMessage
-                    .ERREUR_CONFLIT_PRIX);
-        } else {
-            estValide = true;
-        }
-        return estValide;
-    }
-
     public static String validerDescriptionLot(String descriptionLot)
             throws LotValideException {
 
