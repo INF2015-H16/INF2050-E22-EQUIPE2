@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import net.sf.json.JSONObject;
 
 /**
@@ -44,11 +41,10 @@ public class LancementProgramme implements ILancementProgramme,
 
     public LancementProgramme(String donneeEntree)
             throws LotValideException, IntervallesValideException,
-            PrixValideException, LectureFichierException, IOException {
+            PrixValideException, LectureFichierException, IOException, ParseException {
         this.donneeEntree = donneeEntree;
         this.evaluationTerrain = new EvaluationTerrain(this);
-        this.evaluationLot = new EvaluationLot(lesLotissements,
-                donneeEntree, this);
+        this.evaluationLot = new EvaluationLot(lesLotissements, donneeEntree, this);
         presenter = new LancementProgrammePresenter(this);
 
         presenter.obtenirDonneeLotissement(donneeEntree);
@@ -57,7 +53,7 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getLesLotissements(String json)
             throws LotValideException, IntervallesValideException,
-            PrixValideException, LectureFichierException, IOException {
+            PrixValideException, LectureFichierException, IOException, ParseException {
         lesLotissements = evaluationLot.obtenirDonneesLot();
         presenter.obtenirDonneeTerrain(json);
     }
@@ -65,7 +61,7 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getTerrain(String json)
             throws IntervallesValideException, PrixValideException,
-            LotValideException, LectureFichierException, IOException {
+            LotValideException, LectureFichierException, IOException, ParseException {
         terrain = evaluationTerrain.obtenirDonneesTerrain(json,
                 evaluationLot, observations);
         presenter.obtenirDonneIdTerrain();
@@ -74,7 +70,7 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getIdTerrain() throws PrixValideException,
             IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
+            LectureFichierException, IOException, ParseException {
         idTerrain = evaluationTerrain.obtenirTypeTerrain(terrain);
         presenter.obtenirDonneePrixMinimum();
     }
@@ -82,7 +78,7 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getPrixMinimum()
             throws PrixValideException, IntervallesValideException,
-            LotValideException, LectureFichierException, IOException {
+            LotValideException, LectureFichierException, IOException, ParseException {
         lePrixMinimum =  evaluationTerrain.obtenirPrixMinimum(terrain);
         presenter.obtenirDonneePrixMaximum();
     }
@@ -91,7 +87,7 @@ public class LancementProgramme implements ILancementProgramme,
     public void getPrixMaximum()
             throws PrixValideException, LotValideException,
             IOException, IntervallesValideException,
-            LectureFichierException {
+            LectureFichierException, ParseException {
         lePrixMaximum = evaluationTerrain.obtenirPrixMaximum(terrain);
         presenter.obtenirPrixMinPrixMaxVerifie();
     }
@@ -99,7 +95,7 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getPrixMinPrixMaxVerifier()
             throws PrixValideException, LotValideException,
-            IOException, IntervallesValideException, LectureFichierException {
+            IOException, IntervallesValideException, LectureFichierException, ParseException {
         evaluationTerrain.comparerPrixMinimumMaximum(lePrixMinimum,
                 lePrixMaximum);
         presenter.obtenirDonneeQuantiteLots();
@@ -107,14 +103,14 @@ public class LancementProgramme implements ILancementProgramme,
 
     @Override
     public void getQuantiteLots() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException {
+            LotValideException, LectureFichierException, IOException, ParseException {
         quantiteLots = evaluationLot.obtenirNombreLot(lesLotissements);
         presenter.obtenirDonneeDescription();
     }
 
     @Override
     public void getDescriptions() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException {
+            LotValideException, LectureFichierException, IOException, ParseException {
         lesDescriptions = evaluationLot.obtenirDescription(lesLotissements);
         presenter.obtenirDonneePassages();
     }
@@ -122,7 +118,7 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getPassages()
             throws IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
+            LectureFichierException, IOException, ParseException {
         lesDroitsPassages = evaluationLot.obtenirNombreDroitPassage(
                 lesLotissements);
         presenter.obtenirDonneeServices();
@@ -131,7 +127,7 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getNombreService()
             throws IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
+            LectureFichierException, IOException, ParseException {
         lesServices = evaluationLot.obtenirNombreService(lesLotissements);
         presenter.obtenirDonneeSuperficie();
     }
@@ -139,7 +135,7 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getSuperficies()
             throws IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
+            LectureFichierException, IOException, ParseException {
         lesSuperficies = evaluationLot.obtenirSuperficie(lesLotissements);
         presenter.obtenirDonneeDates();
     }
@@ -147,7 +143,7 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getDates()
             throws IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
+            LectureFichierException, IOException, ParseException {
         lesDates = evaluationLot.obtenirDateMesure(lesLotissements);
         presenter.obtenirDonneeMontantLot();
     }
@@ -184,7 +180,7 @@ public class LancementProgramme implements ILancementProgramme,
     public void getMontantsParLot()
             throws IntervallesValideException, LotValideException,
             LectureFichierException, IOException {
-        lesMontantsParLot=  evaluationLot.calculerValeurParLot(lesMontantsLots,
+        lesMontantsParLot =  evaluationLot.calculerValeurParLot(lesMontantsLots,
                 lesMontantsPassage, lesMontantsServices, lesLotissements);
         presenter.obtenirDonneeMontantTerrain();
     }
@@ -220,7 +216,7 @@ public class LancementProgramme implements ILancementProgramme,
         rapport = evaluationTerrain
                 .fournirRapportValide(leMontantTerrain,
                         leMontantTaxeScolaire, leMontantTaxeMunicipale,
-                        lesMontantsParLot, lesDescriptions);
+                        lesMontantsParLot, lesDescriptions, observations);
 
         presenter.obtenirDonneeAfficher();
     }
@@ -238,31 +234,59 @@ public class LancementProgramme implements ILancementProgramme,
 
     @Override
     public void observerLotDispendieux(double montantsParLot, int i) {
+        String observation = EvaluationObservation.LA_VALEUR_PAR_LOT_DU_LOT
+                + (i + 1) + EvaluationObservation.EST_TROP_DISPENDIEUSE;
+
+        observations.add(observation);
     }
 
     @Override
-    public void obtenirDifferenceDate(String[] dateLot)
+    public void obtenirDifferenceDate(String [] dateLot)
             throws IntervallesValideException, ParseException {
+        String [] observation = EvaluationObservation
+                .obtenirDifferenceEntreDate(dateLot, lesLotissements);
+
+        observations.addAll(Arrays.asList(observation));
+
     }
 
     @Override
     public void observerSuperficeParLot(int superficies, int i) {
-    }
+        String observation = EvaluationObservation.LA_SUPERFFICIE_DU_LOT
+                + (i + 1)+ EvaluationObservation.EST_TROP_GRANDE;
 
-    @Override
-    public void observerValeurFonciere(double fonciere) {
+        observations.add(observation);
     }
 
     @Override
     public void observerDoubleVersementTaxeMunicipale(double taxe) {
+        String observation = EvaluationObservation.MSG_DLE;
+
+        observations.add(observation);
     }
 
     @Override
     public void observerDoubleVersementTaxeScolaire(double taxe) {
+        String observation = EvaluationObservation.MSG;
+
+        observations.add(observation);
+
+    }
+
+    @Override
+    public void observerValeurFonciere(double fonciere) {
+        String observation = EvaluationObservation
+                .VALEUR_FONCIÈRE_TOTALE_NE_DOIT_PAS_DÉPASSER_300000;
+
+        observations.add(observation);
     }
 
     @Override
     public void observerPrixMaxVsMin() {
+        String observation = EvaluationObservation
+                .PAS_DÉPASSER_DEUX_FOIS_LE_PRIX_MINIMUM_DU_M_2;
+
+        observations.add(observation);
     }
 
 }
