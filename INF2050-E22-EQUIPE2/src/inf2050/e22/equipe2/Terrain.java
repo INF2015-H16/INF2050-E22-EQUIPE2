@@ -4,6 +4,8 @@
  */
 package inf2050.e22.equipe2;
 
+import java.util.ArrayList;
+
 /**
  * Université du Québec à Montréal (UQAM)
  * Cours : INF2050 - 020 - Été 2022
@@ -28,12 +30,12 @@ public class Terrain {
     private String prixMin;
     private String prixMax;
     private EvaluationLot lotissement;
-    private EvaluationObservation observation;
+    private ArrayList <String> observation;
     
     
     public Terrain(int typeTerrain, String prixMin, String prixMax,
                    EvaluationLot lotissement,
-                   EvaluationObservation observation) {
+                   ArrayList<String> observation) {
         this.typeTerrain = typeTerrain;
         this.prixMin = prixMin;
         this.prixMax = prixMax;
