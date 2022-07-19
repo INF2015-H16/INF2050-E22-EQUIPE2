@@ -50,7 +50,8 @@ public interface IEvaluationTerrain {
                                     double montantTaxeScolaire,
                                     double montantTaxeMunicipale,
                                     double [] montantsParLot,
-                                    String [] descriptions)
+                                    String [] descriptions,
+                                    ArrayList<String> observationChainee)
             throws IOException, LotValideException, LectureFichierException;
 
     JSONObject fournirRapportErreur(String message);
