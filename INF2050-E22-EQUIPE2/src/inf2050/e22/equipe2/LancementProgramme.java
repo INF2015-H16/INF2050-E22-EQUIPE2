@@ -46,7 +46,7 @@ public class LancementProgramme implements ILancementProgramme,
             throws LotValideException, IntervallesValideException,
             PrixValideException, LectureFichierException, IOException {
         this.donneeEntree = donneeEntree;
-        this.evaluationTerrain = new EvaluationTerrain();
+        this.evaluationTerrain = new EvaluationTerrain(this);
         this.evaluationLot = new EvaluationLot(lesLotissements,
                 donneeEntree, this);
         presenter = new LancementProgrammePresenter(this);
@@ -100,7 +100,7 @@ public class LancementProgramme implements ILancementProgramme,
     public void getPrixMinPrixMaxVerifier()
             throws PrixValideException, LotValideException,
             IOException, IntervallesValideException, LectureFichierException {
-        VerificationDonnee.comparerPrixMinimumMaximum(lePrixMinimum,
+        evaluationTerrain.comparerPrixMinimumMaximum(lePrixMinimum,
                 lePrixMaximum);
         presenter.obtenirDonneeQuantiteLots();
     }
