@@ -5,6 +5,7 @@
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  *
@@ -14,44 +15,44 @@ public interface ILancementProgramme {
 
     void getLesLotissements(String json) throws LotValideException,
             IntervallesValideException, PrixValideException,
-            LectureFichierException, IOException;
+            LectureFichierException, IOException, ParseException;
 
     void getTerrain(String json) throws IntervallesValideException,
             PrixValideException, LotValideException,
-            LectureFichierException, IOException;
+            LectureFichierException, IOException, ParseException;
     void getIdTerrain() throws PrixValideException,
             IntervallesValideException, LotValideException,
-            LectureFichierException, IOException;
+            LectureFichierException, IOException, ParseException;
 
     void getPrixMinimum() throws PrixValideException,
             IntervallesValideException, LotValideException,
-            LectureFichierException, IOException;
+            LectureFichierException, IOException, ParseException;
 
     void getPrixMaximum() throws PrixValideException,
             IntervallesValideException, LotValideException,
-            LectureFichierException, IOException;
+            LectureFichierException, IOException, ParseException;
     void getPrixMinPrixMaxVerifier() throws PrixValideException,
             LotValideException, IOException, IntervallesValideException,
-            LectureFichierException;
+            LectureFichierException, ParseException;
     void getQuantiteLots() throws IntervallesValideException,
             LotValideException, LectureFichierException,
-            IOException;
+            IOException, ParseException;
     void getDescriptions() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException;
+            LotValideException, LectureFichierException, IOException, ParseException;
 
     void getPassages() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException;
+            LotValideException, LectureFichierException, IOException, ParseException;
 
     void getNombreService() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException;
+            LotValideException, LectureFichierException, IOException, ParseException;
 
     void getSuperficies()
             throws IntervallesValideException, LotValideException,
-            LectureFichierException, IOException;
+            LectureFichierException, IOException, ParseException;
 
     void getDates()
             throws IntervallesValideException, LotValideException,
-            LectureFichierException, IOException;
+            LectureFichierException, IOException, ParseException;
 
    void getMontantsLot() throws IntervallesValideException,
            LotValideException, LectureFichierException, IOException;
