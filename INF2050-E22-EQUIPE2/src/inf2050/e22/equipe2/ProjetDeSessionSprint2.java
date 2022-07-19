@@ -5,6 +5,7 @@
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
+import java.text.ParseException;
 import net.sf.json.JSONException;
 
 
@@ -73,7 +74,8 @@ public class ProjetDeSessionSprint2 {
                  | JSONException
                  | PrixValideException
                  | IntervallesValideException
-                 | LectureFichierException e) {
+                 | LectureFichierException
+                 | ParseException e) {
             Utilitaire.afficherMessage(e.getMessage());
             try {
                 VerificationDonnee.enregistrerDonneeDansFichier(sortie,
