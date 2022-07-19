@@ -54,8 +54,7 @@ public class EvaluationTerrain implements IEvaluationTerrain {
     public Terrain obtenirDonneesTerrain(String json,
                                          EvaluationLot lotissements,
                                          ArrayList<String> observations)
-            throws IntervallesValideException, PrixValideException,
-            JSONException {
+            throws IntervallesValideException, PrixValideException, JSONException {
         Terrain terrain = null;
         if (json.length() != 0) {
             JSONObject enteteTerrain = JSONObject.fromObject(json);
@@ -105,7 +104,6 @@ public class EvaluationTerrain implements IEvaluationTerrain {
         return Double.parseDouble(prixMaximum);
     }
 
-
     public boolean comparerPrixMinimumMaximum(double prixMin,
                                                      double prixMax)
             throws PrixValideException {
@@ -122,6 +120,7 @@ public class EvaluationTerrain implements IEvaluationTerrain {
         }
         return estValide;
     }
+
 
     @Override
     public double calculerTaxeScolaire(double montantTerrain)
@@ -147,7 +146,8 @@ public class EvaluationTerrain implements IEvaluationTerrain {
                                            double montantTaxeScolaire,
                                            double montantTaxeMunicipale,
                                            double [] montantsParLot,
-                                           String [] descriptions)
+                                           String [] descriptions,
+                                           ArrayList<String> observation)
             throws LotValideException {
 
         JSONObject donneRapport = new JSONObject();
@@ -161,11 +161,10 @@ public class EvaluationTerrain implements IEvaluationTerrain {
                 JSONObject detailsLot = fournirDetailsRapport(i,
                         descriptions, montantsParLot);
 
-                donneRapport.accumulate(ETIQUETTE_LOTISSEMENTS,detailsLot);
+                donneRapport.accumulate(ETIQUETTE_LOTISSEMENTS, detailsLot);
             }
 
-            donneRapport.accumulate(ETIQUETTE_OBSERVATIONS,
-                    "ajouter observation ici");
+            donneRapport.accumulate(ETIQUETTE_OBSERVATIONS, observation);
         }
 
         return donneRapport;
