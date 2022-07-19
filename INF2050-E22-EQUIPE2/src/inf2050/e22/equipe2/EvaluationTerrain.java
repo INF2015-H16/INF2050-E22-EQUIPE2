@@ -4,6 +4,7 @@
  */
 package inf2050.e22.equipe2;
 
+import java.util.ArrayList;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
@@ -46,7 +47,7 @@ public class EvaluationTerrain implements IEvaluationTerrain {
     @Override
     public Terrain obtenirDonneesTerrain(String json,
                                          EvaluationLot lotissements,
-                                         EvaluationObservation observations)
+                                         ArrayList<String> observations)
             throws IntervallesValideException, PrixValideException,
             JSONException {
         Terrain terrain = null;
