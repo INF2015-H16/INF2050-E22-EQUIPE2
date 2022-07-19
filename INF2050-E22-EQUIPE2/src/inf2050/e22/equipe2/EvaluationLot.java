@@ -9,7 +9,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-public class EvaluationLot implements IEvaluationLot{
+public class EvaluationLot implements IEvaluationLot {
 
     public final static double VALEUR_DE_BASE = 733.77;
 
@@ -22,10 +22,13 @@ public class EvaluationLot implements IEvaluationLot{
     private ArrayList<Lotissement> lotissements;
     private final String json;
     private MontantLot montantLot;
+    private IObservationLot iObservationLot;
 
-    public EvaluationLot(ArrayList<Lotissement> lotissements, String json)  {
+    public EvaluationLot(ArrayList<Lotissement> lotissements, String json,
+                         IObservationLot iObservationLot)  {
         this.lotissements = lotissements;
         this.json = json;
+        this.iObservationLot = iObservationLot;
     }
 
     @Override
