@@ -5,6 +5,7 @@
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import net.sf.json.JSONObject;
 
 /**
@@ -27,7 +28,7 @@ import net.sf.json.JSONObject;
 public interface IEvaluationTerrain {
 
     Terrain obtenirDonneesTerrain(String json, EvaluationLot lotissements,
-                                  EvaluationObservation observations)
+                                  ArrayList<String> observations)
             throws IntervallesValideException, PrixValideException;
 
     int obtenirTypeTerrain(Terrain terrain)
