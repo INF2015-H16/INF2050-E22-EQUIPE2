@@ -25,27 +25,7 @@ public class Statistique {
         this.donnee = donnee;
     }
 
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getLibelleRapport() {
-        return libelleRapport;
-    }
-
-    public void setLibelleRapport(String libelleRapport) {
-        this.libelleRapport = libelleRapport;
-    }
-
     public int getDonnee() {
         return donnee;
-    }
-
-    public void setDonnee(int donnee) {
-        this.donnee = donnee;
     }
 }
