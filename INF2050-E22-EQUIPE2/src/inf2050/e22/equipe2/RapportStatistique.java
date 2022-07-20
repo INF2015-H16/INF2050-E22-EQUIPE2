@@ -44,9 +44,9 @@ public class RapportStatistique implements IRapportStatistique {
     public static final String FIN_RAPPORT = "#";
     public static String entete = "# SPRINT 3 INF 2050";
     public static String titre = "# RAPPORT STATISTIQUE - EVALUATION TERRAIN";
-    public static String delimiteur0 = "\n************************************" +
+    public static String delimiteur0 = "\n*********************************" +
             "**********************************************\n";
-    public static String delimiteur1 = "\n------------------------------------" +
+    public static String delimiteur1 = "\n---------------------------------" +
             "----------------------------------------------\n";
     public static String enteteColonne = "# No. | Libelle                    " +
             "                               | Valeur";
