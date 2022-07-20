@@ -68,7 +68,13 @@ public class EvaluationObservation {
     private static void calculerDifference(String[] lesMsgs, int index,
                                            Date date, Date dateAutre) {
         if (date != dateAutre) {
-            long difference = dateAutre.getTime() - date.getTime();
+            long difference;
+            if (date.compareTo(dateAutre) < 0) {
+                difference = dateAutre.getTime() - date.getTime();
+            } else {
+                difference = date.getTime() - dateAutre.getTime();
+            }
+
             long diffDate = Math.abs((difference
                     / (1000 * 60 * 60 * 24)) % 365);
 
