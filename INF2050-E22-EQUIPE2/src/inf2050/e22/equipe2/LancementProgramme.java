@@ -11,9 +11,16 @@ import net.sf.json.JSONObject;
  * @author akaff
  */
 public class LancementProgramme implements ILancementProgramme,
-        IObservationLot, IObservationTerrain {
+        IObservationLot, IObservationTerrain, IStatistique {
 
     public final static String ENCODAGE_DE_FICHIER = "UTF-8";
+    public static final int VALEUR_FONCIERE_MAXIMALE = 300000;
+    public static final int TAXE_SCOLAIRE_MAXIMALE = 500;
+    public static final int TAXE_MUNICIPALE_MAXIMALE = 1000;
+    public static final int SUPERFICIE_MAXIMALE = 45000;
+    public static final int VALEUR_LIMITE_LOT_DISPENDIEUX = 45000;
+    public static final int VALEUR_LOT_INF_1000 = 1000;
+    public static final int VALEUR_LOT_MEDIUM_10000 = 10000;
     private int idTerrain;
     private double lePrixMinimum;
     private double lePrixMaximum;
@@ -36,16 +43,31 @@ public class LancementProgramme implements ILancementProgramme,
     private Terrain terrain;
     private ArrayList<Lotissement> lesLotissements;
     private LancementProgrammePresenter presenter;
+    private StatistiquePresenter statistiquePresenter;
     private String donneeEntree;
     private ArrayList<String> observations = new ArrayList<>();
+    private RapportStatistique rapportStatistique;
+    private int moins1000;
+    private int entre1000et10000;
+    private int plus10000;
+    private int qteLotAgricole;
+    private int qteLotResidentiel;
+    private int qteLotCommercial;
+    private int superficieMaximale;
+    private int valeurMaxiLot;
 
     public LancementProgramme(String donneeEntree)
             throws LotValideException, IntervallesValideException,
-            PrixValideException, LectureFichierException, IOException, ParseException {
+            PrixValideException, LectureFichierException, IOException,
+            ParseException {
         this.donneeEntree = donneeEntree;
         this.evaluationTerrain = new EvaluationTerrain(this);
-        this.evaluationLot = new EvaluationLot(lesLotissements, donneeEntree, this);
+        this.evaluationLot = new EvaluationLot(lesLotissements, donneeEntree,
+                this);
+        this.rapportStatistique = new RapportStatistique(this);
+
         presenter = new LancementProgrammePresenter(this);
+        statistiquePresenter = new StatistiquePresenter(this);
 
         presenter.obtenirDonneeLotissement(donneeEntree);
     }
@@ -53,7 +75,8 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getLesLotissements(String json)
             throws LotValideException, IntervallesValideException,
-            PrixValideException, LectureFichierException, IOException, ParseException {
+            PrixValideException, LectureFichierException, IOException,
+            ParseException {
         lesLotissements = evaluationLot.obtenirDonneesLot();
         presenter.obtenirDonneeTerrain(json);
     }
@@ -61,7 +84,8 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getTerrain(String json)
             throws IntervallesValideException, PrixValideException,
-            LotValideException, LectureFichierException, IOException, ParseException {
+            LotValideException, LectureFichierException, IOException,
+            ParseException {
         terrain = evaluationTerrain.obtenirDonneesTerrain(json,
                 evaluationLot, observations);
         presenter.obtenirDonneIdTerrain();
@@ -78,7 +102,8 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getPrixMinimum()
             throws PrixValideException, IntervallesValideException,
-            LotValideException, LectureFichierException, IOException, ParseException {
+            LotValideException, LectureFichierException, IOException,
+            ParseException {
         lePrixMinimum =  evaluationTerrain.obtenirPrixMinimum(terrain);
         presenter.obtenirDonneePrixMaximum();
     }
@@ -95,7 +120,8 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getPrixMinPrixMaxVerifier()
             throws PrixValideException, LotValideException,
-            IOException, IntervallesValideException, LectureFichierException, ParseException {
+            IOException, IntervallesValideException, LectureFichierException,
+            ParseException {
         evaluationTerrain.comparerPrixMinimumMaximum(lePrixMinimum,
                 lePrixMaximum);
         presenter.obtenirDonneeQuantiteLots();
@@ -103,14 +129,17 @@ public class LancementProgramme implements ILancementProgramme,
 
     @Override
     public void getQuantiteLots() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException, ParseException {
+            LotValideException, LectureFichierException, IOException,
+            ParseException {
         quantiteLots = evaluationLot.obtenirNombreLot(lesLotissements);
+
         presenter.obtenirDonneeDescription();
     }
 
     @Override
     public void getDescriptions() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException, ParseException {
+            LotValideException, LectureFichierException, IOException,
+            ParseException {
         lesDescriptions = evaluationLot.obtenirDescription(lesLotissements);
         presenter.obtenirDonneePassages();
     }
@@ -137,6 +166,16 @@ public class LancementProgramme implements ILancementProgramme,
             throws IntervallesValideException, LotValideException,
             LectureFichierException, IOException, ParseException {
         lesSuperficies = evaluationLot.obtenirSuperficie(lesLotissements);
+        presenter.obtenirMaxSuperficie();
+    }
+
+    @Override
+    public void getSuperficieMaximale()
+            throws LotValideException, IOException, ParseException,
+            IntervallesValideException, LectureFichierException {
+        superficieMaximale = evaluationLot.obtenirMaximumSuperficie(
+                lesSuperficies);
+
         presenter.obtenirDonneeDates();
     }
 
@@ -179,9 +218,20 @@ public class LancementProgramme implements ILancementProgramme,
     @Override
     public void getMontantsParLot()
             throws IntervallesValideException, LotValideException,
-            LectureFichierException, IOException {
-        lesMontantsParLot =  evaluationLot.calculerValeurParLot(lesMontantsLots,
-                lesMontantsPassage, lesMontantsServices, lesLotissements);
+            IOException, LectureFichierException {
+        lesMontantsParLot =  evaluationLot.calculerValeurParLot(
+                lesMontantsLots, lesMontantsPassage, lesMontantsServices,
+                lesLotissements);
+
+        presenter.obtenirMaxValeurLot();
+    }
+
+    @Override
+    public void getValeurLotMaximale() throws LotValideException, IOException,
+            IntervallesValideException, LectureFichierException {
+        valeurMaxiLot = (int) evaluationLot.obtenirMaximumValeurParLot(
+                lesMontantsParLot);
+
         presenter.obtenirDonneeMontantTerrain();
     }
 
@@ -230,19 +280,41 @@ public class LancementProgramme implements ILancementProgramme,
             throws LectureFichierException, IOException {
         VerificationDonnee.enregistrerDonneeDansFichier(json,
                 rapport.toString(4), ENCODAGE_DE_FICHIER);
+
+        statistiquePresenter.obenirCalculStatistiques();
     }
 
     @Override
     public void observerLotDispendieux(double montantsParLot, int i) {
-        String observation = EvaluationObservation.LA_VALEUR_PAR_LOT_DU_LOT
-                + (i + 1) + EvaluationObservation.EST_TROP_DISPENDIEUSE;
+        if (montantsParLot > VALEUR_LIMITE_LOT_DISPENDIEUX) {
+            String observation = EvaluationObservation.LA_VALEUR_PAR_LOT_DU_LOT
+                    + (i + 1) + EvaluationObservation.EST_TROP_DISPENDIEUSE;
 
-        observations.add(observation);
+            observations.add(observation);
+        }
+
+        obtenirMontantReparti(montantsParLot);
+
+    }
+
+    private void obtenirMontantReparti(double montantsParLot) {
+        if (montantsParLot < VALEUR_LOT_INF_1000) {
+            moins1000++;
+        } else if (estComprisEntre1000Et10000(montantsParLot)) {
+            entre1000et10000++;
+        } else {
+            plus10000++;
+        }
+    }
+
+    private boolean estComprisEntre1000Et10000(double montantsParLot) {
+        return montantsParLot > VALEUR_LOT_INF_1000
+                && montantsParLot < VALEUR_LOT_MEDIUM_10000;
     }
 
     @Override
     public void obtenirDifferenceDate(String [] dateLot)
-            throws IntervallesValideException, ParseException {
+            throws ParseException {
         String [] observation = EvaluationObservation
                 .obtenirDifferenceEntreDate(dateLot, lesLotissements);
 
@@ -252,33 +324,42 @@ public class LancementProgramme implements ILancementProgramme,
 
     @Override
     public void observerSuperficeParLot(int superficies, int i) {
-        String observation = EvaluationObservation.LA_SUPERFFICIE_DU_LOT
-                + (i + 1)+ EvaluationObservation.EST_TROP_GRANDE;
+        if (superficies > SUPERFICIE_MAXIMALE) {
+            String observation = EvaluationObservation.LA_SUPERFFICIE_DU_LOT
+                    + (i + 1)+ EvaluationObservation.EST_TROP_GRANDE;
 
-        observations.add(observation);
+            observations.add(observation);
+        }
     }
 
     @Override
     public void observerDoubleVersementTaxeMunicipale(double taxe) {
-        String observation = EvaluationObservation.MSG_DLE;
+        if (taxe > TAXE_MUNICIPALE_MAXIMALE) {
+            String observation = EvaluationObservation.MSG_DLE;
 
-        observations.add(observation);
+            observations.add(observation);
+        }
     }
 
     @Override
     public void observerDoubleVersementTaxeScolaire(double taxe) {
-        String observation = EvaluationObservation.MSG;
+        if (taxe > TAXE_SCOLAIRE_MAXIMALE) {
+            String observation = EvaluationObservation.MSG;
 
-        observations.add(observation);
+            observations.add(observation);
+        }
 
     }
 
     @Override
     public void observerValeurFonciere(double fonciere) {
-        String observation = EvaluationObservation
-                .VALEUR_FONCIÈRE_TOTALE_NE_DOIT_PAS_DÉPASSER_300000;
+        if (fonciere > VALEUR_FONCIERE_MAXIMALE) {
+            String observation = EvaluationObservation
+                    .VALEUR_FONCIÈRE_TOTALE_NE_DOIT_PAS_DÉPASSER_300000;
 
-        observations.add(observation);
+            observations.add(observation);
+        }
+
     }
 
     @Override
@@ -289,4 +370,28 @@ public class LancementProgramme implements ILancementProgramme,
         observations.add(observation);
     }
 
+    @Override
+    public void obenirCalculRapportStatistiques() throws IOException {
+        obtenirQuantiteEnFonctionId();
+
+        rapportStatistique.rapporterStatistiques(quantiteLots,
+                moins1000,
+                entre1000et10000,
+                plus10000,
+                qteLotAgricole,
+                qteLotResidentiel,
+                qteLotCommercial,
+                superficieMaximale,
+                valeurMaxiLot);
+    }
+
+    private void obtenirQuantiteEnFonctionId() {
+        if (idTerrain == MontantLot.TERRAIN_AGRICOLE) {
+            qteLotAgricole = qteLotAgricole + quantiteLots;
+        } else if (idTerrain == MontantLot.TERRAIN_RESIDENTIEL) {
+            qteLotResidentiel = qteLotResidentiel + quantiteLots;
+        } else if (idTerrain == MontantLot.TERRAIN_COMMERCIAL) {
+            qteLotCommercial = qteLotCommercial + quantiteLots;
+        }
+    }
 }
