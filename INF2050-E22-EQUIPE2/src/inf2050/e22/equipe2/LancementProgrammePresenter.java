@@ -84,6 +84,12 @@ public class LancementProgrammePresenter {
         iLancementProgramme.getSuperficies();
     }
 
+    public void obtenirMaxSuperficie()
+            throws LotValideException, IOException, ParseException,
+            IntervallesValideException, LectureFichierException {
+        iLancementProgramme.getSuperficieMaximale();
+    }
+
     public void obtenirDonneeDates()
             throws IntervallesValideException, LotValideException,
             LectureFichierException, IOException, ParseException {
@@ -112,6 +118,11 @@ public class LancementProgrammePresenter {
             throws IntervallesValideException,
             LotValideException, LectureFichierException, IOException {
         iLancementProgramme.getMontantsParLot();
+    }
+
+    public void obtenirMaxValeurLot() throws LotValideException, IOException,
+            IntervallesValideException, LectureFichierException {
+        iLancementProgramme.getValeurLotMaximale();
     }
 
     public void obtenirDonneeMontantTerrain()
