@@ -15,8 +15,8 @@ package inf2050.e22.equipe2;
  * @version Mai 2022
  */
 public class Utilitaire {
-    
-    public static final String VALEUR_POUR_PRINTF_2 = "%-61s | %d";
+
+    public static final String VALEUR_POUR_PRINTF_2 = "%-65s | %d";
     public static void afficherMessage(String message) {
         System.out.print(message); 
     }
@@ -28,7 +28,7 @@ public class Utilitaire {
         return String.format(
                 "%.2f $", Math.round(Math.ceil(montant*20))/20.0) ;
     }
-    
+
     public static String afficherFormatRapport(String va, int valeur) {
         return String.format(VALEUR_POUR_PRINTF_2, va, valeur) ;
     }
