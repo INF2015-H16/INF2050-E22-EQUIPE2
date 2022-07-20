@@ -10,6 +10,10 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
+/**
+ *
+ * @author akaff
+ */
 public class EvaluationLot implements IEvaluationLot {
 
     public final static double VALEUR_DE_BASE = 733.77;
@@ -108,8 +112,9 @@ public class EvaluationLot implements IEvaluationLot {
                     .validerDateMesure(uniqueLot
                             .getString(ETIQUETTE_DATE_MESURE));
 
-            mesLotissements.add(new Lotissement(description, nombreDroitPassage,
-                    nombreService, superfice, dateMesure));
+            mesLotissements.add(new Lotissement(description,
+                    nombreDroitPassage, nombreService, superfice,
+                    dateMesure));
 
         }
 
@@ -123,14 +128,14 @@ public class EvaluationLot implements IEvaluationLot {
         for(int i = 0; i<list.size(); i++) {
             JSONObject plusieursLot = list.getJSONObject(i);
 
-            mesLotissements.add(obtenirPourPlusieur(plusieursLot));
+            mesLotissements.add(obtenirPourPlusieurs(plusieursLot));
         }
 
         return mesLotissements;
 
     }
 
-    private Lotissement obtenirPourPlusieur(JSONObject plusieursLot)
+    private Lotissement obtenirPourPlusieurs(JSONObject plusieursLot)
             throws LotValideException, IntervallesValideException,
             JSONException {
         Lotissement lotissement = null;
@@ -138,7 +143,8 @@ public class EvaluationLot implements IEvaluationLot {
         if (VerificationDonnee.verifierContenuFichierLot(plusieursLot)) {
             String description = VerificationDonnee
                     .validerDescriptionLot(plusieursLot
-                            .getString(EvaluationTerrain.ETIQUETTE_DESCRIPTION));
+                            .getString(EvaluationTerrain
+                                    .ETIQUETTE_DESCRIPTION));
             int nombreDroitPassage = VerificationDonnee
                     .validerNombreDroitPassage(plusieursLot
                             .getInt(ETIQUETTE_DROIT_PASSAGE));
@@ -166,7 +172,8 @@ public class EvaluationLot implements IEvaluationLot {
         String [] descriptions = new String[obtenirNombreLot(lotissements)];
 
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
-            String descriptionLot = getLotissement(i, lotissements).getDescription();
+            String descriptionLot = getLotissement(i,
+                    lotissements).getDescription();
 
             descriptions[i] = descriptionLot;
         }
@@ -174,7 +181,8 @@ public class EvaluationLot implements IEvaluationLot {
         return descriptions;
     }
 
-    private Lotissement getLotissement(int index, ArrayList<Lotissement> lotissements) {
+    private Lotissement getLotissement(int index,
+                                       ArrayList<Lotissement> lotissements) {
         return lotissements.get(index);
     }
 
@@ -185,7 +193,8 @@ public class EvaluationLot implements IEvaluationLot {
         int[] droitPassages = new int[obtenirNombreLot(lotissements)];
 
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
-            droitPassages[i] = getLotissement(i, lotissements).getNombreDroitPassage();
+            droitPassages[i] = getLotissement(i, lotissements)
+                    .getNombreDroitPassage();
 
         }
 
@@ -215,13 +224,24 @@ public class EvaluationLot implements IEvaluationLot {
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
             superficies[i] = getLotissement(i, lotissements).getSuperficie();
 
-            if (superficies[i] > 45000) {
-                iObservationLot.observerSuperficeParLot(superficies[i], i);
-            }
+            iObservationLot.observerSuperficeParLot(superficies[i], i);
 
         }
 
         return superficies;
+    }
+
+    @Override
+    public int obtenirMaximumSuperficie(int [] superficies) {
+        int maxSuperficie = superficies[0];
+
+        for (int i = 1; i < superficies.length; i++) {
+            if (superficies[i] > maxSuperficie) {
+                maxSuperficie = superficies[i];
+            }
+        }
+
+        return maxSuperficie;
     }
 
     @Override
@@ -234,7 +254,6 @@ public class EvaluationLot implements IEvaluationLot {
             dates[i] = getLotissement(i, lotissements).getDateMesure();
 
         }
-        
         iObservationLot.obtenirDifferenceDate(dates);
 
         return dates;
@@ -247,7 +266,6 @@ public class EvaluationLot implements IEvaluationLot {
                                         double prixMaximum,
                                         ArrayList<Lotissement> lotissements)
             throws NullPointerException, IntervallesValideException {
-
         double [] montantsLot = new double[obtenirNombreLot(lotissements)];
         montantLot = MontantLot.setMontantLot(idTerrain);
 
@@ -309,14 +327,24 @@ public class EvaluationLot implements IEvaluationLot {
             montantsParLot[i] = montantsLot[i] + montantsPassage[i] +
                     montantsService[i];
 
-            if (montantsParLot[i] > 45000) {
-                iObservationLot.observerLotDispendieux(montantsParLot[i], i);
-            }
+            iObservationLot.observerLotDispendieux(montantsParLot[i], i);
 
         }
 
         return montantsParLot;
+    }
 
+    @Override
+    public double obtenirMaximumValeurParLot(double [] valeurLots) {
+        double maxValeur = valeurLots[0];
+
+        for (int i = 1; i < valeurLots.length; i++) {
+            if (valeurLots[i] > maxValeur) {
+                maxValeur = valeurLots[i];
+            }
+        }
+
+        return maxValeur;
     }
 
     @Override
@@ -332,9 +360,7 @@ public class EvaluationLot implements IEvaluationLot {
 
         double valeurFonciere = tempTerrain + VALEUR_DE_BASE;
 
-        if (valeurFonciere > 300000) {
-            iObservationLot.observerValeurFonciere(valeurFonciere);
-        }
+        iObservationLot.observerValeurFonciere(valeurFonciere);
 
         return valeurFonciere;
 
