@@ -34,6 +34,7 @@ public interface IEvaluationLot {
     int [] obtenirSuperficie(ArrayList<Lotissement> lotissements)
             throws IOException, NullPointerException,
             IntervallesValideException;
+    int obtenirMaximumSuperficie(int [] superficies);
 
     String [] obtenirDateMesure(ArrayList<Lotissement> lotissements)
             throws IOException, NullPointerException,
@@ -66,6 +67,8 @@ public interface IEvaluationLot {
                                    ArrayList<Lotissement> lotissements)
             throws IOException,
             NullPointerException, IntervallesValideException;
+
+    double obtenirMaximumValeurParLot(double [] valeurLots);
 
     double calculerValeurFonciere(double [] montantsParLot,
                                   ArrayList<Lotissement> lotissements)
