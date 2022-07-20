@@ -86,7 +86,7 @@ public class EvaluationTerrain implements IEvaluationTerrain {
 
     @Override
     public double obtenirPrixMinimum(Terrain terrain)
-            throws NullPointerException, PrixValideException {
+            throws NullPointerException {
         String temp = terrain.getPrixMin();
         String changerVirgule = temp.replaceAll(",", ".");
         String prixMinimum = changerVirgule
@@ -126,18 +126,18 @@ public class EvaluationTerrain implements IEvaluationTerrain {
     public double calculerTaxeScolaire(double montantTerrain)
             throws NullPointerException {
         double taxeScolaire = montantTerrain * TAXE_SCOLAIRE;
-        if (taxeScolaire > 500) {
-            iObservationTerrain.observerDoubleVersementTaxeScolaire(montantTerrain);
-        }
+
+        iObservationTerrain.observerDoubleVersementTaxeScolaire(montantTerrain);
+
         return taxeScolaire;
     }
 
     @Override
     public double calculerTaxeMunicipale(double montantTerrain) {
         double taxeMunicipale = montantTerrain * TAXE_MUNICIPALE;
-        if (taxeMunicipale > 1000) {
-            iObservationTerrain.observerDoubleVersementTaxeMunicipale(montantTerrain);
-        }
+
+        iObservationTerrain.observerDoubleVersementTaxeMunicipale(montantTerrain);
+
         return taxeMunicipale;
     }
 
@@ -163,11 +163,18 @@ public class EvaluationTerrain implements IEvaluationTerrain {
 
                 donneRapport.accumulate(ETIQUETTE_LOTISSEMENTS, detailsLot);
             }
+            ajouterObservationSiExiste(observation, donneRapport);
 
-            donneRapport.accumulate(ETIQUETTE_OBSERVATIONS, observation);
         }
 
         return donneRapport;
+    }
+
+    private void ajouterObservationSiExiste(ArrayList<String> observation,
+                                            JSONObject donneRapport) {
+        if (observation.size() != 0) {
+            donneRapport.accumulate(ETIQUETTE_OBSERVATIONS, observation);
+        }
     }
 
     private JSONObject fournirEnteteRapport(double montantTerrain,
