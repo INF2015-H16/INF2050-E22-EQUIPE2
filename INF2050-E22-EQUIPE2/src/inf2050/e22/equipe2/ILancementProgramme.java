@@ -50,6 +50,10 @@ public interface ILancementProgramme {
             throws IntervallesValideException, LotValideException,
             LectureFichierException, IOException, ParseException;
 
+    void getSuperficieMaximale()
+            throws LotValideException, IOException, ParseException,
+            IntervallesValideException, LectureFichierException;
+
     void getDates()
             throws IntervallesValideException, LotValideException,
             LectureFichierException, IOException, ParseException;
@@ -65,6 +69,9 @@ public interface ILancementProgramme {
 
     void getMontantsParLot() throws IntervallesValideException,
             LotValideException, LectureFichierException, IOException;
+
+    void getValeurLotMaximale() throws LotValideException, IOException,
+            IntervallesValideException, LectureFichierException;
 
     void getMontantTerrain()
             throws IntervallesValideException, LotValideException,
