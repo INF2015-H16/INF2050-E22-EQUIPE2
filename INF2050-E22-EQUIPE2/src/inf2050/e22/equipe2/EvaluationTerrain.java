@@ -30,6 +30,8 @@ public class EvaluationTerrain implements IEvaluationTerrain {
 
     public final static double TAXE_SCOLAIRE = 0.012;
     public final static double TAXE_MUNICIPALE = 0.025;
+    public static final int TAXE_SCOLAIRE_MAXIMALE = 500;
+    public static final int TAXE_MUNICIPALE_MAXIMALE = 1000;
     public final static String ETIQUETTE_DESCRIPTION = "description";
     public final static String ETIQUETTE_TYPE_TERRAIN = "type_terrain";
     public final static String ETIQUETTE_PRIX_M2_MIN = "prix_m2_min";
@@ -44,16 +46,10 @@ public class EvaluationTerrain implements IEvaluationTerrain {
     public final static String ETIQUETTE_OBSERVATIONS = "observations";
     public final static String DECIMAL_SEULEMENT_POINT = "[^\\d.]";
     public static final String MESSAGE = "message";
-    private IObservationTerrain iObservationTerrain;
-
-    public EvaluationTerrain(IObservationTerrain iObservationTerrain) {
-        this.iObservationTerrain = iObservationTerrain;
-    }
 
     @Override
     public Terrain obtenirDonneesTerrain(String json,
-                                         EvaluationLot lotissements,
-                                         ArrayList<String> observations)
+                                         EvaluationLot lotissements)
             throws IntervallesValideException, PrixValideException, JSONException {
         Terrain terrain = null;
         if (json.length() != 0) {
@@ -71,7 +67,7 @@ public class EvaluationTerrain implements IEvaluationTerrain {
                             .getString(ETIQUETTE_PRIX_M2_MAX)));
 
             terrain = new Terrain(typeTerrain, prixMin,
-                    priMax, lotissements, observations);
+                    priMax, lotissements);
 
         }
 
@@ -104,41 +100,43 @@ public class EvaluationTerrain implements IEvaluationTerrain {
         return Double.parseDouble(prixMaximum);
     }
 
-    public boolean comparerPrixMinimumMaximum(double prixMin,
-                                                     double prixMax)
-            throws PrixValideException {
-        boolean estValide;
-        if (prixMin > prixMax) {
-            throw new PrixValideException(GestionnaireMessage
-                    .ERREUR_CONFLIT_PRIX);
-        } else {
-            estValide = true;
-
-            if (prixMax > (2 * prixMin)) {
-                iObservationTerrain.observerPrixMaxVsMin();
-            }
-        }
-        return estValide;
+    @Override
+    public boolean obtenirPrixMaxDoublePrixMin(double prixMin, double prixMax) {
+        return prixMax > (2 * prixMin);
     }
-
 
     @Override
     public double calculerTaxeScolaire(double montantTerrain)
             throws NullPointerException {
-        double taxeScolaire = montantTerrain * TAXE_SCOLAIRE;
+        return montantTerrain * TAXE_SCOLAIRE;
+    }
 
-        iObservationTerrain.observerDoubleVersementTaxeScolaire(montantTerrain);
+    @Override
+    public double obtenirTaxeScolaireDoubleVersement(double taxeScolaire) {
+        double taxe = 0;
 
-        return taxeScolaire;
+        if (taxeScolaire > TAXE_SCOLAIRE_MAXIMALE) {
+            taxe = taxeScolaire;
+        }
+
+        return taxe;
     }
 
     @Override
     public double calculerTaxeMunicipale(double montantTerrain) {
-        double taxeMunicipale = montantTerrain * TAXE_MUNICIPALE;
+        return montantTerrain * TAXE_MUNICIPALE;
+    }
 
-        iObservationTerrain.observerDoubleVersementTaxeMunicipale(montantTerrain);
+    @Override
+    public double obtenirTaxeMunicipaleDoubleVersement(
+            double taxeMunicipale) {
+        double taxe = 0;
 
-        return taxeMunicipale;
+        if (taxeMunicipale > TAXE_MUNICIPALE_MAXIMALE) {
+            taxe = taxeMunicipale;
+        }
+
+        return taxe;
     }
 
     @Override
@@ -147,7 +145,7 @@ public class EvaluationTerrain implements IEvaluationTerrain {
                                            double montantTaxeMunicipale,
                                            double [] montantsParLot,
                                            String [] descriptions,
-                                           ArrayList<String> observation)
+                                           ArrayList<String> observations)
             throws LotValideException {
 
         JSONObject donneRapport = new JSONObject();
@@ -163,7 +161,8 @@ public class EvaluationTerrain implements IEvaluationTerrain {
 
                 donneRapport.accumulate(ETIQUETTE_LOTISSEMENTS, detailsLot);
             }
-            ajouterObservationSiExiste(observation, donneRapport);
+
+            ajouterObservationSiExiste(observations, donneRapport);
 
         }
 
