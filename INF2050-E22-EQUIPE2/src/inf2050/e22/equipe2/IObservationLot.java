@@ -8,10 +8,18 @@ import java.io.IOException;
 import java.text.ParseException;
 
 /**
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 3
+ *
+ * IObservationLot : Cette classe contient les données
+ *                         sur la gestion des observations des lots.
+ *
+ *
  * @author Elza Meguieng Tiemghen
  * @version juillet 2022
+ *
  */
-
 public interface IObservationLot {
 
     void getDescriptionLotDispendieux()
