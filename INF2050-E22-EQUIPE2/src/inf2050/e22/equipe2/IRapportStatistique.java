@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 public interface IRapportStatistique {
 
+    double obtenirMontantRepartiParLot(double [] montantsParLots,
+                                       ArrayList<Lotissement> lotissements)
+            throws IntervallesValideException;
     void genererRapportStat(File file, String content)
             throws IOException;
     ArrayList<Statistique> lireFichierStatistiques()
