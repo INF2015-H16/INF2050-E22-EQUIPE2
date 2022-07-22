@@ -27,8 +27,7 @@ import net.sf.json.JSONObject;
  */
 public interface IEvaluationTerrain {
 
-    Terrain obtenirDonneesTerrain(String json, EvaluationLot lotissements,
-                                  ArrayList<String> observations)
+    Terrain obtenirDonneesTerrain(String json, EvaluationLot lotissements)
             throws IntervallesValideException, PrixValideException;
 
     int obtenirTypeTerrain(Terrain terrain)
@@ -40,12 +39,15 @@ public interface IEvaluationTerrain {
     double obtenirPrixMaximum(Terrain terrain)
             throws IOException, NullPointerException, PrixValideException;
 
+    boolean obtenirPrixMaxDoublePrixMin(double prixMin, double prixMax);
     double calculerTaxeScolaire(double montantTerrain)
             throws IOException, NullPointerException;
 
+    double obtenirTaxeScolaireDoubleVersement(double taxeScolaire);
     double calculerTaxeMunicipale(double montantTerrain)
             throws IOException;
 
+    double obtenirTaxeMunicipaleDoubleVersement(double taxeMunicipale);
     JSONObject fournirRapportValide(double montantTerrain,
                                     double montantTaxeScolaire,
                                     double montantTaxeMunicipale,
