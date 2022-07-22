@@ -13,8 +13,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 3
  *
- * @author akaff
+ * RapportStatistique : Cette classe contient les données
+ *                         sur la gestion des statistiques.
+ *
+ *
+ * @author Achou Henri Joël / Akaffou
+ * @version juillet 2022
+ *
  */
 public class RapportStatistique implements IRapportStatistique {
 
@@ -152,18 +161,6 @@ public class RapportStatistique implements IRapportStatistique {
             int donnee = Integer.parseInt(donnees[i].trim());
             statistiques.add(new Statistique(numero, libelle, donnee));
         }
-    }
-
-    @Override
-    public double obtenirMontantRepartiParLot(double [] montantsParLots,
-                                              ArrayList<Lotissement> lotissements) {
-        double montantParLot = 0;
-
-        for (int i = 0; i < lotissements.size(); i++) {
-            montantParLot = montantsParLots[i];
-        }
-
-        return montantParLot;
     }
 
     public void rapporterStatistiques(int tailleTotale,
