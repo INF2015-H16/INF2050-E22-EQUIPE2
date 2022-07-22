@@ -7,12 +7,12 @@ package inf2050.e22.equipe2;
 /**
  * Université du Québec à Montréal (UQAM)
  * Cours : INF2050 - 020 - Été 2022
- * Sprint 1
+ * Sprint 3
  *
  * La classe utilitaire contient des methodes utiles
  *
  * @author Elza Meguieng Tiemghen
- * @version Mai 2022
+ * @version juillet 2022
  */
 public class Utilitaire {
 
