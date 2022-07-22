@@ -8,8 +8,18 @@ import java.io.IOException;
 import java.text.ParseException;
 
 /**
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 3
  *
- * @author akaff
+ * ILancementProgramme : Cette interface permet l'exécution du programme.
+ *                      Elle parcourt les différentes méthodes et les
+ *                      exécute l'une apres l'autre.
+ *
+ *
+ * @author Achou Henri Joël / Akaffou
+ * @version juillet 2022
+ *
  */
 public interface ILancementProgramme extends IStatistique,
         IObservationLot, IObservationTerrain {
