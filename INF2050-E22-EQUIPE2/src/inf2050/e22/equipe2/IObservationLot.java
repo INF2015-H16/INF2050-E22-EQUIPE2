@@ -4,6 +4,7 @@
  */
 package inf2050.e22.equipe2;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 /**
@@ -13,9 +14,13 @@ import java.text.ParseException;
 
 public interface IObservationLot {
 
-    void observerLotDispendieux(double montantsParLot, int i);
-    void obtenirDifferenceDate(String [] dateLot)
-            throws IntervallesValideException, ParseException;
-    void observerSuperficeParLot(int superficies, int i);
-    void observerValeurFonciere(double fonciere);
+    void getDescriptionLotDispendieux()
+            throws IOException, IntervallesValideException,
+            ParseException, LotValideException, LectureFichierException;
+    void getEcartMaximal() throws ParseException, IntervallesValideException,
+            IOException, LotValideException, LectureFichierException;
+    void getValeurFonciere() throws IntervallesValideException, IOException,
+            LotValideException, LectureFichierException;
+    void getSuperficeParLot() throws IntervallesValideException, IOException,
+            LotValideException, LectureFichierException;
 }
