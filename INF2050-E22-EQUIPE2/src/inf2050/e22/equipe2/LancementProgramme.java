@@ -270,12 +270,18 @@ public class LancementProgramme implements ILancementProgramme {
             if (descriptionLot != null && descriptionLot.length() > 0) {
                 observation = EvaluationObservation.LA_VALEUR_PAR_LOT_DU_LOT
                         + descriptionLot + EvaluationObservation.EST_TROP_DISPENDIEUSE;
-                lesObservations.add(observation);
+                ajoutObservationNonVide();
             }
 
         }
 
         presenter.obtenirEcartDateMaximal();
+    }
+
+    private void ajoutObservationNonVide() {
+        if (observation != "") {
+            lesObservations.add(observation);
+        }
     }
 
     @Override
@@ -291,7 +297,6 @@ public class LancementProgramme implements ILancementProgramme {
             }
         }
 
-        lesObservations.add(observation);
         presenter.obtenirValeurFonciere();
     }
 
@@ -303,9 +308,9 @@ public class LancementProgramme implements ILancementProgramme {
         if (fonciere != 0) {
             observation = EvaluationObservation
                     .VALEUR_FONCIÈRE_TOTALE_NE_DOIT_PAS_DÉPASSER_300000;
+            lesObservations.add(observation);
         }
 
-        lesObservations.add(observation);
         presenter.obtenirSuperficieLot();
     }
 
@@ -337,9 +342,9 @@ public class LancementProgramme implements ILancementProgramme {
 
         if (taxe != 0) {
             observation = EvaluationObservation.MSG_DLE;
+            lesObservations.add(observation);
         }
 
-        lesObservations.add(observation);
         presenter.obtenirTaxeScolaire();
 
     }
@@ -352,9 +357,9 @@ public class LancementProgramme implements ILancementProgramme {
                 leMontantTaxeScolaire);
         if (taxe != 0) {
             observation = EvaluationObservation.MSG;
+            lesObservations.add(observation);
         }
 
-        lesObservations.add(observation);
         presenter.obtenirDoublePrixMinMax();
 
     }
@@ -368,9 +373,9 @@ public class LancementProgramme implements ILancementProgramme {
         if (estGrand) {
             observation = EvaluationObservation
                     .PAS_DÉPASSER_DEUX_FOIS_LE_PRIX_MINIMUM_DU_M_2;
+            lesObservations.add(observation);
         }
 
-        lesObservations.add(observation);
         presenter.obtenirDonneeRapporter();
 
     }
