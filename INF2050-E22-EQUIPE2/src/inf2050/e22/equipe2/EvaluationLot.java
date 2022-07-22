@@ -11,7 +11,6 @@ import java.util.Date;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
-
 /**
  * Université du Québec à Montréal (UQAM)
  * Cours : INF2050 - 020 - Été 2022
@@ -19,14 +18,12 @@ import net.sf.json.JSONObject;
  *
  * EvaluationLot : Cette classe contient les données sur la description,
  *                le nombre de droits de passage, le nombre de services,
- *                la superficie, la date de mesure des lots,
- *                ainsi que, le type de terrain, les prix min et max.
- *                Elle permet de calculer la valeur foncière du
- *                terrain ainsi que les taxes scolaire et municipale.
+ *                la superficie, la date de mesure des lots.
+ *                Elle permet de calculer les valeurs par lot.
  *
  *
  * @author Achou Henri Joël / Akaffou
- * @version 19 mai 2022
+ * @version juillet 2022
  *
  */
 public class EvaluationLot implements IEvaluationLot {
