@@ -44,9 +44,9 @@ public class RapportStatistique implements IRapportStatistique {
     public static final String FIN_RAPPORT = "#";
     public static String entete = "# SPRINT 3 INF 2050";
     public static String titre = "# RAPPORT STATISTIQUE - EVALUATION TERRAIN";
-    public static String delimiteur0 = "\n*********************************" +
+    public static String delimiteur0 = "\n************************************" +
             "**********************************************\n";
-    public static String delimiteur1 = "\n---------------------------------" +
+    public static String delimiteur1 = "\n------------------------------------" +
             "----------------------------------------------\n";
     public static String enteteColonne = "# No. | Libelle                    " +
             "                               | Valeur";
@@ -154,6 +154,18 @@ public class RapportStatistique implements IRapportStatistique {
         }
     }
 
+    @Override
+    public double obtenirMontantRepartiParLot(double [] montantsParLots,
+                                              ArrayList<Lotissement> lotissements) {
+        double montantParLot = 0;
+
+        for (int i = 0; i < lotissements.size(); i++) {
+            montantParLot = montantsParLots[i];
+        }
+
+        return montantParLot;
+    }
+
     public void rapporterStatistiques(int tailleTotale,
                                       int nombreLot1000,
                                       int nombreLot1000_100000,
@@ -205,10 +217,9 @@ public class RapportStatistique implements IRapportStatistique {
 
     private String obtenirValeur(int donnee,
                                  String nombreTotalDeLotsTerrains) {
-        String content1 = Utilitaire.afficherFormatRapport(
+        return Utilitaire.afficherFormatRapport(
                 nombreTotalDeLotsTerrains, donnee)
                 + "\n";
-        return content1;
     }
 
     private String obtenirNombreLotTerra(int nombreLotTerrAgric,
@@ -218,7 +229,7 @@ public class RapportStatistique implements IRapportStatistique {
         int nombreLotTerrain1 = obtenirDonnee(6) + nombreLotTerrAgric;
         int nombreLotTerrain2 = obtenirDonnee(7) + nombreLotTerrResid;
         int nombreLotTerrain3 = obtenirDonnee(8) + nombreLotTerrCommer;
-        String content3 = Utilitaire.afficherFormatRapport(
+        return Utilitaire.afficherFormatRapport(
                 NOMBRE_DE_LOTS_PAR_TYPE_DE_TERRAIN, nombreLotTerrain1
                         + nombreLotTerrain2 + nombreLotTerrain3)+ "\n"
                 + Utilitaire.afficherFormatRapport(
@@ -230,7 +241,6 @@ public class RapportStatistique implements IRapportStatistique {
                 + Utilitaire.afficherFormatRapport(
                         LOTS_DESC_TERRAIN_COMMERCIAL, nombreLotTerrain3)
                 + "\n";
-        return content3;
     }
 
     private String obtenirNombreLotParValeur(int nombreLot1000,
@@ -241,7 +251,7 @@ public class RapportStatistique implements IRapportStatistique {
         int nombreLot2 = obtenirDonnee(3) + nombreLot1000_100000;
         int nombreLot3 = obtenirDonnee(4) + nombrePlus10000;
 
-        String content2 = Utilitaire.afficherFormatRapport(
+        return Utilitaire.afficherFormatRapport(
                 NOMBRE_DE_LOTS_AVEC_VALEUR_PAR_LOT, (nombreLot1
                         + nombreLot2 + nombreLot3))+ "\n"
                 + Utilitaire.afficherFormatRapport(DE_MOINS_DE_1000_$,
@@ -253,8 +263,6 @@ public class RapportStatistique implements IRapportStatistique {
                 + Utilitaire.afficherFormatRapport(DE_PLUS_DE_10000_$,
                 nombreLot3)
                 + "\n";
-
-        return content2;
     }
 
     private int obtenirValeurMaximale(int index, int valeur)
