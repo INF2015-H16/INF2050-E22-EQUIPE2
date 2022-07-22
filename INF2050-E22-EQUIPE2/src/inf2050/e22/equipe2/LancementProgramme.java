@@ -6,8 +6,18 @@ import java.util.ArrayList;
 import net.sf.json.JSONObject;
 
 /**
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 3
  *
- * @author akaff
+ * LancementProgramme : Cette classe permet l'exécution du programme.
+ *                      Elle parcourt les différentes méthodes et les
+ *                      exécute l'une apres l'autre.
+ *
+ *
+ * @author Achou Henri Joël / Akaffou
+ * @version juillet 2022
+ *
  */
 public class LancementProgramme implements ILancementProgramme {
 
@@ -407,12 +417,15 @@ public class LancementProgramme implements ILancementProgramme {
 
     @Override
     public void getPrixReparti() throws IOException {
-        double prix = rapportStatistique.obtenirMontantRepartiParLot(
-                lesMontantsParLot, lesLotissements);
-
-        obtenirMontantReparti(prix);
+        obtenirMontantRepartiParLot();
 
         statistiquePresenter.obenirCalculStatistiques();
+    }
+
+    private void obtenirMontantRepartiParLot() {
+        for (double prix : lesMontantsParLot) {
+            obtenirMontantReparti(prix);
+        }
     }
 
     private void obtenirMontantReparti(double montantsParLot) {
