@@ -7,7 +7,21 @@ package inf2050.e22.equipe2;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-
+/**
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 3
+ *
+ * IEvaluationLot : Cette interface contient les données sur la description,
+ *                le nombre de droits de passage, le nombre de services,
+ *                la superficie, la date de mesure des lots.
+ *                Elle permet de calculer les valeurs par lot.
+ *
+ *
+ * @author Achou Henri Joël / Akaffou
+ * @version juillet 2022
+ *
+ */
 public interface IEvaluationLot {
 
     int obtenirNombreLot(ArrayList<Lotissement> lotissements)
