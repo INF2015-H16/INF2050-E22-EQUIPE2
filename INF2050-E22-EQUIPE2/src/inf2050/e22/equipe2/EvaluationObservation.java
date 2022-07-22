@@ -5,8 +5,18 @@
 package inf2050.e22.equipe2;
 
 /**
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 3
  *
- * @author akaff
+ * EvaluationObservation : Cette classe contient les observations
+ *                  qui s'affiche si le résultat des opérations révéle
+ *                  une situation particulière.
+ *
+ *
+ * @author Achou Henri Joël / Akaffou
+ * @version juillet 2022
+ *
  */
 public class EvaluationObservation {
 
