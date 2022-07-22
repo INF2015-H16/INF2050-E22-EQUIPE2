@@ -5,8 +5,16 @@
 package inf2050.e22.equipe2;
 
 /**
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 3
  *
- * @author akaff
+ * MontantLotAgricole : Cette classe calcule les montants commerciaux.
+ *
+ *
+ * @author Achou Henri Joël / Akaffou
+ * @version juillet 2022
+ *
  */
 public class MontantLotCommercial extends MontantLot {
 
