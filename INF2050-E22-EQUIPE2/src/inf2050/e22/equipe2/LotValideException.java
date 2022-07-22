@@ -7,13 +7,13 @@ package inf2050.e22.equipe2;
 /**
  * Université du Québec à Montréal (UQAM)
  * Cours : INF2050 - 020 - Été 2022
- * Sprint 1
+ * Sprint 3
  *
  * LotValideException : Exception générée lorsque le lot n'est
  * pas au format "lot N ou s'il y a des doublons".
  *
  * @author Achou Henri Joël / Akaffou
- * @version 19 mai 2022
+ * @version juillet 2022
  *
  */
 public class LotValideException extends Exception {
