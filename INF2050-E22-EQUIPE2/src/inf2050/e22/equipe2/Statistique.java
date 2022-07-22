@@ -9,10 +9,14 @@ package inf2050.e22.equipe2;
  * Cours : INF2050 - 020 - Été 2022
  * Sprint 3
  *
- * @author @kemayou
- * @version Juillet 2022
+ * Statistique : Cette classe modélise les données
+ *              du rapport sur la gestion des statistiques.
+ *
+ *
+ * @author Aurélien Tcheuffa Kemayou / Sidopz
+ * @version juillet 2022
+ *
  */
-
 public class Statistique {
 
     private String numero;
