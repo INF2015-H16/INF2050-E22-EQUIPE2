@@ -5,18 +5,22 @@
 package inf2050.e22.equipe2;
 
 /**
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 3
  *
- * @author akaff
+ * MontantLot : Cette classe permet de calculer les montants
+ *              des lots suivant leur type.
+ *
+ * @author Achou Henri Joël / Akaffou
+ * @version juillet 2022
+ *
  */
 public abstract class MontantLot {
 
     public final static int TERRAIN_AGRICOLE = 0;
     public final static int TERRAIN_RESIDENTIEL = 1;
     public final static int TERRAIN_COMMERCIAL = 2;
-    public final static String DESC_TERRAIN_AGRICOLE = "Agricole";
-    public final static String DESC_TERRAIN_RESIDENTIEL = "Résidentiel";
-    public final static String DESC_TERRAIN_COMMERCIAL = "Commercial";
-
     public static final double SERVICE_DE_BASE = 2;
     public final static int MONTANT_BASE_DROIT_PASSAGE = 500;
     public final static double TAUX_05 = 0.05;
