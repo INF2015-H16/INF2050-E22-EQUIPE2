@@ -4,6 +4,8 @@
  */
 package inf2050.e22.equipe2;
 
+import java.io.IOException;
+
 /**
  * @author Elza Meguieng Tiemghen
  * @version juillet 2022
@@ -11,7 +13,14 @@ package inf2050.e22.equipe2;
 
 public interface IObservationTerrain {
 
-    void observerDoubleVersementTaxeMunicipale(double taxe);
-    void observerDoubleVersementTaxeScolaire(double taxe);
-    void observerPrixMaxVsMin();
+    void getTaxeMunicipaleDouble() throws IOException,
+            IntervallesValideException, LotValideException,
+            LectureFichierException;
+    void getTaxeScolaireDouble() throws IOException,
+            IntervallesValideException, LotValideException,
+            LectureFichierException;
+    void getTaxePrixMinMaxDouble() throws IOException,
+            IntervallesValideException, LotValideException,
+            LectureFichierException;
+
 }
