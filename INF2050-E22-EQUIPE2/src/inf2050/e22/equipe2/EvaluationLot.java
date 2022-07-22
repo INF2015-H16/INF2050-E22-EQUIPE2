@@ -256,7 +256,7 @@ public class EvaluationLot implements IEvaluationLot {
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
             if (superficies[i] > SUPERFICIE_MAXIMALE) {
                 String lot = descriptions[i];
-                lotsTropGrands[i] = lot;
+                lotsTropGrands[i] = lot.trim();
             }
         }
 
@@ -416,7 +416,7 @@ public class EvaluationLot implements IEvaluationLot {
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
             if (montantsParLot[i] > VALEUR_LIMITE_LOT_DISPENDIEUX) {
                 String lot = descriptions[i];
-                lotDispendieux[i] = lot;
+                lotDispendieux[i] = lot.trim();
             }
         }
 
