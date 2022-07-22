@@ -18,13 +18,13 @@ import org.apache.commons.io.IOUtils;
 /**
  * Université du Québec à Montréal (UQAM)
  * Cours : INF2050 - 020 - Été 2022
- * Sprint 1
+ * Sprint 3
  *
  * La classe VerificationDonnee permet de faire
  * la validation de toutes les données en entrée du programme.
  *
- * @author @kemayou
- * @version Juin 2022
+ * @author Aurélien Tcheuffa Kemayou / Sidopz
+ * @version juillet 2022
  *
  */
 public class VerificationDonnee {
