@@ -69,7 +69,6 @@ public interface IEvaluationLot {
             NullPointerException, IntervallesValideException;
 
     double obtenirMaximumValeurParLot(double [] valeurLots);
-
     double calculerValeurFonciere(double [] montantsParLot,
                                   ArrayList<Lotissement> lotissements)
             throws IOException,
