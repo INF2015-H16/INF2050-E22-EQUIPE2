@@ -5,14 +5,29 @@
 package inf2050.e22.equipe2;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 3
  *
- * @author akaff
+ * EvaluationLot : Cette classe contient les données sur la description,
+ *                le nombre de droits de passage, le nombre de services,
+ *                la superficie, la date de mesure des lots,
+ *                ainsi que, le type de terrain, les prix min et max.
+ *                Elle permet de calculer la valeur foncière du
+ *                terrain ainsi que les taxes scolaire et municipale.
+ *
+ *
+ * @author Achou Henri Joël / Akaffou
+ * @version 19 mai 2022
+ *
  */
 public class EvaluationLot implements IEvaluationLot {
 
@@ -24,16 +39,19 @@ public class EvaluationLot implements IEvaluationLot {
     public final static String ETIQUETTE_SERVICES = "nombre_services";
     public final static String ETIQUETTE_SUPERFICIE = "superficie";
     public final static String ETIQUETTE_DATE_MESURE = "date_mesure";
+    public static final int PERIOD_MAXIMAL_DATE = 180;
+    public static final int VALEUR_FONCIERE_MAXIMALE = 300000;
+    public static final int SUPERFICIE_MAXIMALE = 45000;
+    public static final int VALEUR_LIMITE_LOT_DISPENDIEUX = 45000;
+    private SimpleDateFormat formatDate = new SimpleDateFormat(
+            EvaluationObservation.DATE_PATTERN);
     private ArrayList<Lotissement> lotissements;
     private final String json;
     private MontantLot montantLot;
-    private IObservationLot iObservationLot;
 
-    public EvaluationLot(ArrayList<Lotissement> lotissements, String json,
-                         IObservationLot iObservationLot)  {
+    public EvaluationLot(ArrayList<Lotissement> lotissements, String json)  {
         this.lotissements = lotissements;
         this.json = json;
-        this.iObservationLot = iObservationLot;
     }
 
     @Override
@@ -224,11 +242,25 @@ public class EvaluationLot implements IEvaluationLot {
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
             superficies[i] = getLotissement(i, lotissements).getSuperficie();
 
-            iObservationLot.observerSuperficeParLot(superficies[i], i);
-
         }
 
         return superficies;
+    }
+
+    public String [] obtenirLotSuperficieTropGrande(String [] descriptions,
+                                      int [] superficies,
+                                      ArrayList<Lotissement> lotissements)
+            throws IntervallesValideException {
+        String [] lotsTropGrands = new String[lotissements.size()];
+
+        for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
+            if (superficies[i] > SUPERFICIE_MAXIMALE) {
+                String lot = descriptions[i];
+                lotsTropGrands[i] = lot;
+            }
+        }
+
+        return lotsTropGrands;
     }
 
     @Override
@@ -246,7 +278,7 @@ public class EvaluationLot implements IEvaluationLot {
 
     @Override
     public String [] obtenirDateMesure(ArrayList<Lotissement> lotissements)
-            throws NullPointerException, IntervallesValideException, ParseException {
+            throws NullPointerException, IntervallesValideException {
 
         String [] dates = new String[obtenirNombreLot(lotissements)];
 
@@ -254,9 +286,52 @@ public class EvaluationLot implements IEvaluationLot {
             dates[i] = getLotissement(i, lotissements).getDateMesure();
 
         }
-        iObservationLot.obtenirDifferenceDate(dates);
 
         return dates;
+    }
+
+    public long [] obtenirEcartMaximalEntreDate(ArrayList<Lotissement> lotissements)
+            throws IntervallesValideException, ParseException {
+        long [] ecart = new long[lotissements.size()];
+        ArrayList<Long> differenceDate = calculerDifferenceDate(lotissements);
+
+        for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
+            if (differenceDate.get(i) > PERIOD_MAXIMAL_DATE) {
+                long donnee = differenceDate.get(i);
+                ecart [i] = donnee;
+            }
+        }
+
+        return ecart;
+    }
+
+    private ArrayList<Long> calculerDifferenceDate(
+            ArrayList<Lotissement> lotissements)
+            throws ParseException, IntervallesValideException {
+        ArrayList<Long> differences = new ArrayList<>();
+        String [] dateLot = obtenirDateMesure(lotissements);
+
+        for (int i = 0; i < lotissements.size(); i++) {
+            for (int j = i + 1; j < lotissements.size(); j++) {
+                calculerDifference(differences, dateLot, i, j);
+            }
+        }
+
+        return differences;
+    }
+
+    private void calculerDifference(ArrayList<Long> differences,
+                                    String[] dateLot,
+                                    int indexI, int indexJ)
+            throws ParseException {
+        Date date = formatDate.parse(dateLot[indexI]);
+        Date dateAutre = formatDate.parse(dateLot[indexJ]);
+
+        long difference = dateAutre.getTime() - date.getTime();
+        long differenceDate = Math.abs((difference
+                / (1000 * 60 * 60 * 24)) % 365);
+
+        differences.add(differenceDate);
     }
 
     @Override
@@ -307,7 +382,8 @@ public class EvaluationLot implements IEvaluationLot {
         montantLot = MontantLot.setMontantLot(idTerrain);
 
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
-            montantsService[i] = montantLot.obtenirMontantService(i, superficies, services);
+            montantsService[i] = montantLot.obtenirMontantService(i,
+                    superficies, services);
 
         }
 
@@ -327,11 +403,24 @@ public class EvaluationLot implements IEvaluationLot {
             montantsParLot[i] = montantsLot[i] + montantsPassage[i] +
                     montantsService[i];
 
-            iObservationLot.observerLotDispendieux(montantsParLot[i], i);
-
         }
 
         return montantsParLot;
+    }
+
+    public String [] obtenirLotDispendieux(String [] descriptions,
+                                      double [] montantsParLot,
+                                      ArrayList<Lotissement> lotissements)
+            throws IntervallesValideException {
+        String [] lotDispendieux = new String[lotissements.size()];
+        for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
+            if (montantsParLot[i] > VALEUR_LIMITE_LOT_DISPENDIEUX) {
+                String lot = descriptions[i];
+                lotDispendieux[i] = lot;
+            }
+        }
+
+        return lotDispendieux;
     }
 
     @Override
@@ -358,12 +447,18 @@ public class EvaluationLot implements IEvaluationLot {
             tempTerrain = tempTerrain + montantsParLot[i];
         }
 
-        double valeurFonciere = tempTerrain + VALEUR_DE_BASE;
+        return tempTerrain + VALEUR_DE_BASE;
 
-        iObservationLot.observerValeurFonciere(valeurFonciere);
+    }
 
-        return valeurFonciere;
+    public double obtenirLotTropGrand(double valeurfonciere) {
+        double valeurTropGrand = 0;
 
+        if (valeurfonciere > VALEUR_FONCIERE_MAXIMALE) {
+            valeurTropGrand = valeurfonciere;
+        }
+
+        return valeurTropGrand;
     }
 
 }
