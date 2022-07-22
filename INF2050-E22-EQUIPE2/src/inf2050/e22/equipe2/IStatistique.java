@@ -1,6 +1,7 @@
 package inf2050.e22.equipe2;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  *  * Université du Québec à Montréal (UQAM)
@@ -14,6 +15,14 @@ import java.io.IOException;
  *  */
 
 public interface IStatistique {
+
+
+    void getSuperficieMaximale()
+            throws LotValideException, IOException, ParseException,
+            IntervallesValideException, LectureFichierException;
+
+    void getValeurLotMaximale() throws LotValideException, IOException,
+            IntervallesValideException, LectureFichierException, ParseException;
 
     void obenirCalculRapportStatistiques() throws IOException;
 }
