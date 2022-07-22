@@ -7,12 +7,12 @@ package inf2050.e22.equipe2;
 /**
  * Université du Québec à Montréal (UQAM)
  * Cours : INF2050 - 020 - Été 2022
- * Sprint 1
+ * Sprint 3
  *
  * Lotissement : Cette classe permet de modéliser le lotissement.
  *
  * @author Achou Henri Joël / Akaffou
- * @version 19 mai 2022
+ * @version juillet 2022
  *
  */
 public class Lotissement {
