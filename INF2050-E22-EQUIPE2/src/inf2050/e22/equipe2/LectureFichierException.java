@@ -4,6 +4,19 @@
  */
 package inf2050.e22.equipe2;
 
+/**
+ * Université du Québec à Montréal (UQAM)
+ * Cours : INF2050 - 020 - Été 2022
+ * Sprint 3
+ *
+ * LectureFichierException : Cette classe permet de gérer les erreurs
+ *                      que fournissent la lecture des fichiers.
+ *
+ *
+ * @author Achou Henri Joël / Akaffou
+ * @version juillet 2022
+ *
+ */
 public class LectureFichierException extends Exception {
 
     public LectureFichierException() {
