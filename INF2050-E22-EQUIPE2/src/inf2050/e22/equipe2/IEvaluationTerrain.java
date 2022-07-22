@@ -11,18 +11,16 @@ import net.sf.json.JSONObject;
 /**
  * Université du Québec à Montréal (UQAM)
  * Cours : INF2050 - 020 - Été 2022
- * Sprint 1
+ * Sprint 3
  *
- * EvaluationTerrain : Cette classe contient les données sur la description,
- *                le nombre de droits de passage, le nombre de services,
- *                la superficie, la date de mesure des lots,
- *                ainsi que, le type de terrain, les prix min et max.
- *                Elle permet de calculer la valeur foncière du
- *                terrain ainsi que les taxes scolaire et municipale.
+ * IEvaluationTerrain : Cette interface contient les données sur
+ *                     le type de terrain, les prix min et max.
+ *                     Elle permet de calculer la valeur foncière du
+ *                     terrain ainsi que les taxes scolaire et municipale.
  *
  *
  * @author Achou Henri Joël / Akaffou
- * @version 19 mai 2022
+ * @version juillet 2022
  *
  */
 public interface IEvaluationTerrain {
