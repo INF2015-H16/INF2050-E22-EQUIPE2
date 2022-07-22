@@ -232,6 +232,19 @@ public class VerificationDonnee {
         return lot < NOMBRE_MINIMAL_LOT || lot > NOMBRE_MAXIMAL_LOT;
     }
 
+    public static boolean comparerPrixMinimumMaximum(double prixMin,
+                                              double prixMax)
+            throws PrixValideException {
+        boolean estValide;
+        if (prixMin > prixMax) {
+            throw new PrixValideException(GestionnaireMessage
+                    .ERREUR_CONFLIT_PRIX);
+        } else {
+            estValide = true;
+        }
+        return estValide;
+    }
+
     public static int validerNombreDroitPassage(int droit)
             throws IntervallesValideException {
         int droitPassage;
