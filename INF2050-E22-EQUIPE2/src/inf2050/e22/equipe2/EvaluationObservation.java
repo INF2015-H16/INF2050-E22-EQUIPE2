@@ -21,7 +21,7 @@ package inf2050.e22.equipe2;
 public class EvaluationObservation {
 
     public static final String LA_VALEUR_PAR_LOT_DU_LOT = "La valeur par" +
-            " lot du lot ";
+            " lot du ";
     public static final String EST_TROP_DISPENDIEUSE = " est trop dispendieuse.";
     public static final String MSG_DLE = "La taxe municipale payable par" +
             " le propriétaire nécessite deux versements.";
