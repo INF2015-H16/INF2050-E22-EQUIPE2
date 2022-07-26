@@ -4,8 +4,11 @@
  */
 package inf2050.e22.equipe2;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
+
 import net.sf.json.JSONException;
 
 
@@ -25,6 +28,9 @@ import net.sf.json.JSONException;
  */
 
 public class ProjetDeSessionSprint3 {
+
+    public static final String RAPPORT_CORRECTEMENT_REINITIALISE
+            = "Le rapport a été correctement réinitialisé";
 
     private static boolean verifierParametreProgramme(String [] parametres)
             throws IOException {
@@ -65,6 +71,7 @@ public class ProjetDeSessionSprint3 {
                 LancementProgramme lancementProgramme =
                         new LancementProgramme(donneeEntree);
                 lancementProgramme.enregisterRapportDansFichier(sortie);
+
             }
 
         } catch (IOException
@@ -87,17 +94,88 @@ public class ProjetDeSessionSprint3 {
                 Utilitaire.afficherMessage(ex.getMessage());
             }
         }
+    }
 
+    private static void executerLeProgramme(String [] parametres) {
+        RapportStatistique rapportStatistique = new RapportStatistique(
+                new File(RapportStatistique.RAPPORT));
+
+        IExecuterProgramme iExecuterProgramme = new IExecuterProgramme() {
+            @Override
+            public void lancerProgramme() {
+                String entree = parametres[0];
+                String sortie = parametres[1];
+
+                lancerLeProgramme(parametres, entree, sortie);
+            }
+
+            @Override
+            public void rapporterStatistique() {
+                try {
+                    String content = rapportStatistique.redigerContenuRapport(
+                            0,0,
+                            0,0,0,
+                            0,0,0,0);
+                    Utilitaire.afficherMessage(content);
+
+                } catch (IOException e) {
+                    Utilitaire.afficherMessage(e.getMessage());
+                }
+            }
+
+            @Override
+            public void reinitialiserStatistique() {
+                try {
+                    boolean reinitialise = rapportStatistique
+                            .reinitialiserRapportStatistique(
+                            new File(RapportStatistique.RAPPORT));
+
+                    if (reinitialise) {
+                        Utilitaire.afficherMessage(
+                                RAPPORT_CORRECTEMENT_REINITIALISE);
+
+                    }
+
+                } catch (IOException e) {
+                    Utilitaire.afficherMessage(e.getMessage());
+                }
+            }
+        };
+
+        controlerLeProgramme(iExecuterProgramme, parametres);
+    }
+
+    private static void controlerLeProgramme(
+            IExecuterProgramme iExecuterProgramme,
+            String [] parametres) {
+        String option;
+
+        if (parametres.length == 3) {
+            option = parametres[2];
+
+            choisirOptionStatistique(iExecuterProgramme, option);
+        } else if (parametres.length == 2){
+            iExecuterProgramme.lancerProgramme();
+        } else {
+            System.out.println("A mettre un commentaire");
+        }
+    }
+
+    private static void choisirOptionStatistique(
+            IExecuterProgramme iExecuterProgramme, String option) {
+        if (option.equals("-S")) {
+            iExecuterProgramme.rapporterStatistique();
+        } else if (option.equals("-SR")) {
+            iExecuterProgramme.reinitialiserStatistique();
+        }
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String entree = args[0];
-        String sortie = args[1];
+        executerLeProgramme(args);
 
-        lancerLeProgramme(args, entree, sortie);
     }
 
 }

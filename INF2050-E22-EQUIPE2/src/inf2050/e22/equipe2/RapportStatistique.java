@@ -1,15 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package inf2050.e22.equipe2;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -101,8 +92,38 @@ public class RapportStatistique implements IRapportStatistique {
         }
     }
 
+    public RapportStatistique(File file) {
+        this.file = file;
+    }
+
     private boolean verifierFichierValide() {
         return !file.exists() || file.length() == 0;
+    }
+
+    public boolean reinitialiserRapportStatistique(File file)
+            throws IOException {
+        boolean estInitialise = false;
+        file.createNewFile();
+        genererRapportStat(file, initialiserRapportStatistique());
+
+        int somme = obtenirSommeDesDonnees();
+
+        if (somme == 0) {
+            estInitialise = true;
+        }
+
+        return estInitialise;
+    }
+
+    private int obtenirSommeDesDonnees() throws IOException {
+        int somme = 0;
+
+        for (int i = 0; i < lireFichierStatistiques().size(); i++) {
+            int donnee = obtenirDonnee(i);
+            somme = somme + donnee;
+
+        }
+        return somme;
     }
 
     private String initialiserRapportStatistique() {
@@ -113,7 +134,8 @@ public class RapportStatistique implements IRapportStatistique {
     }
 
     @Override
-    public void genererRapportStat(File file, String content) throws IOException {
+    public void genererRapportStat(File file, String content)
+            throws IOException {
         FileWriter fw = new FileWriter(file.getAbsoluteFile());
         BufferedWriter bw = new BufferedWriter(fw);
         bw.write(content);
@@ -181,7 +203,7 @@ public class RapportStatistique implements IRapportStatistique {
         genererRapportStat(file, content);
     }
 
-    private String redigerContenuRapport(int tailleTotale,
+    public String redigerContenuRapport(int tailleTotale,
                                          int nombreLot1000,
                                          int nombreLot1000_100000,
                                          int nombrePlus10000,
