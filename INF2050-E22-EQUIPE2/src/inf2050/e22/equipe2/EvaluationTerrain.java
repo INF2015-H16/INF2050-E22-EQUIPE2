@@ -48,21 +48,16 @@ public class EvaluationTerrain implements IEvaluationTerrain {
     @Override
     public Terrain obtenirDonneesTerrain(String json,
                                          EvaluationLot lotissements)
-            throws IntervallesValideException, PrixValideException, JSONException {
+            throws JSONException {
         Terrain terrain = null;
         if (json.length() != 0) {
             JSONObject enteteTerrain = JSONObject.fromObject(json);
 
-            int typeTerrain = VerificationDonnee
-                    .validerTypeTerrain(
-                            enteteTerrain.getInt(ETIQUETTE_TYPE_TERRAIN));
-            String prixMin = VerificationDonnee.validerPrix
-                                    (VerificationDonnee
-                                            .verifierPrixNegatif(enteteTerrain
-                            .getString(ETIQUETTE_PRIX_M2_MIN)));
-            String priMax = VerificationDonnee.validerPrix
-                    (VerificationDonnee.verifierPrixNegatif(enteteTerrain
-                            .getString(ETIQUETTE_PRIX_M2_MAX)));
+            int typeTerrain = enteteTerrain.getInt(ETIQUETTE_TYPE_TERRAIN);
+            String prixMin = enteteTerrain
+                            .getString(ETIQUETTE_PRIX_M2_MIN);
+            String priMax = enteteTerrain
+                            .getString(ETIQUETTE_PRIX_M2_MAX);
 
             terrain = new Terrain(typeTerrain, prixMin,
                     priMax, lotissements);
@@ -74,13 +69,13 @@ public class EvaluationTerrain implements IEvaluationTerrain {
 
     @Override
     public int obtenirTypeTerrain(Terrain terrain)
-            throws NullPointerException {
+            throws NullPointerException, IntervallesValideException {
         return terrain.getTypeTerrain();
     }
 
     @Override
     public double obtenirPrixMinimum(Terrain terrain)
-            throws NullPointerException {
+            throws NullPointerException, PrixValideException {
         String temp = terrain.getPrixMin();
         String changerVirgule = temp.replaceAll(",", ".");
         String prixMinimum = changerVirgule
