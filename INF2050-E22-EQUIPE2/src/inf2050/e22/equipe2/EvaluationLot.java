@@ -106,26 +106,21 @@ public class EvaluationLot implements IEvaluationLot {
     }
 
     private ArrayList<Lotissement> obtenirUniqueLot(JSONObject enteteTerrain)
-            throws LotValideException, IntervallesValideException, JSONException {
+            throws JSONException {
         ArrayList <Lotissement> mesLotissements = new ArrayList<>();
 
         if (VerificationDonnee.verifierContenuFichierLot(enteteTerrain)) {
             JSONObject uniqueLot = enteteTerrain
                     .getJSONObject(EvaluationTerrain.ETIQUETTE_LOTISSEMENTS);
 
-            String description = VerificationDonnee
-                    .validerDescriptionLot(uniqueLot
-                            .getString(EvaluationTerrain.ETIQUETTE_DESCRIPTION));
-            int nombreDroitPassage = VerificationDonnee
-                    .validerNombreDroitPassage(uniqueLot
-                            .getInt(ETIQUETTE_DROIT_PASSAGE));
-            int nombreService = VerificationDonnee
-                    .validerNombreService(uniqueLot.getInt(ETIQUETTE_SERVICES));
-            int superfice = VerificationDonnee
-                    .validerSuperficie(uniqueLot.getInt(ETIQUETTE_SUPERFICIE));
-            String dateMesure = VerificationDonnee
-                    .validerDateMesure(uniqueLot
-                            .getString(ETIQUETTE_DATE_MESURE));
+            String description = uniqueLot
+                            .getString(EvaluationTerrain.ETIQUETTE_DESCRIPTION);
+            int nombreDroitPassage = uniqueLot
+                            .getInt(ETIQUETTE_DROIT_PASSAGE);
+            int nombreService = uniqueLot.getInt(ETIQUETTE_SERVICES);
+            int superfice = uniqueLot.getInt(ETIQUETTE_SUPERFICIE);
+            String dateMesure = uniqueLot
+                            .getString(ETIQUETTE_DATE_MESURE);
 
             mesLotissements.add(new Lotissement(description,
                     nombreDroitPassage, nombreService, superfice,
@@ -156,22 +151,17 @@ public class EvaluationLot implements IEvaluationLot {
         Lotissement lotissement = null;
 
         if (VerificationDonnee.verifierContenuFichierLot(plusieursLot)) {
-            String description = VerificationDonnee
-                    .validerDescriptionLot(plusieursLot
+            String description = plusieursLot
                             .getString(EvaluationTerrain
-                                    .ETIQUETTE_DESCRIPTION));
-            int nombreDroitPassage = VerificationDonnee
-                    .validerNombreDroitPassage(plusieursLot
-                            .getInt(ETIQUETTE_DROIT_PASSAGE));
-            int nombreService = VerificationDonnee
-                    .validerNombreService(plusieursLot
-                            .getInt(ETIQUETTE_SERVICES));
-            int superfice = VerificationDonnee
-                    .validerSuperficie(plusieursLot
-                            .getInt(ETIQUETTE_SUPERFICIE));
-            String dateMesure = VerificationDonnee
-                    .validerDateMesure(plusieursLot
-                            .getString(ETIQUETTE_DATE_MESURE));
+                                    .ETIQUETTE_DESCRIPTION);
+            int nombreDroitPassage = plusieursLot
+                            .getInt(ETIQUETTE_DROIT_PASSAGE);
+            int nombreService = plusieursLot
+                            .getInt(ETIQUETTE_SERVICES);
+            int superfice = plusieursLot
+                            .getInt(ETIQUETTE_SUPERFICIE);
+            String dateMesure = plusieursLot
+                            .getString(ETIQUETTE_DATE_MESURE);
 
             lotissement = new Lotissement(description, nombreDroitPassage,
                     nombreService, superfice, dateMesure);
@@ -183,7 +173,7 @@ public class EvaluationLot implements IEvaluationLot {
 
     @Override
     public String[] obtenirDescription(ArrayList<Lotissement> lotissements)
-            throws NullPointerException, IntervallesValideException {
+            throws NullPointerException, IntervallesValideException, LotValideException {
         String [] descriptions = new String[obtenirNombreLot(lotissements)];
 
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
