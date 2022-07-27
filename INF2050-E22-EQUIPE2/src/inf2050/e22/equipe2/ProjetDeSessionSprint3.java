@@ -28,11 +28,13 @@ import net.sf.json.JSONException;
 public class ProjetDeSessionSprint3 {
 
     public static final String RAPPORT_CORRECTEMENT_REINITIALISE
-            = "Le rapport a été correctement réinitialisé";
+            = "Le rapport a été correctement réinitialisé\n";
     public static final String VERIFIER_PARAMETRES_LIGNE_DE_COMMANDE
-            = "Verifier les parametres de la ligne de commande";
+            = "Verifier les parametres de la ligne de commande\n";
     public static final String COMMANDE_STATISTIQUE_AFFICHER = "-S";
     public static final String COMMANDE_STATISTIQUE_REINITIALISER = "-SR";
+    public static final String FICHIER_ENTREE = "entree.json";
+    public static final String FICHIER_SORTIE = "sortie.json";
 
     private static boolean verifierParametreProgramme(String [] parametres)
             throws IOException {
@@ -104,10 +106,7 @@ public class ProjetDeSessionSprint3 {
 
         IExecuterProgramme iExecuterProgramme = new IExecuterProgramme() {
             @Override
-            public void lancerProgramme() {
-                String entree = parametres[0];
-                String sortie = parametres[1];
-
+            public void lancerProgramme(String entree, String sortie) {
                 lancerLeProgramme(parametres, entree, sortie);
             }
 
@@ -150,17 +149,28 @@ public class ProjetDeSessionSprint3 {
     private static void controlerLeProgramme(
             IExecuterProgramme iExecuterProgramme,
             String [] parametres) {
-        String option;
 
-        if (parametres.length == 3) {
-            option = parametres[2];
+        if (parametres.length == 1) {
+            String option = parametres[0];
 
             choisirOptionStatistique(iExecuterProgramme, option);
-        } else if (parametres.length == 2){
-            iExecuterProgramme.lancerProgramme();
+        } else if (parametres.length == 2) {
+            String entree = parametres[0];
+            String sortie = parametres[1];
+
+            if (estLigneCommandeEntreeSortie(entree, sortie)) {
+                iExecuterProgramme.lancerProgramme(entree, sortie);
+
+            }
         } else {
             Utilitaire.afficherMessage(VERIFIER_PARAMETRES_LIGNE_DE_COMMANDE);
         }
+    }
+
+    private static boolean estLigneCommandeEntreeSortie(String entree,
+                                                        String sortie) {
+        return entree.equals(FICHIER_ENTREE)
+                && sortie.equals(FICHIER_SORTIE);
     }
 
     private static void choisirOptionStatistique(
