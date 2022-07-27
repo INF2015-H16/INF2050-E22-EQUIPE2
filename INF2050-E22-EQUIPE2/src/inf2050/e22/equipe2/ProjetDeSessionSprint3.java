@@ -7,8 +7,6 @@ package inf2050.e22.equipe2;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashMap;
-
 import net.sf.json.JSONException;
 
 
@@ -31,6 +29,10 @@ public class ProjetDeSessionSprint3 {
 
     public static final String RAPPORT_CORRECTEMENT_REINITIALISE
             = "Le rapport a été correctement réinitialisé";
+    public static final String VERIFIER_PARAMETRES_LIGNE_DE_COMMANDE
+            = "Verifier les parametres de la ligne de commande";
+    public static final String COMMANDE_STATISTIQUE_AFFICHER = "-S";
+    public static final String COMMANDE_STATISTIQUE_REINITIALISER = "-SR";
 
     private static boolean verifierParametreProgramme(String [] parametres)
             throws IOException {
@@ -157,16 +159,19 @@ public class ProjetDeSessionSprint3 {
         } else if (parametres.length == 2){
             iExecuterProgramme.lancerProgramme();
         } else {
-            System.out.println("A mettre un commentaire");
+            Utilitaire.afficherMessage(VERIFIER_PARAMETRES_LIGNE_DE_COMMANDE);
         }
     }
 
     private static void choisirOptionStatistique(
             IExecuterProgramme iExecuterProgramme, String option) {
-        if (option.equals("-S")) {
+        if (option.equals(COMMANDE_STATISTIQUE_AFFICHER)) {
             iExecuterProgramme.rapporterStatistique();
-        } else if (option.equals("-SR")) {
+        } else if (option.equals(COMMANDE_STATISTIQUE_REINITIALISER)) {
             iExecuterProgramme.reinitialiserStatistique();
+        } else {
+            Utilitaire.afficherMessage(VERIFIER_PARAMETRES_LIGNE_DE_COMMANDE);
+
         }
     }
 
