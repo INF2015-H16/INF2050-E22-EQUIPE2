@@ -30,14 +30,18 @@ public class Terrain {
         this.lotissement = lotissement;
     }
 
-    public int getTypeTerrain() {
-        return typeTerrain;
+    public int getTypeTerrain() throws IntervallesValideException {
+        return VerificationDonnee
+                .validerTypeTerrain(typeTerrain);
     }
-    public String getPrixMin() {
-        return prixMin;
+    public String getPrixMin() throws PrixValideException {
+        return VerificationDonnee.validerPrix
+                (VerificationDonnee
+                        .verifierPrixNegatif(prixMin));
     }
-    public String getPrixMax() {
-        return prixMax;
+    public String getPrixMax() throws PrixValideException {
+        return VerificationDonnee.validerPrix
+                (VerificationDonnee.verifierPrixNegatif(prixMax));
     }
-    
+
 }
