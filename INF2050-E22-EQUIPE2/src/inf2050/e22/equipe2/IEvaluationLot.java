@@ -34,7 +34,7 @@ public interface IEvaluationLot {
 
     String[] obtenirDescription(ArrayList<Lotissement> lotissements)
             throws IOException, NullPointerException,
-            IntervallesValideException;
+            IntervallesValideException, LotValideException;
 
     int [] obtenirNombreDroitPassage(ArrayList<Lotissement> lotissements)
             throws IOException, NullPointerException,
