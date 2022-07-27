@@ -33,21 +33,26 @@ public class Lotissement {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescription() throws LotValideException {
+        return VerificationDonnee
+                .validerDescriptionLot(description);
     }
-    public int getNombreDroitPassage() {
-        return nombreDroitPassage;
+    public int getNombreDroitPassage() throws IntervallesValideException {
+        return VerificationDonnee
+                .validerNombreDroitPassage(nombreDroitPassage);
     }
 
-    public int getNombreService() {
-        return nombreService;
+    public int getNombreService() throws IntervallesValideException {
+        return VerificationDonnee
+                .validerNombreService(nombreService);
     }
-    public int getSuperficie() {
-        return superficie;
+    public int getSuperficie() throws IntervallesValideException {
+        return VerificationDonnee
+                .validerSuperficie(superficie);
     }
 
     public String getDateMesure() {
-        return dateMesure;
+        return VerificationDonnee
+                .validerDateMesure(dateMesure);
     }
 }
