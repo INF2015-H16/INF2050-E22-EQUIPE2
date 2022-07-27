@@ -29,7 +29,7 @@ public interface IEvaluationTerrain {
             throws IntervallesValideException, PrixValideException;
 
     int obtenirTypeTerrain(Terrain terrain)
-            throws IOException, NullPointerException;
+            throws IOException, NullPointerException, IntervallesValideException;
 
     double obtenirPrixMinimum(Terrain terrain)
             throws IOException, NullPointerException, PrixValideException;
