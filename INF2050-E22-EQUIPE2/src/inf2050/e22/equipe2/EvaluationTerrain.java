@@ -196,8 +196,7 @@ public class EvaluationTerrain implements IEvaluationTerrain {
         return detailsLot;
     }
 
-    @Override
-    public JSONObject fournirRapportErreur(String message) {
+    public static JSONObject fournirRapportErreur(String message) {
         JSONObject rapport = new JSONObject();
 
         return rapport.accumulate(MESSAGE, message);
