@@ -69,7 +69,7 @@ public class ProjetDeSessionSprint3 {
 
     private static void lancerLeProgramme(String [] parametres,
                                           String entree, String sortie) {
-        String erreur = null;
+        String erreur;
 
         try {
             if (verifierParametreProgramme(parametres)) {
