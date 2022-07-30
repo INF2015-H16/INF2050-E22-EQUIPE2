@@ -54,6 +54,4 @@ public interface IEvaluationTerrain {
                                     ArrayList<String> observationChainee)
             throws IOException, LotValideException, LectureFichierException;
 
-    JSONObject fournirRapportErreur(String message);
-
 }
