@@ -19,6 +19,10 @@ import java.util.ArrayList;
 public class RapportStatistique implements IRapportStatistique {
 
     public static final String RAPPORT = "rapport.txt";
+    public static final String PREFIX_ETOILE = "*";
+    public static final String PREFIX_TIRET = "-";
+    public static final String ESPACE = " ";
+    public static final String SEPARATEUR_COLONNE = "\\|";
     public static final String NOMBRE_TOTAL_DE_LOTS_TERRAINS
             = "1.    | Nombre total de lots soumis (tous terrains confondus) : ";
     public static final String NOMBRE_DE_LOTS_AVEC_VALEUR_PAR_LOT
@@ -42,19 +46,22 @@ public class RapportStatistique implements IRapportStatistique {
     public static final String VALEUR_PAR_LOT_MAXIMALE_POUR_UN_LOT
             = "5.    | Valeur par lot maximale pour un lot : ";
     public static final String FIN_RAPPORT = "#";
-    public static String entete = "# SPRINT 3 INF 2050";
-    public static String titre = "# RAPPORT STATISTIQUE - EVALUATION TERRAIN";
-    public static String delimiteur0 = "\n*********************************" +
-            "**********************************************\n";
-    public static String delimiteur1 = "\n---------------------------------" +
-            "----------------------------------------------\n";
-    public static String enteteColonne = "# No. | Libelle                    " +
-            "                               | Valeur";
+    public static final String ENTETE_RAPPORT = "# SPRINT 3 INF 2050";
+    public static final String TITRE_RAPPORT = "# RAPPORT STATISTIQUE" +
+            " - EVALUATION TERRAIN";
+    public static final String DELIMITEUR_EXTERNE = "\n**************" +
+            "*******************************************************" +
+            "**********\n";
+    public static final String DELIMITEUR_INTERNE = "\n---------------" +
+            "----------------------------------------------------------" +
+            "------\n";
+    public static final String ENTETE_COLONNE = "# No. | Libelle           " +
+            "                                        | Valeur";
 
-    private final String content1 = Utilitaire.afficherFormatRapport(
-            NOMBRE_TOTAL_DE_LOTS_TERRAINS, 0)
-            + "\n";
-    private final String content2 = Utilitaire.afficherFormatRapport(
+
+    private static final String ENTITE_0 = Utilitaire.afficherFormatRapport(
+            NOMBRE_TOTAL_DE_LOTS_TERRAINS, 0) + "\n";
+    private static final String ENTITE_1 = Utilitaire.afficherFormatRapport(
             NOMBRE_DE_LOTS_AVEC_VALEUR_PAR_LOT, 0)+ "\n"
             + Utilitaire.afficherFormatRapport(DE_MOINS_DE_1000_$, 0)
             + "\n"
@@ -63,17 +70,18 @@ public class RapportStatistique implements IRapportStatistique {
             + Utilitaire.afficherFormatRapport(DE_PLUS_DE_10000_$, 0)
             + "\n";
 
-    private final String content3 = Utilitaire.afficherFormatRapport(
+    private static final String ENTITE_2 = Utilitaire.afficherFormatRapport(
             NOMBRE_DE_LOTS_PAR_TYPE_DE_TERRAIN, 0)+ "\n"
             + Utilitaire.afficherFormatRapport(LOTS_DESC_TERRAIN_AGRICOLE, 0)
             + "\n"
-            + Utilitaire.afficherFormatRapport(LOTS_DESC_TERRAIN_RESIDENTIEL, 0)
+            + Utilitaire.afficherFormatRapport(LOTS_DESC_TERRAIN_RESIDENTIEL,
+            0)
             + "\n"
             + Utilitaire.afficherFormatRapport(LOTS_DESC_TERRAIN_COMMERCIAL, 0)
             + "\n";
-    private final String content4 = Utilitaire.afficherFormatRapport(
+    private static final String ENTITE_3 = Utilitaire.afficherFormatRapport(
             SUPERFICIE_MAXIMALE_SOUMISE_POUR_UN_LOT, 0) + "\n";
-    private final String content5 = Utilitaire.afficherFormatRapport(
+    private static final String ENTITE_4 = Utilitaire.afficherFormatRapport(
             VALEUR_PAR_LOT_MAXIMALE_POUR_UN_LOT, 0) + "\n";
 
     private File file;
@@ -127,20 +135,20 @@ public class RapportStatistique implements IRapportStatistique {
     }
 
     private String initialiserRapportStatistique() {
-        return entete + delimiteur0 + titre
-                + delimiteur1 + enteteColonne + delimiteur1 + content1
-                + content2 + content3 + content4 + content5
-                + FIN_RAPPORT + delimiteur0;
+        return ENTETE_RAPPORT + DELIMITEUR_EXTERNE + TITRE_RAPPORT
+                + DELIMITEUR_INTERNE + ENTETE_COLONNE + DELIMITEUR_INTERNE
+                + ENTITE_0 + ENTITE_1 + ENTITE_2 + ENTITE_3 + ENTITE_4
+                + FIN_RAPPORT + DELIMITEUR_EXTERNE;
     }
 
     @Override
     public void genererRapportStat(File file, String content)
             throws IOException {
-        FileWriter fw = new FileWriter(file.getAbsoluteFile());
-        BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(content);
+        FileWriter fluxConnecteur = new FileWriter(file.getAbsoluteFile());
+        BufferedWriter fluxTampon = new BufferedWriter(fluxConnecteur);
+        fluxTampon.write(content);
 
-        bw.close();
+        fluxTampon.close();
     }
 
     @Override
@@ -165,15 +173,15 @@ public class RapportStatistique implements IRapportStatistique {
                                           BufferedReader fluxTampon)
             throws IOException {
         String ligne = fluxTampon.readLine();
-        if (!ligne.startsWith("*") && !ligne.startsWith("#")
-                && !ligne.startsWith("-") && !ligne.equals(" ")) {
+        if (!ligne.startsWith(PREFIX_ETOILE) && !ligne.startsWith(FIN_RAPPORT)
+                && !ligne.startsWith(PREFIX_TIRET) && !ligne.equals(ESPACE)) {
             construireModelStatistiques(statistiques, ligne);
         }
     }
 
     private void construireModelStatistiques(ArrayList<Statistique> statistiques,
                                         String ligne) {
-        String[] donnees = ligne.split("\\|");
+        String[] donnees = ligne.split(SEPARATEUR_COLONNE);
 
         for (int i = 0; i < donnees.length; i++) {
             String numero = donnees[i].trim();
@@ -228,10 +236,10 @@ public class RapportStatistique implements IRapportStatistique {
         String content5 = obtenirValeur(obtenirValeurMaximale(10,
                 valeurLotMaximale), VALEUR_PAR_LOT_MAXIMALE_POUR_UN_LOT);
 
-        return entete + delimiteur0 + titre
-                + delimiteur1 + enteteColonne + delimiteur1 + content1
-                + content2 + content3 + content4 + content5
-                + FIN_RAPPORT + delimiteur0;
+        return ENTETE_RAPPORT + DELIMITEUR_EXTERNE + TITRE_RAPPORT
+                + DELIMITEUR_INTERNE + ENTETE_COLONNE + DELIMITEUR_INTERNE
+                + content1 + content2 + content3 + content4 + content5
+                + FIN_RAPPORT + DELIMITEUR_EXTERNE;
     }
 
     private String obtenirValeur(int donnee,
