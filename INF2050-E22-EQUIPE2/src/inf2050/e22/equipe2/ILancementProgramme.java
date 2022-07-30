@@ -66,24 +66,30 @@ public interface ILancementProgramme extends IStatistique,
             LectureFichierException, IOException, ParseException;
 
    void getMontantsLot() throws IntervallesValideException,
-           LotValideException, LectureFichierException, IOException, ParseException;
+           LotValideException, LectureFichierException, IOException,
+           ParseException;
 
    void getMontantsPassage() throws IntervallesValideException,
-           LotValideException, LectureFichierException, IOException, ParseException;
+           LotValideException, LectureFichierException, IOException,
+           ParseException;
 
    void getMontantsService() throws IntervallesValideException,
-           LotValideException, LectureFichierException, IOException, ParseException;
+           LotValideException, LectureFichierException, IOException,
+           ParseException;
 
     void getMontantsParLot() throws IntervallesValideException,
-            LotValideException, LectureFichierException, IOException, ParseException;
+            LotValideException, LectureFichierException, IOException,
+            ParseException;
 
     void getMontantTerrain()
             throws IntervallesValideException, LotValideException,
             LectureFichierException, IOException, ParseException;
     void getMontantTaxeScolaire() throws LotValideException,
-            LectureFichierException, IOException, ParseException, IntervallesValideException;
+            LectureFichierException, IOException, ParseException,
+            IntervallesValideException;
     void getMontantTaxeMunicipale() throws LotValideException,
-            LectureFichierException, IOException, ParseException, IntervallesValideException;
+            LectureFichierException, IOException, ParseException,
+            IntervallesValideException;
 
     void getPrixReparti() throws IntervallesValideException, IOException;
     void rapporterSiBon() throws LotValideException,
