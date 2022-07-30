@@ -278,7 +278,7 @@ public class LancementProgramme implements ILancementProgramme {
 
         for (String descriptionLot : lesDonnees) {
             if (descriptionLot != null && descriptionLot.length() > 0) {
-                observation = EvaluationObservation.LA_VALEUR_PAR_LOT_DU_LOT
+                observation = EvaluationObservation.VALEUR_PAR_LOT_DU_LOT
                         + descriptionLot + EvaluationObservation.EST_TROP_DISPENDIEUSE;
                 ajoutObservationNonVide();
             }
@@ -302,7 +302,7 @@ public class LancementProgramme implements ILancementProgramme {
 
         for (long ecart : lesDonnees) {
             if (ecart != 0) {
-                observation = EvaluationObservation.MSG_DATE;
+                observation = EvaluationObservation.ECART_DATE_MOINS_SIX_MOIS;
                 lesObservations.add(observation);
             }
         }
@@ -317,7 +317,7 @@ public class LancementProgramme implements ILancementProgramme {
 
         if (fonciere != 0) {
             observation = EvaluationObservation
-                    .VALEUR_FONCIÈRE_TOTALE_NE_DOIT_PAS_DÉPASSER_300000;
+                    .VALEUR_FONCIERE_TOTALE_PAS_DEPASSER_300000;
             lesObservations.add(observation);
         }
 
@@ -351,7 +351,7 @@ public class LancementProgramme implements ILancementProgramme {
                 leMontantTaxeMunicipale);
 
         if (taxe != 0) {
-            observation = EvaluationObservation.MSG_DLE;
+            observation = EvaluationObservation.TAXE_MUNICIPALE_EN_DEUX_VERSEMENTS;
             lesObservations.add(observation);
         }
 
@@ -366,7 +366,7 @@ public class LancementProgramme implements ILancementProgramme {
         double taxe = evaluationTerrain.obtenirTaxeScolaireDoubleVersement(
                 leMontantTaxeScolaire);
         if (taxe != 0) {
-            observation = EvaluationObservation.MSG;
+            observation = EvaluationObservation.TAXE_SCOLAIRE_EN_DEUX_VERSEMENTS;
             lesObservations.add(observation);
         }
 
@@ -382,7 +382,7 @@ public class LancementProgramme implements ILancementProgramme {
 
         if (estGrand) {
             observation = EvaluationObservation
-                    .PAS_DÉPASSER_DEUX_FOIS_LE_PRIX_MINIMUM_DU_M_2;
+                    .PAS_DEUX_FOIS_PRIX_MINIMUM_M_2;
             lesObservations.add(observation);
         }
 
