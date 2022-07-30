@@ -70,8 +70,7 @@ public class EvaluationLot implements IEvaluationLot {
     }
 
     @Override
-    public ArrayList<Lotissement> obtenirDonneesLot()
-            throws LotValideException, IntervallesValideException {
+    public ArrayList<Lotissement> obtenirDonneesLot() {
         ArrayList <Lotissement> mesLotissements = new ArrayList<>();
 
         if (json.length() != 0) {
@@ -90,8 +89,8 @@ public class EvaluationLot implements IEvaluationLot {
         return mesLotissements;
     }
 
-    private ArrayList<Lotissement> obtenirPlusieursLots(JSONObject enteteTerrain)
-            throws LotValideException, IntervallesValideException {
+    private ArrayList<Lotissement> obtenirPlusieursLots(
+            JSONObject enteteTerrain) {
         ArrayList <Lotissement> lots = new ArrayList<>();
 
         JSONArray list = enteteTerrain
@@ -131,8 +130,7 @@ public class EvaluationLot implements IEvaluationLot {
         return mesLotissements;
     }
 
-    private ArrayList<Lotissement> obtenirListeLot(JSONArray list)
-            throws LotValideException, IntervallesValideException {
+    private ArrayList<Lotissement> obtenirListeLot(JSONArray list) {
         ArrayList <Lotissement> mesLotissements = new ArrayList<>();
 
         for(int i = 0; i<list.size(); i++) {
@@ -146,8 +144,7 @@ public class EvaluationLot implements IEvaluationLot {
     }
 
     private Lotissement obtenirPourPlusieurs(JSONObject plusieursLot)
-            throws LotValideException, IntervallesValideException,
-            JSONException {
+            throws JSONException {
         Lotissement lotissement = null;
 
         if (VerificationDonnee.verifierContenuFichierLot(plusieursLot)) {
@@ -173,7 +170,8 @@ public class EvaluationLot implements IEvaluationLot {
 
     @Override
     public String[] obtenirDescription(ArrayList<Lotissement> lotissements)
-            throws NullPointerException, IntervallesValideException, LotValideException {
+            throws NullPointerException, IntervallesValideException,
+            LotValideException {
         String [] descriptions = new String[obtenirNombreLot(lotissements)];
 
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
