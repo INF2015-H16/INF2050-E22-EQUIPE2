@@ -279,7 +279,8 @@ public class LancementProgramme implements ILancementProgramme {
         for (String descriptionLot : lesDonnees) {
             if (descriptionLot != null && descriptionLot.length() > 0) {
                 observation = EvaluationObservation.VALEUR_PAR_LOT_DU_LOT
-                        + descriptionLot + EvaluationObservation.EST_TROP_DISPENDIEUSE;
+                        + descriptionLot + EvaluationObservation
+                        .EST_TROP_DISPENDIEUSE;
                 ajoutObservationNonVide();
             }
 
@@ -298,7 +299,8 @@ public class LancementProgramme implements ILancementProgramme {
     public void getEcartMaximal()
             throws ParseException, IntervallesValideException, IOException,
             LotValideException, LectureFichierException {
-        long [] lesDonnees = evaluationLot.obtenirEcartMaximalEntreDate(lesLotissements);
+        long [] lesDonnees = evaluationLot
+                .obtenirEcartMaximalEntreDate(lesLotissements);
 
         for (long ecart : lesDonnees) {
             if (ecart != 0) {
@@ -351,7 +353,8 @@ public class LancementProgramme implements ILancementProgramme {
                 leMontantTaxeMunicipale);
 
         if (taxe != 0) {
-            observation = EvaluationObservation.TAXE_MUNICIPALE_EN_DEUX_VERSEMENTS;
+            observation = EvaluationObservation
+                    .TAXE_MUNICIPALE_EN_DEUX_VERSEMENTS;
             lesObservations.add(observation);
         }
 
@@ -366,7 +369,8 @@ public class LancementProgramme implements ILancementProgramme {
         double taxe = evaluationTerrain.obtenirTaxeScolaireDoubleVersement(
                 leMontantTaxeScolaire);
         if (taxe != 0) {
-            observation = EvaluationObservation.TAXE_SCOLAIRE_EN_DEUX_VERSEMENTS;
+            observation = EvaluationObservation
+                    .TAXE_SCOLAIRE_EN_DEUX_VERSEMENTS;
             lesObservations.add(observation);
         }
 
