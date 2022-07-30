@@ -22,11 +22,11 @@ public class Utilitaire {
     }
     
     /**
-     * Arrondir au 5 sous supérieur et formater selon "XX.XX $"
+     * Arrondir au 5 sous et formater selon "XX.XX $"
      */
     public static String convertirMontant(double montant) {
         return String.format(
-                "%.2f $", Math.round(Math.ceil(montant*20))/20.0) ;
+                "%.2f $", Math.round(montant*20)/20.0) ;
     }
 
     public static String afficherFormatRapport(String libelle, int valeur) {
