@@ -24,7 +24,8 @@ public interface IStatistique {
             IntervallesValideException, LectureFichierException;
 
     void getValeurLotMaximale() throws LotValideException, IOException,
-            IntervallesValideException, LectureFichierException, ParseException;
+            IntervallesValideException, LectureFichierException,
+            ParseException;
 
     void obenirCalculRapportStatistiques() throws IOException;
 }
