@@ -69,6 +69,8 @@ public class ProjetDeSessionSprint3 {
 
     private static void lancerLeProgramme(String [] parametres,
                                           String entree, String sortie) {
+        String erreur = null;
+
         try {
             if (verifierParametreProgramme(parametres)) {
                 String donneeEntree = gererDocumentJson(entree);
@@ -87,16 +89,24 @@ public class ProjetDeSessionSprint3 {
                  | IntervallesValideException
                  | LectureFichierException
                  | ParseException e) {
-            Utilitaire.afficherMessage(e.getMessage());
-            try {
-                VerificationDonnee.enregistrerDonneeDansFichier(sortie,
-                        e.getMessage(), LancementProgramme.
-                                ENCODAGE_DE_FICHIER);
-            } catch (NumberFormatException
-                     | LectureFichierException
-                     | IOException ex) {
-                Utilitaire.afficherMessage(ex.getMessage());
-            }
+
+            erreur = EvaluationTerrain.fournirRapportErreur(e.getMessage())
+                    .toString();
+            rapporterErreur(sortie, erreur);
+        }
+
+    }
+
+    private static void rapporterErreur(String sortie, String erreur) {
+        try {
+            VerificationDonnee.enregistrerDonneeDansFichier(sortie, erreur,
+                    LancementProgramme.ENCODAGE_DE_FICHIER);
+            Utilitaire.afficherMessage(erreur);
+
+        } catch (NumberFormatException
+                 | LectureFichierException
+                 | IOException ex) {
+            Utilitaire.afficherMessage(ex.getMessage());
         }
     }
 
