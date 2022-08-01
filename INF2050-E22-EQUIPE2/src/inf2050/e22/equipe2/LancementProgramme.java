@@ -290,7 +290,7 @@ public class LancementProgramme implements ILancementProgramme {
     }
 
     private void ajoutObservationNonVide() {
-        if (observation != "") {
+        if (!observation.equals("")) {
             lesObservations.add(observation);
         }
     }
@@ -305,11 +305,37 @@ public class LancementProgramme implements ILancementProgramme {
         for (long ecart : lesDonnees) {
             if (ecart != 0) {
                 observation = EvaluationObservation.ECART_DATE_MOINS_SIX_MOIS;
-                lesObservations.add(observation);
+                ajouterObservationDate(lesObservations, observation);
             }
         }
 
         presenter.obtenirValeurFonciere();
+    }
+
+    private void ajouterObservationDate(ArrayList<String> observations,
+                                        String element) {
+        if (!contientObservationDate(observations, element)) {
+            observations.add(element);
+
+        }
+
+    }
+
+    private boolean contientObservationDate(ArrayList<String> observations,
+                                           String observationDate) {
+        Object temp;
+        boolean exist = false;
+
+        for (String s : observations) {
+
+            temp = s;
+            if (temp.equals(observationDate)) {
+                exist = true;
+
+            }
+        }
+
+        return exist;
     }
 
     @Override
