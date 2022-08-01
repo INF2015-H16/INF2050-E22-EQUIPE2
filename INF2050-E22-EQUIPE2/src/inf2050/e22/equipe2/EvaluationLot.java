@@ -282,9 +282,11 @@ public class EvaluationLot implements IEvaluationLot {
         ArrayList<Long> differenceDate = calculerDifferenceDate(lotissements);
 
         for (int i = 0; i < obtenirNombreLot(lotissements); i++) {
-            if (differenceDate.get(i) > PERIOD_MAXIMAL_DATE) {
-                long donnee = differenceDate.get(i);
+            long donnee = differenceDate.get(i);
+
+            if (donnee > PERIOD_MAXIMAL_DATE) {
                 ecart [i] = donnee;
+
             }
         }
 
@@ -300,6 +302,7 @@ public class EvaluationLot implements IEvaluationLot {
         for (int i = 0; i < lotissements.size(); i++) {
             for (int j = i + 1; j < lotissements.size(); j++) {
                 calculerDifference(differences, dateLot, i, j);
+
             }
         }
 
@@ -313,11 +316,10 @@ public class EvaluationLot implements IEvaluationLot {
         Date date = formatDate.parse(dateLot[indexI]);
         Date dateAutre = formatDate.parse(dateLot[indexJ]);
 
-
         long difference = Math.abs(dateAutre.getTime() - date.getTime());
         long differenceDate = TimeUnit.DAYS.convert(difference,
                 TimeUnit.MILLISECONDS);
-        
+
         differences.add(differenceDate);
     }
 
