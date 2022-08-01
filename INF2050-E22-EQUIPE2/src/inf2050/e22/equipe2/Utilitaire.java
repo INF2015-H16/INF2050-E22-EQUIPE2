@@ -37,13 +37,14 @@ public class Utilitaire {
      */
     public static String convertirMontant(double montant) {
         BigDecimal montantAConvertir = new BigDecimal(montant);
+        BigDecimal increment = new BigDecimal("0.05");
 
         if (determinerTypeArrondi(montant)){
             return String.format(
-                    "%.2f $", round(montantAConvertir, montantAConvertir,HALF_UP));
+                    "%.2f $", round(montantAConvertir, increment,HALF_UP));
         } else {
             return String.format(
-                    "%.2f $", round(montantAConvertir, montantAConvertir,HALF_DOWN));
+                    "%.2f $", round(montantAConvertir, increment,HALF_DOWN));
         }
     }
 
@@ -53,8 +54,7 @@ public class Utilitaire {
             return value;
         } else {
             BigDecimal divided = value.divide(increment, 0, roundingMode);
-            BigDecimal result = divided.multiply(increment);
-            return result;
+            return divided.multiply(increment);
         }
     }
 
