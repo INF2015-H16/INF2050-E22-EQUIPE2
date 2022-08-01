@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -312,10 +313,11 @@ public class EvaluationLot implements IEvaluationLot {
         Date date = formatDate.parse(dateLot[indexI]);
         Date dateAutre = formatDate.parse(dateLot[indexJ]);
 
-        long difference = dateAutre.getTime() - date.getTime();
-        long differenceDate = Math.abs((difference
-                / (1000 * 60 * 60 * 24)) % 365);
 
+        long difference = Math.abs(dateAutre.getTime() - date.getTime());
+        long differenceDate = TimeUnit.DAYS.convert(difference,
+                TimeUnit.MILLISECONDS);
+        
         differences.add(differenceDate);
     }
 
