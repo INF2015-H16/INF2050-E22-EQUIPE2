@@ -21,15 +21,7 @@ public class Utilitaire {
 
     public static final String VALEUR_POUR_PRINTF = "%-65s | %d";
     public static void afficherMessage(String message) {
-        System.out.print(message); 
-    }
-
-    /**
-     * Détermine s'il faut arrondir au 5c supérieur ou bien inférieur
-     */
-    private static boolean determinerTypeArrondi(double montant){
-        String montantAValider = String.format("%.2f", montant);
-        return (montantAValider.charAt(montantAValider.length() - 1) >= '5');
+        System.out.print(message);
     }
 
     /**
@@ -48,7 +40,15 @@ public class Utilitaire {
         }
     }
 
-    public static BigDecimal round(BigDecimal value, BigDecimal increment,
+    /**
+     * Détermine s'il faut arrondir au 5c supérieur ou bien inférieur
+     */
+    private static boolean determinerTypeArrondi(double montant){
+        String montantAValider = String.format("%.2f", montant);
+        return (montantAValider.charAt(montantAValider.length() - 1) >= '5');
+    }
+
+    private static BigDecimal round(BigDecimal value, BigDecimal increment,
                                    RoundingMode roundingMode) {
         if (increment.signum() == 0) {
             return value;
