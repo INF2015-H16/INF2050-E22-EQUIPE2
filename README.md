@@ -47,6 +47,10 @@ l'un des auteurs mentionnés ci-dessus
 
 ## Version
 
+* Sprint 3.0
+    * Section Observation ajoutée : contient des détails sur les anomalies que peuvent présenter le fichier d'entrée
+    * Arrondissement au dixième près
+    * Rapport statistique en format txt généré à la fin de chaque exécution du programme
 * Sprint 2.0
     * Gestion de plusieurs exceptions, reglant ici certains bugs mineurs
     * Refactoring effectué pour respecter les conventions et Normes de programmation
